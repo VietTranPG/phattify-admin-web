@@ -1,0 +1,107 @@
+<div class="row">
+  <div class="col-sm-12">
+    <app-card [classHeader]="true" [blockClass]="'table-border-style'" [cardOptionBlock]="true">
+      <!-- <span class="code-header">Example of <code>horizontal</code> table borders. This is a default table border style attached to <code>.table</code> class. All borders have the same grey color and style, table itself doesn't have a border, but you can add this border using <code>.table-framed</code> class added to the table with <code>.table</code> class.</span> -->
+      <div class="table-responsive">
+        <div class="headerTable">
+          <div class="row">
+            <div class="col-md-2">
+              <input type="text" [(ngModel)]="searchInput" class="form-control">
+            </div>
+            <div class="col-md-2">
+              <select [(ngModel)]="type" class="form-control">
+                <option value="">All</option>
+                <option value="Mentee">Mentee</option>
+                <option value="Mentor">Mentor</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <select [(ngModel)]="status" class="form-control">
+                <option value="active">Active</option>
+                <option value="deactive">Deactive</option>
+                <option value="">Invite pending</option>
+              </select>
+            </div>
+            <button type="button" class="btn btn-warning" (click)="searchTable()">Search</button>
+            <button type="button" class="btn" (click)="showAll()">Show All</button>
+          </div>
+        </div>
+        <button type="button" class="btn btn-danger">COMPOSE</button>
+
+        <table class="table table-framed">
+          <thead>
+            <tr>
+              <th>
+                <input [(ngModel)]="selectAll" type="checkbox">
+              </th>
+              <th>#</th>
+              <th (click)="sortTable('FirstName')">
+                <i *ngIf="this.typeOrderBoolean==false && this.selectSort=='FirstName'" class="icofont icofont-caret-up"></i>
+                <i *ngIf="this.typeOrderBoolean && this.selectSort=='FirstName'" class="icofont icofont-caret-down"></i>
+                First Name
+              </th>
+              <th (click)="sortTable('SurName')">
+                <i *ngIf="this.typeOrderBoolean==false && this.selectSort=='SurName'" class="icofont icofont-caret-up"></i>
+                <i *ngIf="this.typeOrderBoolean && this.selectSort=='SurName'" class="icofont icofont-caret-down"></i>
+                Last Name
+              </th>
+              <th (click)="sortTable('Email')">
+                <i *ngIf="this.typeOrderBoolean==false && this.selectSort=='Email'" class="icofont icofont-caret-up"></i>
+                <i *ngIf="this.typeOrderBoolean && this.selectSort=='Email'" class="icofont icofont-caret-down"></i>
+                Email
+              </th>
+              <th (click)="sortTable('Type')">
+                <i *ngIf="this.typeOrderBoolean==false && this.selectSort=='Type'" class="icofont icofont-caret-up"></i>
+                <i *ngIf="this.typeOrderBoolean && this.selectSort=='Type'" class="icofont icofont-caret-down"></i>
+                Type</th>
+              <th>Status</th>
+              <th>Assigned Mentor</th>
+              <th>Invited Code</th>
+              <th>Date Joined</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let client of listClient; let i = index">
+              <td>
+                <input [checked]="selectAll" type="checkbox">
+              </td>
+              <td>
+                {{i+1}}
+              </td>
+              <td>
+                {{client.FirstName}}
+              </td>
+              <td>
+                {{client.SurName}}
+              </td>
+              <td>
+                {{client.Email}}
+              </td>
+              <td>
+                {{client.Type}}
+              </td>
+              <td>
+                {{client.Status}}
+              </td>
+              <td>
+                {{client.MentorSurName}}
+              </td>
+              <td>
+                {{client.VerifyCode}}
+                <button *ngIf="client.VerifyCode" class="btn btn-warning" (click)="resendCode(client.Id)">Resend</button>
+              </td>
+              <td>
+                {{client.createdAt | dateFormat}}
+              </td>
+              <td>
+                <i class="icofont icofont-bin"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <ngb-pagination class="d-flex justify-content-center" [collectionSize]="totalItem" [pageSize]="limit" [(page)]="page" [maxSize]="5"
+        [boundaryLinks]="true" (pageChange)="onChangePage($event)"></ngb-pagination>
+    </app-card>
+  </div>
+</div>
