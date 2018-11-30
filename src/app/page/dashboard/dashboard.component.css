@@ -1,20 +1,12 @@
 .card-block{
     text-align: center;
+    height: 160px;
 }
-.cycleChoice{
-    width: 200px;
-    height: 200px;
-    border: groove;
-    --border-radius: 50%;
-    border-radius: 50%;
-}
-.cycleChoice img {
-    width: 100%;
-    height: 100%;
-    --border-radius: 50%;
-    border-radius: 50%;
-    }
 
 .row{
     margin-top: 45px;
+}
+
+.col-auto{
+    max-width: 70%;
 }

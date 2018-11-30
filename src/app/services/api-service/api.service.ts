@@ -12,10 +12,6 @@ export class ApiService {
       this.http.patch(urlLogin, req).subscribe(res => {
         resolve(res);
         console.log(res)
-        if (res['status']=="success") {
-          window.alert('Login success')
-        }
-        else window.alert('Login failed')
       }, err => {
         reject(err);
       })
