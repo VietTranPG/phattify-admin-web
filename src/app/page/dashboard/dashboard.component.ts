@@ -15,18 +15,23 @@ import './../../../assets/charts/amchart/usaLow.js';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  public summmury = { 
+  public summmury = {
     Android: 0,
+    AndroidInMonth: 0,
     Ios: 0,
+    IosInMonth: 0,
     Mentee: 0,
+    MenteeInMonth: 0,
     Mentor: 0,
-    TotalUser:0
+    MentorInMonth: 0,
+    TotalUser: 0,
+    TotalUserInMonth: 0,
   };
   constructor(private _api: ApiService) {
     this.getSummury();
-   }
+  }
   ngOnInit() {
-    
+
     setTimeout(() => {
       AmCharts.makeChart('product-sales-chart', {
         'type': 'serial',
@@ -169,8 +174,8 @@ export class DashboardComponent implements OnInit {
       });
     }, 75);
   }
-  getSummury(){
-    this._api.getSummary().then(res =>{
+  getSummury() {
+    this._api.getSummary().then(res => {
       console.log(res['status']);
       if (res['status'] == "success") {
         this.summmury = res['data'];
