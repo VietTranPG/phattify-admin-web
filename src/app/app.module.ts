@@ -56,12 +56,6 @@ import { AppComponent } from './app.component';
     AuthGuardService,
     ConfirmDeactivateGuardService,
     {
-      provide: APP_INITIALIZER,
-      useFactory: appConfigFactory,
-      deps: [ConfigService],
-      multi: true,
-    },
-    {
       provide: HTTP_INTERCEPTORS,
       multi: true,
       useClass: CommonHttpInterceptor,
@@ -76,8 +70,4 @@ export class AppModule {
   constructor(ngRedux: NgRedux<IAppState>) {
     ngRedux.configureStore(rootReducer, INITIAL_STATE);
   }
-}
-
-export function appConfigFactory(config: ConfigService) {
-  return () => config.load();
 }
