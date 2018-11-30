@@ -3,21 +3,31 @@
 
     <!-- customar project  start -->
     <div class="col-xl-3 col-md-6">
+      <h6 class="text-muted m-b-10">Number of Coaches in system</h6>
       <div class="card">
         <div class="card-block">
-          <div class="row align-items-center m-l-0">
-            <div class="col-auto">
+          <!-- <div class="row align-items-center m-l-0"> -->
+            <!-- <div class="col-auto">
               <i class="icon feather icon-book f-30 text-c-purple"></i>
-            </div>
+            </div> -->
             <div class="col-auto">
-              <h6 class="text-muted m-b-10">Number of Coaches in system</h6>
-              <h2 class="m-b-0">{{summmury.MentorInMonth}}/{{summmury.Mentor}}</h2>
+              <table border="1">
+                <tr>
+                  <td class="col-md-6">Month</td>
+                  <td class="col-md-6">Total</td>
+                </tr>
+                <tr>
+                  <td>{{summmury.MenteeInMonth}}</td>
+                  <td>{{summmury.Mentee}}</td>
+                </tr>
+              </table>
             </div>
-          </div>
+          <!-- </div> -->
         </div>
       </div>
     </div>
     <div class="col-xl-3 col-md-6">
+      <h6 class="text-muted m-b-10">Client numbers</h6>
       <div class="card">
         <div class="card-block">
           <div class="row align-items-center m-l-0">
@@ -25,14 +35,25 @@
               <i class="icon feather icon-navigation-2 f-30 text-c-green"></i>
             </div>
             <div class="col-auto">
-              <h6 class="text-muted m-b-10">Client numbers</h6>
-              <h2 class="m-b-0">{{summmury.MenteeInMonth}}/{{summmury.Mentee}}</h2>
+
+              <!-- <h2 class="m-b-0">{{summmury.MenteeInMonth}}/{{summmury.Mentee}}</h2> -->
+              <table border="1">
+                <tr>
+                  <td>Month</td>
+                  <td>Total</td>
+                </tr>
+                <tr>
+                  <td>{{summmury.MenteeInMonth}}</td>
+                  <td>{{summmury.Mentee}}</td>
+                </tr>
+              </table>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div class="col-xl-3 col-md-6">
+      <h6 class="text-muted m-b-10">Android Downloads</h6>
       <div class="card">
         <div class="card-block">
           <div class="row align-items-center m-l-0">
@@ -40,14 +61,25 @@
               <i class="icon feather icon-users f-30 text-c-red"></i>
             </div>
             <div class="col-auto">
-              <h6 class="text-muted m-b-10">Android Downloads</h6>
-              <h2 class="m-b-0">{{summmury.AndroidInMonth}}/{{summmury.Android}}</h2>
+
+              <!-- <h2 class="m-b-0">{{summmury.AndroidInMonth}}/{{summmury.Android}}</h2> -->
+              <table border="1">
+                <tr>
+                  <td>Month</td>
+                  <td>Total</td>
+                </tr>
+                <tr>
+                  <td>{{summmury.AndroidInMonth}}</td>
+                  <td>{{summmury.Android}}</td>
+                </tr>
+              </table>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div class="col-xl-3 col-md-6">
+      <h6 class="text-muted m-b-10">IOS Downloads</h6>
       <div class="card">
         <div class="card-block">
           <div class="row align-items-center m-l-0">
@@ -55,8 +87,18 @@
               <i class="icon feather icon-award f-30 text-c-blue"></i>
             </div>
             <div class="col-auto">
-              <h6 class="text-muted m-b-10">IOS Downloads</h6>
-              <h2 class="m-b-0">{{summmury.IosInMonth}}/{{summmury.Ios}}</h2>
+
+              <!-- <h2 class="m-b-0">{{summmury.IosInMonth}}/{{summmury.Ios}}</h2> -->
+              <table border="1">
+                <tr>
+                  <td>Month</td>
+                  <td>Total</td>
+                </tr>
+                <tr>
+                  <td>{{summmury.IosInMonth}}</td>
+                  <td>{{summmury.Ios}}</td>
+                </tr>
+              </table>
             </div>
           </div>
         </div>
