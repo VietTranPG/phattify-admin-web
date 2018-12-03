@@ -30,8 +30,8 @@ export class ApiService {
     })
   }
 
-  getSummary() {
-    let urlAdmin = this.url + '/admin';
+  getSummary(req) {
+    let urlAdmin = `${this.url}/admin?start=${req.startTime}&end=${req.endTime}`;
     return new Promise((resolve, reject) => {
       this.http.get(urlAdmin).subscribe(res => {
         resolve(res);

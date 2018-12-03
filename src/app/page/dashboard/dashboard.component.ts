@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api-service/api.service';
+import * as moment from 'moment';
 declare const AmCharts: any;
 import './../../../assets/charts/amchart/amcharts.js';
 import './../../../assets/charts/amchart/gauge.js';
@@ -175,7 +176,11 @@ export class DashboardComponent implements OnInit {
     }, 75);
   }
   getSummury() {
-    this._api.getSummary().then(res => {
+    let req = {
+      startTime: moment().startOf('month').utc().format('YYYY-MM-DD HH:mm'),
+      endTime: moment().endOf('month').utc().format('YYYY-MM-DD HH:mm')
+    }
+    this._api.getSummary(req).then(res => {
       console.log(res['status']);
       if (res['status'] == "success") {
         this.summmury = res['data'];
