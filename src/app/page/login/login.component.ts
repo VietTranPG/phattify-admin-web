@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
     this._api.login(this.loginForm.value).then(res => {
       this._helper.toggleLoadng(false);
       if (res['status'] == "success") {
-          window.alert('Login success')
+          // window.alert('Login success')
         this.router.navigate(['dashboard']);
         localStorage.setItem('userInfo', JSON.stringify({ data: res['token'] }));
         this.dataUser = JSON.parse(localStorage.getItem('userInfo')).data;

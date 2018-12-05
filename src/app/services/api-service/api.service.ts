@@ -19,11 +19,9 @@ export class ApiService {
   }
   management(info) {
     let url = this.url + '/managementclient';
-
     return new Promise((resolve, reject) => {
       this.http.post(url, info).subscribe(res => {
         resolve(res);
-
       }, err => {
         reject(err);
       })
@@ -45,6 +43,26 @@ export class ApiService {
     let urlResend = this.url + '/resendCode';
     return new Promise((resolve, reject) => {
       this.http.post(urlResend, idClient).subscribe(res => {
+        resolve(res);
+      }, err => {
+        reject(err);
+      })
+    })
+  }
+  getListMentor() {
+    let url = this.url + '/managementclient';
+    return new Promise((resolve, reject) => {
+      this.http.get(url).subscribe(res => {
+        resolve(res);
+      }, err => {
+        reject(err);
+      })
+    })
+  }
+  deleteMentee(id) {
+    let url = this.url + '/managementclient?id=' + id;
+    return new Promise((resolve, reject) => {
+      this.http.delete(url).subscribe(res => {
         resolve(res);
       }, err => {
         reject(err);

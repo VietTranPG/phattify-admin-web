@@ -32,6 +32,7 @@ import { ConfirmDeactivateGuardService } from './services/confirm-deactivate-gua
 import { AppComponent } from './app.component';
 
 
+
 @NgModule({
   imports: [
     FormsModule,
@@ -46,9 +47,7 @@ import { AppComponent } from './app.component';
     ReactiveFormsModule
   ],
   declarations: [
-    AppComponent,
-    
-    
+    AppComponent    
   ],
   providers: [
     ConfigService,

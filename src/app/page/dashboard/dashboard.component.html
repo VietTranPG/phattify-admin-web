@@ -1,16 +1,14 @@
 <div class="page-body">
   <div class="row">
-
     <div class="col-xl-3 col-md-6">
       <div class="card text-center order-visitor-card">
         <div class="card-block">
           <h6 class="m-b-0">Number of Coaches in system</h6>
-          <h4 class="m-t-15 m-b-15">{{summmury.TotalUser}}</h4>
-          <p class="m-b-0">{{summmury.TotalUserInMonth}} for current month</p>
+          <h4 class="m-t-15 m-b-15">{{summmury.Mentor}}</h4>
+          <p class="m-b-0">{{summmury.MentorInMonth}} for current month</p>
         </div>
       </div>
     </div>
-
     <div class="col-xl-3 col-md-6">
       <div class="card text-center order-visitor-card">
         <div class="card-block">
@@ -38,9 +36,17 @@
         </div>
       </div>
     </div>
-  
-    <!-- customar project  end -->
 
+    <!-- customar project  end -->
+    <div class="col-xl-3 col-md-6">
+      <div class="card text-center order-visitor-card">
+        <div class="card-block">
+          <h6 class="m-b-0">Weight Loss</h6>
+          <h4 class="m-t-15 m-b-15">{{(summmury.TotalWeightStart - summmury.TotalWeightEnd)/summmury.TotalUser | formatNumber}}</h4>
+          <p class="m-b-0">{{(summmury.TotalWeightStartInMonth - summmury.TotalWeightEndInMonth)/summmury.TotalUser | formatNumber}} for current month</p>
+        </div>
+      </div>
+    </div>
     <div class="col-md-12 col-xl-12">
       <app-card [title]="'Products Sales'">
         <div id="product-sales-chart" style="height: 225px"></div>
