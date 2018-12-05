@@ -27,6 +27,10 @@ export class DashboardComponent implements OnInit {
     MentorInMonth: 0,
     TotalUser: 0,
     TotalUserInMonth: 0,
+    TotalWeightStart:0,
+    TotalWeightEnd:0,
+    TotalWeightStartInMonth:0,
+    TotalWeightEndInMonth:0
   };
   constructor(private _api: ApiService) {
     this.getSummury();
