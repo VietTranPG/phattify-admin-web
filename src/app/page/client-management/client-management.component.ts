@@ -27,6 +27,7 @@ export class ClientManagementComponent implements OnInit {
   listMentor: any = [];
   mentor: string = '';
   deleteFlag: any;
+  tbAll = false;
   @ViewChild('modalDelete')
   modalDelete: any;
   @ViewChild('toast')
@@ -49,6 +50,7 @@ export class ClientManagementComponent implements OnInit {
   }
 
   onChangePage(event) {
+    this.selectAll = false;
     this.getListClient();
   }
 
@@ -60,7 +62,8 @@ export class ClientManagementComponent implements OnInit {
       status: this.status,
       orderBy: this.selectSort,
       orderType: this.typeOrder,
-      mentor: this.mentor
+      mentor: this.mentor,
+      checked: false
     };
     console.log(data);
 
@@ -132,5 +135,44 @@ export class ClientManagementComponent implements OnInit {
     }).catch(err => {
       this._helper.toggleLoadng(true);
     })
+  }
+
+  changeAll(value) {
+    if (this.listClient) {
+      if (value !== undefined) {
+        for (let index = 0; index < this.listClient.length; index++) {
+          this.listClient[index].checked = value;
+        }
+      }
+    }
+  }
+
+  changeOne(value) {
+    if (this.listClient) {
+      if (value !== undefined) {
+        if (!value) {
+          if (this.selectAll) {
+            this.selectAll = false;
+          }
+        } else {
+          if (this.selectAll) {
+            for (let i = 0; i < this.listClient.length; i++) {
+              if (this.listClient[i].checked === false) {
+                this.selectAll = false;
+                return;
+              }
+            }
+            this.selectAll = true;
+          } else {
+            for (let i = 0; i < this.listClient.length; i++) {
+              if (this.listClient[i].checked === false) {
+                return;
+              }
+            }
+            this.selectAll = true;
+          }
+        }
+      }
+    }
   }
 }
