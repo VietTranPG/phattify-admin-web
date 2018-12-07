@@ -86,7 +86,7 @@
                 {{client.Type}}
               </td>
               <td>
-                {{client.Status}}
+                {{client.Status == 'deactive'?'inactivate':client.Status}}
               </td>
               <td>
                 {{client.MentorEmail}}
