@@ -13,7 +13,7 @@ import './../../../assets/charts/amchart/usaLow.js';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
   public summmury = {
@@ -27,6 +27,10 @@ export class DashboardComponent implements OnInit {
     MentorInMonth: 0,
     TotalUser: 0,
     TotalUserInMonth: 0,
+    TotalWeightStart:0,
+    TotalWeightEnd:0,
+    TotalWeightStartInMonth:0,
+    TotalWeightEndInMonth:0
   };
   constructor(private _api: ApiService) {
     this.getSummury();

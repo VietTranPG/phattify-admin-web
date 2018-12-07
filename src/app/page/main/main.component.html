@@ -1,25 +1,15 @@
-<div id="pcoded" class="pcoded"
-     [ngClass]="animateSidebar"
-     [attr.nav-type]="navType"
-     [attr.theme-layout]="themeLayout"
-     [attr.vertical-placement]="verticalPlacement"
-     [attr.vertical-layout]="verticalLayout"
-     [attr.pcoded-device-type]="pcodedDeviceType"
-     [attr.vertical-nav-type]="verticalNavType"
-     [attr.vertical-effect]="verticalEffect"
-     [attr.vnavigation-view]="vnavigationView"
-     [attr.fream-type]="freamType"
-     [attr.sidebar-img]="sidebarImg"
-     [attr.sidebar-img-type]="sidebarImgType"
-     [attr.layout-type]="layoutType"
-     (window:resize)="onResize($event)"
-  >
+<div id="pcoded" class="pcoded" [ngClass]="animateSidebar" [attr.nav-type]="navType" [attr.theme-layout]="themeLayout"
+  [attr.vertical-placement]="verticalPlacement" [attr.vertical-layout]="verticalLayout" [attr.pcoded-device-type]="pcodedDeviceType"
+  [attr.vertical-nav-type]="verticalNavType" [attr.vertical-effect]="verticalEffect" [attr.vnavigation-view]="vnavigationView"
+  [attr.fream-type]="freamType" [attr.sidebar-img]="sidebarImg" [attr.sidebar-img-type]="sidebarImgType"
+  [attr.layout-type]="layoutType" (window:resize)="onResize($event)">
   <div class="pcoded-overlay-box"></div>
   <div class="pcoded-container navbar-wrapper">
-    <nav class="navbar header-navbar pcoded-header"  [attr.header-theme]="headerTheme" [attr.pcoded-header-position]="pcodedHeaderPosition">
+    <nav class="navbar header-navbar pcoded-header" [attr.header-theme]="headerTheme" [attr.pcoded-header-position]="pcodedHeaderPosition">
       <div class="navbar-wrapper">
         <div class="navbar-logo">
-          <a class="mobile-menu ripple light" id="mobile-collapse" href="javascript:" (click)="toggleOpened($event)" [exclude]="'#main_navbar'" (clickOutside)="onClickedOutsideSidebar($event)">
+          <a class="mobile-menu ripple light" id="mobile-collapse" href="javascript:" (click)="toggleOpened($event)"
+            [exclude]="'#main_navbar'" (clickOutside)="onClickedOutsideSidebar($event)">
             <i class="feather" [ngClass]="toggleIcon"></i>
           </a>
           <a [routerLink]="['/dashboard/default/']" class="ripple light">
@@ -50,7 +40,7 @@
             </li>
           </ul>
           <ul [@mobileHeaderNavRight]="navRight" [ngClass]="navRight" class="nav-right">
-            <li (clickOutside)="notificationOutsideClick('live')" class="header-notification ripple light" (click)="toggleLiveNotification()">
+            <!-- <li (clickOutside)="notificationOutsideClick('live')" class="header-notification ripple light" (click)="toggleLiveNotification()">
               <a href="javascript:">
                 <i class="feather icon-bell"></i>
                 <span class="badge bg-c-red">5</span>
@@ -97,15 +87,16 @@
                 <i class="feather icon-message-square"></i>
                 <span class="badge bg-c-green">3</span>
               </a>
-            </li>
-            <li (clickOutside)="notificationOutsideClick('profile')" class="user-profile header-notification ripple light" (click)="toggleProfileNotification()">
+            </li> -->
+            <li (clickOutside)="notificationOutsideClick('profile')" class="user-profile header-notification ripple light"
+              (click)="toggleProfileNotification()">
               <a href="javascript:">
-                <img src="assets/images/avatar-4.jpg" class="img-radius" alt="User-Profile-Image">
-                <span>John Doe</span>
+                <img src="assets/images/avatar-blank.jpg" class="img-radius" alt="User-Profile-Image">
+                <span>Admin</span>
                 <i class="feather icon-chevron-down"></i>
               </a>
               <ul [@notificationBottom]="profileNotification" class="show-notification profile-notification" [ngClass]="profileNotificationClass">
-                <li class="ripple">
+                <!-- <li class="ripple">
                   <a href="javascript:">
                     <i class="feather icon-settings"></i> Settings
                   </a>
@@ -124,7 +115,7 @@
                   <a [routerLink]="['/auth/lock-screen/']" target="_blank">
                     <i class="feather icon-lock"></i> Lock Screen
                   </a>
-                </li>
+                </li> -->
                 <li class="ripple">
                   <a (click)="logout()" target="_blank">
                     <i class="feather icon-log-out"></i> Logout
@@ -271,35 +262,26 @@
     </div> -->
     <!-- Sidebar inner chat end-->
 
-    <div class="pcoded-main-container" [style.margin-top]="headerFixedMargin"> <!--  -->
+    <div class="pcoded-main-container" [style.margin-top]="headerFixedMargin">
+      <!--  -->
       <div class="pcoded-wrapper">
-        <nav
-          id="main_navbar"
-          class="pcoded-navbar"
-          (clickOutside)="onClickedOutsideSidebar($event)"
-          [exclude]="'#mobile-collapse'"
-          [attr.navbar-theme]="navBarTheme"
-          [attr.active-item-theme]="activeItemTheme"
-          sub-item-theme="theme2"
-          active-item-style="style0"
-          [attr.pcoded-header-position]="pcodedHeaderPosition"
-          [attr.pcoded-navbar-position]="pcodedSidebarPosition"
-          [style.top]="headerFixedTop"
-          [style.height]="sidebarFixedNavHeight"
-          (mouseleave)="hoverOutsideSidebar()"
-        >
-          <perfect-scrollbar [style.max-width]="'235px'" [style.max-height]="sidebarFixedHeight" [config]="config" [ngClass]="perfectDisable">
+        <nav id="main_navbar" class="pcoded-navbar" (clickOutside)="onClickedOutsideSidebar($event)" [exclude]="'#mobile-collapse'"
+          [attr.navbar-theme]="navBarTheme" [attr.active-item-theme]="activeItemTheme" sub-item-theme="theme2"
+          active-item-style="style0" [attr.pcoded-header-position]="pcodedHeaderPosition" [attr.pcoded-navbar-position]="pcodedSidebarPosition"
+          [style.top]="headerFixedTop" [style.height]="sidebarFixedNavHeight" (mouseleave)="hoverOutsideSidebar()">
+          <perfect-scrollbar [style.max-width]="'235px'" [style.max-height]="sidebarFixedHeight" [config]="config"
+            [ngClass]="perfectDisable">
             <div class="pcoded-inner-navbar main-menu" appAccordion>
               <div class="">
                 <div class="main-menu-header">
-                  <img class="img-menu-user img-radius" src="assets/images/avatar-4.jpg" alt="User-Profile-Image">
+                  <img class="img-menu-user img-radius" src="assets/images/avatar-blank.jpg" alt="User-Profile-Image">
                   <div class="user-details">
-                    <p id="more-details" (click)="toggleOpenedSidebar()"> John Doe
-                      <i class="feather icon-chevron-down m-l-10"></i>
+                    <p id="more-details"> Admin
+                      <!-- <i class="feather icon-chevron-down m-l-10"></i> -->
                     </p>
                   </div>
                 </div>
-                <div class="main-menu-content">
+                <!-- <div class="main-menu-content">
                   <ul>
                     <li [@mobileMenuTop]="isCollapsedSideBar" class="more-details" [ngClass]="isCollapsedSideBar">
                       <a [routerLink]="['/user/profile']" class="ripple"><i class="feather icon-user"></i>View Profile</a>
@@ -307,14 +289,17 @@
                       <a [routerLink]="['/auth/login/simple']" class="ripple" target="_blank"><i class="feather icon-log-out"></i>Logout</a>
                     </li>
                   </ul>
-                </div>
+                </div> -->
               </div>
 
               <div *ngFor="let asideItems of menuItems.getAll()" class="d-color">
                 <div class="pcoded-navigation-label" [attr.menu-title-theme]="menuTitleTheme">{{asideItems.label}}</div>
-                <ul class="pcoded-item pcoded-left-item" [attr.item-border]="itemBorder" [attr.item-border-style]="itemBorderStyle" [attr.subitem-border]="subItemBorder" *ngFor="let asideItem of asideItems.main" appAccordionLink group="{{asideItem.state}}">
+                <ul class="pcoded-item pcoded-left-item" [attr.item-border]="itemBorder" [attr.item-border-style]="itemBorderStyle"
+                  [attr.subitem-border]="subItemBorder" *ngFor="let asideItem of asideItems.main" appAccordionLink
+                  group="{{asideItem.state}}">
                   <li [routerLinkActive]="['active']" *ngIf="asideItem.type === 'external'" appAccordionLink group="{{asideItem.state}}">
-                    <a [routerLinkActive]="['active']" class="ripple" href="{{asideItem.external}}" target="{{asideItem.target ? '_blank' : '_self'}}" appAccordionToggle>
+                    <a [routerLinkActive]="['active']" class="ripple" href="{{asideItem.external}}" target="{{asideItem.target ? '_blank' : '_self'}}"
+                      appAccordionToggle>
                       <span class="pcoded-micon"><i class="{{ asideItem.icon }}"></i><b>{{ asideItem.short_label }}</b></span>
                       <span class="pcoded-mtext">{{ asideItem.name }}</span>
                       <span *ngFor="let asideBadge of asideItem.badge" class="pcoded-badge label label-{{ asideBadge.type }}">{{asideBadge.value}}</span>
@@ -323,14 +308,16 @@
                   </li>
 
                   <li [routerLinkActive]="['active']" *ngIf="asideItem.type === 'link'" appAccordionLink group="{{asideItem.state}}">
-                    <a [routerLinkActive]="['active']" class="ripple" [routerLink]="['/', asideItem.main_state, asideItem.state]" target="{{asideItem.target ? '_blank' : '_self'}}" appAccordionToggle *ngIf="asideItem.main_state; else mainContent">
+                    <a [routerLinkActive]="['active']" class="ripple" [routerLink]="['/', asideItem.main_state, asideItem.state]"
+                      target="{{asideItem.target ? '_blank' : '_self'}}" appAccordionToggle *ngIf="asideItem.main_state; else mainContent">
                       <span class="pcoded-micon"><i class="{{ asideItem.icon }}"></i><b>{{ asideItem.short_label }}</b></span>
                       <span class="pcoded-mtext">{{ asideItem.name }}</span>
                       <span *ngFor="let asideBadge of asideItem.badge" class="pcoded-badge label label-{{ asideBadge.type }}">{{asideBadge.value}}</span>
                       <span class="pcoded-mcaret"></span>
                     </a>
                     <ng-template #mainContent>
-                      <a [routerLinkActive]="['active']" class="ripple" [routerLink]="['/', asideItem.state]" target="{{asideItem.target ? '_blank' : '_self'}}" appAccordionToggle>
+                      <a [routerLinkActive]="['active']" class="ripple" [routerLink]="['/', asideItem.state]" target="{{asideItem.target ? '_blank' : '_self'}}"
+                        appAccordionToggle>
                         <span class="pcoded-micon"><i class="{{ asideItem.icon }}"></i><b>{{ asideItem.short_label }}</b></span>
                         <span class="pcoded-mtext">{{ asideItem.name }}</span>
                         <span *ngFor="let asideBadge of asideItem.badge" class="pcoded-badge label label-{{ asideBadge.type }}">{{asideBadge.value}}</span>
@@ -338,18 +325,22 @@
                       </a>
                     </ng-template>
                   </li>
-                  <li (mouseleave)="fireClickLeave($event)" [routerLinkActive]="['active']" *ngIf="asideItem.type === 'sub'" class="pcoded-hasmenu" [attr.dropdown-icon]="dropDownIcon" [attr.subitem-icon]="subItemIcon" appAccordionLink group="{{asideItem.state}}">
-                      <a (mouseover)="fireClick($event)" [routerLinkActive]="['active']" href="javascript:;" appAccordionToggle>
-                          <div class="ripple menu-ripple"></div>
-                          <span class="pcoded-micon"><i class="{{ asideItem.icon }}"></i><b>{{ asideItem.short_label }}</b></span>
-                          <span class="pcoded-mtext">{{ asideItem.name }}</span>
-                          <span *ngFor="let asideBadge of asideItem.badge" class="pcoded-badge label label-{{ asideBadge.type }}">{{asideBadge.value}}</span>
-                          <span class="pcoded-mcaret"></span>
-                      </a>
+                  <li (mouseleave)="fireClickLeave($event)" [routerLinkActive]="['active']" *ngIf="asideItem.type === 'sub'"
+                    class="pcoded-hasmenu" [attr.dropdown-icon]="dropDownIcon" [attr.subitem-icon]="subItemIcon"
+                    appAccordionLink group="{{asideItem.state}}">
+                    <a (mouseover)="fireClick($event)" [routerLinkActive]="['active']" href="javascript:;"
+                      appAccordionToggle>
+                      <div class="ripple menu-ripple"></div>
+                      <span class="pcoded-micon"><i class="{{ asideItem.icon }}"></i><b>{{ asideItem.short_label }}</b></span>
+                      <span class="pcoded-mtext">{{ asideItem.name }}</span>
+                      <span *ngFor="let asideBadge of asideItem.badge" class="pcoded-badge label label-{{ asideBadge.type }}">{{asideBadge.value}}</span>
+                      <span class="pcoded-mcaret"></span>
+                    </a>
                     <ul class="pcoded-submenu">
                       <ng-template ngFor let-asideChildren [ngForOf]="asideItem.children">
                         <li [routerLinkActive]="['active']" *ngIf="asideChildren.type !== 'sub'">
-                          <a [routerLinkActive]="['active']" [routerLink]="['/', asideItem.state, asideChildren.state]" target="{{asideChildren.target ? '_blank' : '_self'}}">
+                          <a [routerLinkActive]="['active']" [routerLink]="['/', asideItem.state, asideChildren.state]"
+                            target="{{asideChildren.target ? '_blank' : '_self'}}">
                             <div class="ripple menu-ripple"></div>
                             <span class="pcoded-micon"><i class="icon-angle-right"></i></span>
                             <span class="pcoded-mtext">{{ asideChildren.name }} </span>
@@ -358,8 +349,11 @@
                           </a>
                         </li>
 
-                        <li (mouseleave)="fireClickLeave($event)" [routerLinkActive]="['active']" class="pcoded-hasmenu" [attr.dropdown-icon]="dropDownIcon" [attr.subitem-icon]="subItemIcon" *ngIf="asideChildren.type === 'sub'" appAccordionLink group="sub-toggled">
-                          <a (mouseover)="fireClick($event)" [routerLinkActive]="['active']" href="javascript:;" appAccordionToggle>
+                        <li (mouseleave)="fireClickLeave($event)" [routerLinkActive]="['active']" class="pcoded-hasmenu"
+                          [attr.dropdown-icon]="dropDownIcon" [attr.subitem-icon]="subItemIcon" *ngIf="asideChildren.type === 'sub'"
+                          appAccordionLink group="sub-toggled">
+                          <a (mouseover)="fireClick($event)" [routerLinkActive]="['active']" href="javascript:;"
+                            appAccordionToggle>
                             <div class="ripple menu-ripple"></div>
                             <span class="pcoded-micon"><i class="icon-direction-alt"></i></span>
                             <span class="pcoded-mtext">{{ asideChildren.name }}</span>
@@ -369,7 +363,8 @@
                           <ul class="pcoded-submenu">
                             <ng-template ngFor let-asideChildrenSub [ngForOf]="asideChildren.children">
                               <li [routerLinkActive]="['active']">
-                                <a [routerLinkActive]="['active']" [routerLink]="['/', asideItem.state, asideChildren.state, asideChildrenSub.state]" target="{{asideChildrenSub.target ? '_blank' : '_self'}}">
+                                <a [routerLinkActive]="['active']" [routerLink]="['/', asideItem.state, asideChildren.state, asideChildrenSub.state]"
+                                  target="{{asideChildrenSub.target ? '_blank' : '_self'}}">
                                   <div class="ripple menu-ripple"></div>
                                   <span class="pcoded-micon"><i class="icon-angle-right"></i></span>
                                   <span class="pcoded-mtext">{{ asideChildrenSub.name }}</span>
@@ -407,29 +402,36 @@
               </div>
               <ul>
                 <li>
-                  <p class="selector-title main-title st-main-title"><b>Able-pro 7.0 </b> Customizer</p><span class="text-muted">Live customizer with tons of options</span></li>
+                  <p class="selector-title main-title st-main-title"><b>Able-pro 7.0 </b> Customizer</p><span class="text-muted">Live
+                    customizer with tons of options</span>
+                </li>
                 <li>
                   <p class="selector-title">Main layouts</p>
                 </li>
                 <li>
                   <div class="theme-color">
-                    <a href="javascript:" (click)="setNavBarTheme('themelight1')" class="ripple" navbar-theme="themelight1" placement="top" ngbTooltip="Light Sidebar">
+                    <a href="javascript:" (click)="setNavBarTheme('themelight1')" class="ripple" navbar-theme="themelight1"
+                      placement="top" ngbTooltip="Light Sidebar">
                       <span class="head"></span>
                       <span class="cont"></span>
                     </a>
-                    <a href="javascript:" (click)="setNavBarTheme('theme1')" class="ripple" navbar-theme="theme1" placement="top" ngbTooltip="Dark Sidebar">
+                    <a href="javascript:" (click)="setNavBarTheme('theme1')" class="ripple" navbar-theme="theme1"
+                      placement="top" ngbTooltip="Dark Sidebar">
                       <span class="head"></span>
                       <span class="cont"></span>
                     </a>
-                    <a href="javascript:" (click)="setLayoutType('light')" class="ripple" layout-type="light" placement="top" ngbTooltip="Light Layout">
+                    <a href="javascript:" (click)="setLayoutType('light')" class="ripple" layout-type="light" placement="top"
+                      ngbTooltip="Light Layout">
                       <span class="head"></span>
                       <span class="cont"></span>
                     </a>
-                    <a href="javascript:" (click)="setLayoutType('dark')" class="ripple light" layout-type="dark" placement="top" ngbTooltip="Dark Layout">
+                    <a href="javascript:" (click)="setLayoutType('dark')" class="ripple light" layout-type="dark"
+                      placement="top" ngbTooltip="Dark Layout">
                       <span class="head"></span>
                       <span class="cont"></span>
                     </a>
-                    <a href="javascript:" (click)="constructor(menuItems)" class="Layout-type ripple light" layout-type="reset" placement="top" ngbTooltip="Default">
+                    <a href="javascript:" (click)="constructor(menuItems)" class="Layout-type ripple light" layout-type="reset"
+                      placement="top" ngbTooltip="Default">
                       <i class="feather icon-power"></i>
                     </a>
                   </div>
@@ -445,7 +447,8 @@
                             <li class="theme-option">
                               <div class="checkbox-fade fade-in-primary">
                                 <label>
-                                  <input type="checkbox" value="false" id="theme-layout" name="vertical-item-border" [checked]="isVerticalLayoutChecked" (change)="setVerticalLayout()">
+                                  <input type="checkbox" value="false" id="theme-layout" name="vertical-item-border"
+                                    [checked]="isVerticalLayoutChecked" (change)="setVerticalLayout()">
                                   <span class="cr"><i class="cr-icon fa fa-check txt-success"></i></span>
                                   <span>Box Layout - with patterns</span>
                                 </label>
@@ -453,18 +456,25 @@
                             </li>
                             <li class="theme-option" id="bg-pattern-visiblity" [ngClass]="displayBoxLayout">
                               <div class="theme-color">
-                                <a href="javascript:" class="small" (click)="setBackgroundPattern('theme1')" themebg-pattern="theme1"></a>
-                                <a href="javascript:" class="small" (click)="setBackgroundPattern('theme2')" themebg-pattern="theme2"></a>
-                                <a href="javascript:" class="small" (click)="setBackgroundPattern('theme3')" themebg-pattern="theme3"></a>
-                                <a href="javascript:" class="small" (click)="setBackgroundPattern('theme4')" themebg-pattern="theme4"></a>
-                                <a href="javascript:" class="small" (click)="setBackgroundPattern('theme5')" themebg-pattern="theme5"></a>
-                                <a href="javascript:" class="small" (click)="setBackgroundPattern('theme6')" themebg-pattern="theme6"></a>
+                                <a href="javascript:" class="small" (click)="setBackgroundPattern('theme1')"
+                                  themebg-pattern="theme1"></a>
+                                <a href="javascript:" class="small" (click)="setBackgroundPattern('theme2')"
+                                  themebg-pattern="theme2"></a>
+                                <a href="javascript:" class="small" (click)="setBackgroundPattern('theme3')"
+                                  themebg-pattern="theme3"></a>
+                                <a href="javascript:" class="small" (click)="setBackgroundPattern('theme4')"
+                                  themebg-pattern="theme4"></a>
+                                <a href="javascript:" class="small" (click)="setBackgroundPattern('theme5')"
+                                  themebg-pattern="theme5"></a>
+                                <a href="javascript:" class="small" (click)="setBackgroundPattern('theme6')"
+                                  themebg-pattern="theme6"></a>
                               </div>
                             </li>
                             <li class="theme-option">
                               <div class="checkbox-fade fade-in-primary">
                                 <label>
-                                  <input type="checkbox" value="false" id="sidebar-position" name="sidebar-position" [checked]="isSidebarChecked" (change)="setSidebarPosition()">
+                                  <input type="checkbox" value="false" id="sidebar-position" name="sidebar-position"
+                                    [checked]="isSidebarChecked" (change)="setSidebarPosition()">
                                   <span class="cr"><i class="cr-icon fa fa-check txt-success"></i></span>
                                   <span>Fixed Sidebar Position</span>
                                 </label>
@@ -473,7 +483,8 @@
                             <li class="theme-option">
                               <div class="checkbox-fade fade-in-primary">
                                 <label>
-                                  <input type="checkbox" value="false" id="header-position" name="header-position" [checked]="isHeaderChecked" (change)="setHeaderPosition()">
+                                  <input type="checkbox" value="false" id="header-position" name="header-position"
+                                    [checked]="isHeaderChecked" (change)="setHeaderPosition()">
                                   <span class="cr"><i class="cr-icon fa fa-check txt-success"></i></span>
                                   <span>Fixed Header Position</span>
                                 </label>
@@ -499,7 +510,8 @@
                                 </div>
                                 <div class="radio radiofill radio-success radio-inline" ngbTooltip="Simple icon">
                                   <label>
-                                    <input type="radio" name="radio" value="st2" (click)="this.navType=$event.target.value" checked="true">
+                                    <input type="radio" name="radio" value="st2" (click)="this.navType=$event.target.value"
+                                      checked="true">
                                     <i class="helper"></i>
                                     <span class="micon st2"><i class="feather icon-bell"></i></span>
                                   </label>
@@ -555,26 +567,32 @@
                       </li>
                       <li class="theme-option">
                         <div class="theme-color">
-                          <a href="javascript:" class="header-theme ripple" (click)="this.menuTitleTheme=this.freamType=this.activeItemTheme=this.headerTheme='theme1';setBackgroundPattern('theme1')" header-theme="theme1">
+                          <a href="javascript:" class="header-theme ripple" (click)="this.menuTitleTheme=this.freamType=this.activeItemTheme=this.headerTheme='theme1';setBackgroundPattern('theme1')"
+                            header-theme="theme1">
                             <span class="head"></span>
                             <span class="cont"></span>
                           </a>
-                          <a href="javascript:" class="header-theme ripple" (click)="this.menuTitleTheme=this.freamType=this.activeItemTheme=this.headerTheme='theme2';setBackgroundPattern('theme2')" header-theme="theme2">
+                          <a href="javascript:" class="header-theme ripple" (click)="this.menuTitleTheme=this.freamType=this.activeItemTheme=this.headerTheme='theme2';setBackgroundPattern('theme2')"
+                            header-theme="theme2">
                             <span class="head"></span>
                             <span class="cont"></span></a>
-                          <a href="javascript:" class="header-theme ripple" (click)="this.menuTitleTheme=this.freamType=this.activeItemTheme=this.headerTheme='theme3';setBackgroundPattern('theme3')" header-theme="theme3">
+                          <a href="javascript:" class="header-theme ripple" (click)="this.menuTitleTheme=this.freamType=this.activeItemTheme=this.headerTheme='theme3';setBackgroundPattern('theme3')"
+                            header-theme="theme3">
                             <span class="head"></span>
                             <span class="cont"></span>
                           </a>
-                          <a href="javascript:" class="header-theme ripple" (click)="this.menuTitleTheme=this.freamType=this.activeItemTheme=this.headerTheme='theme4';setBackgroundPattern('theme4')" header-theme="theme4">
+                          <a href="javascript:" class="header-theme ripple" (click)="this.menuTitleTheme=this.freamType=this.activeItemTheme=this.headerTheme='theme4';setBackgroundPattern('theme4')"
+                            header-theme="theme4">
                             <span class="head"></span>
                             <span class="cont"></span>
                           </a>
-                          <a href="javascript:" class="header-theme ripple" (click)="this.menuTitleTheme=this.freamType=this.activeItemTheme=this.headerTheme='theme5';setBackgroundPattern('theme5')" header-theme="theme5">
+                          <a href="javascript:" class="header-theme ripple" (click)="this.menuTitleTheme=this.freamType=this.activeItemTheme=this.headerTheme='theme5';setBackgroundPattern('theme5')"
+                            header-theme="theme5">
                             <span class="head"></span>
                             <span class="cont"></span>
                           </a>
-                          <a href="javascript:" class="header-theme ripple" (click)="this.menuTitleTheme=this.freamType=this.activeItemTheme=this.headerTheme='theme6';setBackgroundPattern('theme6')" header-theme="theme6">
+                          <a href="javascript:" class="header-theme ripple" (click)="this.menuTitleTheme=this.freamType=this.activeItemTheme=this.headerTheme='theme6';setBackgroundPattern('theme6')"
+                            header-theme="theme6">
                             <span class="head"></span>
                             <span class="cont"></span>
                           </a>
@@ -594,9 +612,12 @@
                           <a href="javascript:" (click)="this.activeItemTheme='theme7'" class="small" active-item-theme="theme7"></a>
                           <a href="javascript:" (click)="this.activeItemTheme='theme8'" class="small" active-item-theme="theme8"></a>
                           <a href="javascript:" (click)="this.activeItemTheme='theme9'" class="small" active-item-theme="theme9"></a>
-                          <a href="javascript:" (click)="this.activeItemTheme='theme10'" class="small" active-item-theme="theme10"></a>
-                          <a href="javascript:" (click)="this.activeItemTheme='theme11'" class="small" active-item-theme="theme11"></a>
-                          <a href="javascript:" (click)="this.activeItemTheme='theme12'" class="small" active-item-theme="theme12"></a>
+                          <a href="javascript:" (click)="this.activeItemTheme='theme10'" class="small"
+                            active-item-theme="theme10"></a>
+                          <a href="javascript:" (click)="this.activeItemTheme='theme11'" class="small"
+                            active-item-theme="theme11"></a>
+                          <a href="javascript:" (click)="this.activeItemTheme='theme12'" class="small"
+                            active-item-theme="theme12"></a>
                         </div>
                       </li>
                       <li>
@@ -622,12 +643,15 @@
               <ul>
                 <li>
                   <a href="https://bit.ly/2fEhjII" target="_blank" class="btn btn-success btn-block m-r-15 m-t-10 m-b-10 ripple">Profile</a>
-                  <a href="https://bit.ly/2HlKKuX" target="_blank" class="btn btn-primary btn-block m-r-15 m-t-5 m-b-10 ripple">Online Documentation</a>
+                  <a href="https://bit.ly/2HlKKuX" target="_blank" class="btn btn-primary btn-block m-r-15 m-t-5 m-b-10 ripple">Online
+                    Documentation</a>
                 </li>
                 <li class="text-center">
                   <span class="text-center f-18 m-t-15 m-b-15 d-block">Thank you for sharing !</span>
-                  <a href="https://bit.ly/2HiVVot" target="_blank" class="btn btn-facebook soc-icon m-b-20 ripple"><i class="fa fa-facebook"></i></a>
-                  <a href="https://bit.ly/2JJBoHT" target="_blank" class="btn btn-twitter soc-icon m-l-20 m-b-20 ripple"><i class="fa fa-twitter"></i></a>
+                  <a href="https://bit.ly/2HiVVot" target="_blank" class="btn btn-facebook soc-icon m-b-20 ripple"><i
+                      class="fa fa-facebook"></i></a>
+                  <a href="https://bit.ly/2JJBoHT" target="_blank" class="btn btn-twitter soc-icon m-l-20 m-b-20 ripple"><i
+                      class="fa fa-twitter"></i></a>
                 </li>
               </ul>
             </div>
