@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { SERVER_URL } from '../../constants/config';
 
 @Injectable()
 export class ApiService {
-  url = "http://admin-phattify-qa.azurewebsites.net/api";
+  url = SERVER_URL;
   constructor(private http: HttpClient) { }
 
   login(req) {
