@@ -4,10 +4,15 @@ input {
 
 .form-control {
   height: 32px;
+  margin-left: 4px;
   border: 1px solid #cccccc;
 }
 
 .col-md-2 {
   display: flex;
   align-items: center;
+}
+
+button {
+  min-width: 100px;
 }
