@@ -13,6 +13,26 @@ input {
   align-items: center;
 }
 
-button {
+button.btn-header {
   min-width: 100px;
+}
+
+.margin-button {
+  margin-left: 5px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+
+.btn-custom {
+  padding: 5px;
+  margin: 5px;
+  i {
+    margin: 0;
+  }
+}
+
+table.table-wrap-text {
+  td {
+    white-space: normal;
+  }
 }

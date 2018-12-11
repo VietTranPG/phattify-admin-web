@@ -26,13 +26,13 @@
                 <option value="not-connected">Not Connected</option>
               </select>
             </div>
-            <button type="button" class="btn btn-warning" (click)="searchTable()">Search</button>
-            <button type="button" class="btn" (click)="showAll()">Show All</button>
+            <button type="button" class="btn btn-warning btn-header" (click)="searchTable()">Search</button>
+            <button type="button" class="btn btn-header" (click)="showAll()">Show All</button>
           </div>
         </div>
-        <button type="button" class="btn btn-danger">COMPOSE</button>
+        <button type="button" class="btn btn-danger margin-button">COMPOSE</button>
 
-        <table class="table table-framed">
+        <table class="table table-framed table-wrap-text">
           <thead>
             <tr>
               <th>
@@ -100,8 +100,9 @@
                 {{client.createdAt | dateFormat}}
               </td>
               <td>
-                <button class="btn btn-danger" (click)="confirmDelete(client)"> <i class="icofont icofont-bin"></i></button>
-                <button *ngIf="client.Type=='Invite'" class="btn btn-warning" (click)="resendCode(client.Id)">Resend</button>
+                <button class="btn btn-danger btn-custom" (click)="confirmDelete(client)"> <i class="icofont icofont-bin"></i></button>
+                <button *ngIf="client.Type=='Invite'" class="btn btn-warning btn-custom" (click)="resendCode(client.Id)"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+                </button>
               </td>
             </tr>
           </tbody>
