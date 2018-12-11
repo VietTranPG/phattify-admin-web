@@ -1,0 +1,45 @@
+.card.card--form.card--user-info {
+  padding: 40px 0;
+  .heading-custom {
+    margin-bottom: 15px;
+    font-size: 24px;
+    font-weight: 600;
+  }
+  .title {
+    margin-right: 15px;
+    font-weight: 600;
+  }
+  form {
+    .row {
+      margin-bottom: 15px;
+      &.row--flex-end {
+        justify-content: flex-end;
+        button {
+          margin: 0 5px;
+        }
+      }
+      &.row--center {
+        align-items: center;
+      }
+    }
+    select {
+      &.form-control {
+        border-top: 1px solid #cccccc;
+        border-right: 1px solid #cccccc;
+        border-left: 1px solid #cccccc;
+      }
+    }
+    .form-control {
+      margin-bottom: 10px;
+      &.form-control--custom {
+        height: auto;
+      }
+    }
+    .btn {
+      min-width: 100px;
+      &.btn--form {
+        padding: 7px;
+      }
+    }
+  }
+}
