@@ -16,6 +16,7 @@ const routes: Routes = [
       { path: '', redirectTo: 'dashboard' },
       { path: 'dashboard', loadChildren: '../dashboard/dashboard.module#DashboardModule' },
       { path: 'client-management', loadChildren: '../client-management/client-management.module#ClientManagementModule' },
+      { path: 'client-info', loadChildren: '../client-info/client-info.module#ClientInfoModule' },
     ]
   },
 
