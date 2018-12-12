@@ -1,67 +1,80 @@
 <div class="card card--form card--user-info">
   <div class="container">
     <div class="heading-custom">User Detail</div>
-    <form class="form">
+    <form class="form" [formGroup]="clientInfoForm">
       <div class="row">
         <div class="col-md-6">
           <label>Name</label>
           <div class="row">
-              <div class="col-md-6">
-                <input class="form-control" placeholder="First Name"/>
-              </div>
-              <div class="col-md-6">
-                <input class="form-control" placeholder="Last Name"/>
-              </div>
+            <div class="col-md-6">
+              <input class="form-control" placeholder="First Name" formControlName="FirstName" />
+              <p class="error-text" *ngIf="clientInfoForm.controls.FirstName.touched && !clientInfoForm.controls.FirstName.valid">This
+                field is required.</p>
+            </div>
+            <div class="col-md-6">
+              <input class="form-control" placeholder="Last Name" formControlName="SurName" />
+              <p class="error-text" *ngIf="clientInfoForm.controls.SurName.touched && !clientInfoForm.controls.SurName.valid">This
+                  field is required.</p>
+            </div>
           </div>
 
           <label>Email</label>
           <div class="row">
             <div class="col-md-12">
-              <input class="form-control" value="dongat2501@gmail.com"/>
+              <input class="form-control" value="abc@gmail.com" formControlName="email" />
+              <p class="error-text" *ngIf="clientInfoForm.hasError('email', 'email') && clientInfoForm.get('email').touched">This
+                  field is email.</p>
             </div>
           </div>
-          <label>Password</label>
           <div class="row">
             <div class="col-md-12"><button class="btn btn-secondary btn--form">Change password</button></div>
           </div>
           <div class="row">
             <div class="col-md-6">
               <label>Gender</label>
-              <select class="form-control">
-                <option>Male</option>
-                <option>Female</option>
-                <option>Other</option>
+              <select class="form-control" formControlName="Gender">
+                <option [ngValue]="true">Male</option>
+                <option [ngValue]="false">Female</option>
+                <option [ngValue]="null">Other</option>
               </select>
             </div>
             <div class="col-md-6">
               <label>Date of Birth</label>
-              <input class="form-control" type="date" placeholder="20/04/1998"/>
+              <input class="form-control" type="date" placeholder="20/04/1998" formControlName="DateOfBirth" />
+              <p class="error-text" *ngIf="clientInfoForm.controls.DateOfBirth.touched && !clientInfoForm.controls.DateOfBirth.valid">This
+                  field is required.</p>
             </div>
           </div>
           <div class="row">
             <div class="col-md-6">
               <label>Country</label>
-              <input class="form-control" type="text" placeholder="USA"/>
+              <input class="form-control" type="text" placeholder="Country" />
             </div>
             <div class="col-md-6">
               <label>City/Town</label>
-              <input class="form-control" type="text" placeholder="Hanoi"/>
+              <input class="form-control" type="text" placeholder="Hanoi" formControlName="City" />
             </div>
           </div>
           <label>Health List</label>
           <div class="row">
             <div class="col-md-12">
               <div class="form-control form-control--custom">
-                Heart condition<br/>
-                Heart condition<br/>
-                Heart condition<br/>
+                Heart condition<br />
+                Heart condition<br />
+                Heart condition<br />
               </div>
             </div>
           </div>
           <label>Status</label>
           <div class="row">
             <div class="col-md-9">
-              <div class="form-control">Invite Pending</div>
+              <select formControlName="Status" class="form-control">
+                <option value="active">Active</option>
+                <option value="deactive">Inactivate</option>
+                <option value="pending">Invite pending</option>
+                <option value="connected">Connected</option>
+                <option value="not-connected">Not Connected</option>
+              </select>
             </div>
             <div class="col-md-3">
               <button class="btn btn-secondary btn--form">Resend</button>
@@ -70,11 +83,7 @@
           <label>Mentor</label>
           <div class="row">
             <div class="col-md-9">
-              <select class="form-control">
-                <option>Mentor 1 (mentor1@yopmail.com)</option>
-                <option>Mentor 2 (mentor2@yopmail.com)</option>
-                <option>Mentor 3 (mentor3@yopmail.com)</option>
-              </select>
+              <ng-select class="select-custom" [options]="listMentor" formControlName="mentor" placeholder="select Mentor"></ng-select>
             </div>
             <div class="col-md-3">
               <button class="btn btn-secondary btn--form">Assign</button>
@@ -83,7 +92,7 @@
         </div>
         <div class="col-md-6">
           <div class="row row--center">
-           <div class="title">Current Round information</div>
+            <div class="title">Current Round information</div>
             <button class="btn btn-warning btn--form">Wipe Data</button>
           </div>
           <div class="row">
@@ -91,12 +100,14 @@
               <label>Start Date</label>
               <div class="row">
                 <div class="col-md-12">
-                  <div class="form-control">30/10/2018</div>
+                  <input class="form-control" type="text" placeholder="dd/yy/mmmm" formControlName="StartDate" />
+                  <p class="error-text" *ngIf="clientInfoForm.controls.StartDate.touched && !clientInfoForm.controls.StartDate.valid">This
+                      field is required.</p>
                 </div>
               </div>
             </div>
             <div class="col-md-6">
-              <label>Start Date</label>
+              <label>End Date</label>
               <div class="row">
                 <div class="col-md-12">
                   <div class="form-control">30/10/2018</div>
@@ -109,7 +120,7 @@
               <label>Start Weight</label>
               <div class="row">
                 <div class="col-md-12">
-                  <div class="form-control">54kg</div>
+                  <input class="form-control" type="text" placeholder="0" formControlName="StartWeight" />
                 </div>
               </div>
             </div>
@@ -117,7 +128,7 @@
               <label>Current Weight</label>
               <div class="row">
                 <div class="col-md-12">
-                  <div class="form-control">45kg</div>
+                  <input class="form-control" type="text" placeholder="0" formControlName="CurrentWeight" />
                 </div>
               </div>
             </div>

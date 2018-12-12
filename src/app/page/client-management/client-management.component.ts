@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from '../../services/api-service/api.service';
 import { HelperService } from '../../services/helper-service/helper.service';
 import { STATUS } from '../../constants/config';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-client-management',
   templateUrl: './client-management.component.html',
@@ -34,7 +34,8 @@ export class ClientManagementComponent implements OnInit {
   toast: any;
   constructor(
     private _api: ApiService,
-    private _helper: HelperService
+    private _helper: HelperService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -65,8 +66,6 @@ export class ClientManagementComponent implements OnInit {
       mentor: this.mentor,
       checked: false
     };
-    console.log(data);
-
     this._api.management(data).then(res => {
       this.listClient = res['data']['clients']
       this.totalItem = res['data']['totalItem'];
@@ -111,7 +110,6 @@ export class ClientManagementComponent implements OnInit {
   }
   getListMentor() {
     this._api.getListMentor().then(res => {
-      console.log(res);
       this.listMentor = res['data'];
     }).catch(err => {
 
@@ -174,5 +172,8 @@ export class ClientManagementComponent implements OnInit {
         }
       }
     }
+  }
+  goToClientInfo(id) {
+    this.router.navigate(['client-info',id]);
   }
 }

@@ -66,7 +66,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let client of listClient; let i = index">
+            <tr *ngFor="let client of listClient; let i = index" (click) = "goToClientInfo(client.Id)" >
               <td>
                 <input  type="checkbox" (change)="changeOne(client.checked)" [(ngModel)]="client.checked">
               </td>

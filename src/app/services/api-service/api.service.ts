@@ -70,4 +70,14 @@ export class ApiService {
       })
     })
   }
+  getClientInfo(id) {
+    let url = this.url + '/client-info?Id=' + id;
+    return new Promise((resolve, reject) => {
+      this.http.get(url).subscribe(res => {
+        resolve(res);
+      }, err => {
+        reject(err);
+      })
+    })
+  }
 }
