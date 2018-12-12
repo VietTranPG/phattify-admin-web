@@ -146,13 +146,13 @@ export class ClientManagementComponent implements OnInit {
   }
 
   changeOne() {
-    let dem = 0;
+    let count = 0;
     if (this.listClient) {
       for(let i = 0; i < this.listClient.length;i++){ 
         if(this.listClient[i].checked === true)
-        dem++;
+        count++;
       }
-      this.selectAll = dem === this.limit ? true : false;
+      this.selectAll = count === this.limit ? true : false;
     }
   }
   goToClientInfo(id) {
