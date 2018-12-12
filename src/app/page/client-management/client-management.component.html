@@ -14,7 +14,7 @@
                 <option value="Mentee">Mentee</option>
                 <option value="Mentor">Mentor</option>
               </select> -->
-              <ng-select class="select-custom" [options]="listMentor" [(ngModel)]="mentor" placeholder = "select Mentor"></ng-select>
+              <ng-select class="select-custom" [options]="listMentor" [(ngModel)]="mentor" placeholder="select Mentor"></ng-select>
             </div>
             <div class="col-md-2">
               <select [(ngModel)]="status" class="form-control">
@@ -36,7 +36,7 @@
           <thead>
             <tr>
               <th>
-                <input [(ngModel)]="selectAll" type="checkbox"  (change)="changeAll(selectAll)">
+                <input [(ngModel)]="selectAll" type="checkbox" (change)="changeAll(selectAll)">
               </th>
               <th>#</th>
               <th (click)="sortTable('FirstName')">
@@ -66,9 +66,9 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let client of listClient; let i = index" (click) = "goToClientInfo(client.Id)" >
+            <tr *ngFor="let client of listClient; let i = index" (click)="goToClientInfo(client.Id)">
               <td>
-                <input  type="checkbox" (change)="changeOne(client.checked)" [(ngModel)]="client.checked">
+                <input type="checkbox" (click)="$event.stopPropagation()" (change)="changeOne()" [(ngModel)]="client.checked">
               </td>
               <td>
                 {{i+1}}
@@ -100,8 +100,9 @@
                 {{client.createdAt | dateFormat}}
               </td>
               <td>
-                <button class="btn btn-danger btn-custom" (click)="confirmDelete(client)"> <i class="icofont icofont-bin"></i></button>
-                <button *ngIf="client.Type=='Invite'" class="btn btn-warning btn-custom" (click)="resendCode(client.Id)"><i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+                <button class="btn btn-danger btn-custom" (click)="$event.stopPropagation();confirmDelete(client)" > <i class="icofont icofont-bin"></i></button>
+                <button *ngIf="client.Type=='Invite'" class="btn btn-warning btn-custom" (click)="$event.stopPropagation();resendCode(client.Id)"><i
+                    class="fa fa-paper-plane-o" aria-hidden="true"></i>
                 </button>
               </td>
             </tr>

@@ -40,7 +40,7 @@
             </div>
             <div class="col-md-6">
               <label>Date of Birth</label>
-              <input class="form-control" type="date" placeholder="20/04/1998" formControlName="DateOfBirth" />
+              <input class="form-control" type="date" formControlName="DateOfBirth" />
               <p class="error-text" *ngIf="clientInfoForm.controls.DateOfBirth.touched && !clientInfoForm.controls.DateOfBirth.valid">This
                   field is required.</p>
             </div>
@@ -100,7 +100,7 @@
               <label>Start Date</label>
               <div class="row">
                 <div class="col-md-12">
-                  <input class="form-control" type="text" placeholder="dd/yy/mmmm" formControlName="StartDate" />
+                    <input class="form-control" type="date" formControlName="StartDate" />
                   <p class="error-text" *ngIf="clientInfoForm.controls.StartDate.touched && !clientInfoForm.controls.StartDate.valid">This
                       field is required.</p>
                 </div>

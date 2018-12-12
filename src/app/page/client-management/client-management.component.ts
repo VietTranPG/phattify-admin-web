@@ -145,32 +145,14 @@ export class ClientManagementComponent implements OnInit {
     }
   }
 
-  changeOne(value) {
+  changeOne() {
+    let dem = 0;
     if (this.listClient) {
-      if (value !== undefined) {
-        if (!value) {
-          if (this.selectAll) {
-            this.selectAll = false;
-          }
-        } else {
-          if (this.selectAll) {
-            for (let i = 0; i < this.listClient.length; i++) {
-              if (this.listClient[i].checked === false) {
-                this.selectAll = false;
-                return;
-              }
-            }
-            this.selectAll = true;
-          } else {
-            for (let i = 0; i < this.listClient.length; i++) {
-              if (this.listClient[i].checked === false) {
-                return;
-              }
-            }
-            this.selectAll = true;
-          }
-        }
+      for(let i = 0; i < this.listClient.length;i++){ 
+        if(this.listClient[i].checked === true)
+        dem++;
       }
+      this.selectAll = dem === this.limit ? true : false;
     }
   }
   goToClientInfo(id) {
