@@ -80,4 +80,15 @@ export class ApiService {
       })
     })
   }
+  changePassword(req, id) {
+    let url = SERVER_URL + '/client-info?Id=' + id;
+    return new Promise((resolve, reject) => {
+      this.http.put(url, req).subscribe(res => {
+        resolve(res);
+      }, err => { 
+        reject(err);
+      })
+
+    })
+  }
 }
