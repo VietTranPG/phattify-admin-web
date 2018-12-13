@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../services/api-service/api.service';
 import { FormBuilder, Validators } from '@angular/forms';
+import moment = require('moment');
 @Component({
   selector: 'app-client-info',
   templateUrl: './client-info.component.html',
@@ -21,7 +22,7 @@ export class ClientInfoComponent implements OnInit {
   getClientInfo() {
     this.router.params.subscribe(res => {
       this._api.getClientInfo(res.id).then(data => {
-        this.clientInfo = data['data'][0];
+        this.clientInfo = data['data'];
         this.fillDataClientInfo();
       })
     })
@@ -47,17 +48,16 @@ export class ClientInfoComponent implements OnInit {
         FirstName: this.clientInfo.FirstName,
         SurName: this.clientInfo.SurName,
         email: this.clientInfo.Email,
-        DateOfBirth: this.clientInfo.DateOfBirth,
+        DateOfBirth: moment(this.clientInfo.DateOfBirth).format('YYYY-MM-DD'),
         City: this.clientInfo.City,
         mentor:this.listMentor,
         Status:this.clientInfo.Status,
         Gender: this.clientInfo.Gender,
-        StartDate: this.clientInfo.StartDate,
+        StartDate: moment(this.clientInfo.StartDate).format('YYYY-MM-DD'),
         StartWeight: this.clientInfo.StartWeight,
         CurrentWeight: this.clientInfo.CurrentWeight
       })
     }
-
   }
   getListMentor() {
     this._api.getListMentor().then(res => {
