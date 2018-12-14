@@ -91,4 +91,14 @@ export class ApiService {
 
     })
   }
+  deleteRound(roundId) {
+    let url = SERVER_URL + 'round?Id=' + roundId;
+    return new Promise((resolve, reject) => {
+      this.http.delete(url).subscribe(res => {
+        resolve(res);
+      }, err => {
+        reject(err);
+      })
+    })
+  }
 }

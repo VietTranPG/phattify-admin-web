@@ -17,6 +17,7 @@ export class ClientInfoComponent implements OnInit {
   healthList: any = [];
   checkResendCode: boolean;
   idClient: any;
+  wipeData:boolean;
   @ViewChild('modalChangePassword')
   modalChangePassword: any;
   @ViewChild('toast')
@@ -44,6 +45,7 @@ export class ClientInfoComponent implements OnInit {
         this.clientInfo = data['data'];
         this.healthList = data['data']['Health'];
         this.checkResendCode = data['data']['Status'] !== 'active' ? false : true;
+        this.wipeData = data['data']['RoundId'] ? false : true;
         console.log(this.clientInfo)
 
         this.fillDataClientInfo();
@@ -152,6 +154,23 @@ export class ClientInfoComponent implements OnInit {
     }).catch(err => {
       this._helper.toggleLoadng(true);
     })
+  }
+  deleteRound(){ 
+    if(this.clientInfo.RoundId){ 
+      this._api.deleteRound(this.clientInfo.RoundId).then((res: any) => { 
+        if (res.status == STATUS.error) {
+          this.toast.addToast({ title: 'Message', msg: 'Delete round error', timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
+        } else { 
+          this.toast.addToast({ title: 'Message', msg: 'Delete round Success', timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
+          this.getClientInfo();
+        }
+      }, err => { 
+        console.log(err)
+      })
+    } else { 
+      this.toast.addToast({ title: 'Message', msg: 'Delete round error,Do not have round is running', timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
+    }
+
   }
 }
 
