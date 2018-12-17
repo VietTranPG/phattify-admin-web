@@ -17,9 +17,9 @@ export class ClientInfoComponent implements OnInit {
   healthList: any = [];
   checkResendCode: boolean;
   idClient: any;
-  wipeData:boolean;
-  checkShowDelete:boolean;
-  checkShowWipeData:boolean;
+  wipeData: boolean;
+  checkShowDelete: boolean;
+  checkShowWipeData: boolean;
   @ViewChild('modalChangePassword')
   modalChangePassword: any;
   @ViewChild('toast')
@@ -125,27 +125,29 @@ export class ClientInfoComponent implements OnInit {
     this._helper.toggleLoadng(true);
     this._api.changePassword(data, this.idClient).then(res => {
       this._helper.toggleLoadng(false);
-      if (res['status'] === STATUS.error) { 
+      if (res['status'] === STATUS.error) {
         this.toast.addToast({ title: 'Message', msg: 'Can not change password', timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
-      } else { 
+      } else {
         this.toast.addToast({ title: 'Message', msg: 'Change password success', timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
       }
     }).catch(err => {
-        console.log(err)
-      })
+      console.log(err)
+    })
   }
   confirmDelete(type) {
-    if(type === 'wipeData' && this.wipeData){ 
+    if (type === 'wipeData' && this.wipeData) {
       this.checkShowDelete = false;
       this.checkShowWipeData = true;
       this.modalDelete.show();
-    } else if(type === 'delete') { 
+    } else if (type === 'delete') {
       this.checkShowDelete = true;
       this.checkShowWipeData = false;
       this.modalDelete.show();
+    } else if (!this.wipeData) {
+      this.toast.addToast({ title: 'Message', msg: 'Delete round error,Do not have round is running', timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
     }
   }
-  hideDelete(){ 
+  hideDelete() {
     this.checkShowDelete = false;
     this.checkShowWipeData = false;
     this.modalDelete.hide();
@@ -159,37 +161,34 @@ export class ClientInfoComponent implements OnInit {
       if (res.status == STATUS.error) {
         this.toast.addToast({ title: 'Message', msg: res.message, timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
       } else {
-        
-        this.toast.addToast({ title: 'Message', msg: 'Delete Client Success', timeout: 2000, theme: 'material', position: 'top-right', type: 'success' }); 
-        setTimeout(() => { 
+
+        this.toast.addToast({ title: 'Message', msg: 'Delete Client Success', timeout: 2000, theme: 'material', position: 'top-right', type: 'success' });
+        setTimeout(() => {
           this._router.navigate(['/client-management'])
-        }, 2000)   
+        }, 2000)
       }
     }).catch(err => {
       this._helper.toggleLoadng(true);
     })
   }
-  deleteRound(){ 
+  deleteRound() {
     this.modalDelete.hide();
     this._helper.toggleLoadng(true);
-    if(this.clientInfo.RoundId){ 
-      this._api.deleteRound(this.clientInfo.RoundId).then((res: any) => { 
+    if (this.clientInfo.RoundId) {
+      this._api.deleteRound(this.clientInfo.RoundId).then((res: any) => {
         this.checkShowWipeData = false;
         this._helper.toggleLoadng(false);
         if (res.status == STATUS.error) {
           this.toast.addToast({ title: 'Message', msg: 'Delete round error', timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
-        } else { 
+        } else {
           this.toast.addToast({ title: 'Message', msg: 'Delete round Success', timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
           this.getClientInfo();
         }
-      }, err => { 
+      }, err => {
         console.log(err)
         this._helper.toggleLoadng(false);
       })
-    } else { 
-      this.toast.addToast({ title: 'Message', msg: 'Delete round error,Do not have round is running', timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
     }
-
   }
 }
 
