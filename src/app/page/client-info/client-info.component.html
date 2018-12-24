@@ -60,7 +60,7 @@
                   <td>{{healthList.Name}}</td>
                 </tr> -->
                 <ul class="list-group list-group-flush" *ngFor="let healthList of healthList; let i = index">
-                  <li class="list-group-item disabled" >{{healthList.Name}}</li>
+                  <li class="list-group-item disabled">{{healthList.Name}}</li>
                 </ul>
               </div>
               <!-- <ul class="list-group list-group-flush" *ngFor="let healthList of healthList; let i = index">
@@ -84,7 +84,8 @@
             </div>
           </div>
           <label>Mentor</label>
-          <div class="row">
+
+          <div class="row" *ngIf="!clientInfo.MentorEmail">
             <div class="col-md-9">
               <ng-select class="select-custom" [options]="listMentor" formControlName="mentor" placeholder="select Mentor"></ng-select>
             </div>
@@ -92,11 +93,16 @@
               <button class="btn btn-secondary btn--form">Assign</button>
             </div>
           </div>
+          <div class="row" *ngIf="clientInfo.MentorEmail">
+            <div class="col-md-12">
+              {{clientInfo.MentorEmail}}
+            </div>
+          </div>
         </div>
         <div class="col-md-6">
           <div class="row row--center">
             <div class="title">Current Round information</div>
-            <button class="btn btn-warning btn--form" (click) = "confirmDelete('wipeData')">Wipe Data</button>
+            <button class="btn btn-warning btn--form" (click)="confirmDelete('wipeData')">Wipe Data</button>
           </div>
           <div class="row">
             <div class="col-md-6">
@@ -138,7 +144,7 @@
       </div>
       <div class="row row--flex-end">
         <button class="btn btn-success" type="submit" [disabled]="!clientInfoForm.valid">Save</button>
-        <button class="btn btn-danger" (click) = 'confirmDelete("delete")'>Delete</button>
+        <button class="btn btn-danger" (click)='confirmDelete("delete")'>Delete</button>
       </div>
     </form>
   </div>
@@ -159,7 +165,7 @@
             <label>New password: </label>
             <input type="password" formControlName="password">
             <p class="error-text" *ngIf="changePasswordForm.controls.password?.invalid && changePasswordForm.controls.password?.touched">This
-                field is required.</p>
+              field is required.</p>
           </div>
         </div>
         <div class="row">
@@ -167,7 +173,7 @@
             <label>Confirm new password: </label>
             <input type="password" formControlName="confirmPassword">
             <p class="error-text" *ngIf="changePasswordForm.controls.confirmPassword?.invalid && changePasswordForm.controls.password?.touched">This
-                Passwords do not match.</p>
+              Passwords do not match.</p>
           </div>
         </div>
       </form>

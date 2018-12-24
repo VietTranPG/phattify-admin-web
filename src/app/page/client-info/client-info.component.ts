@@ -12,7 +12,7 @@ import { STATUS } from '../../constants/config';
 })
 export class ClientInfoComponent implements OnInit {
   clientInfoForm: any;
-  clientInfo: any;
+  clientInfo: any = {};
   listMentor: any = [];
   healthList: any = [];
   checkResendCode: boolean;
