@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../services/api-service/api.service';
 import { FormBuilder, Validators, FormGroup, AbstractControl } from '@angular/forms';
 import { HelperService } from '../../services/helper-service/helper.service';
-import moment = require('moment');
+import * as moment from 'moment';
 import { STATUS } from '../../constants/config';
 @Component({
   selector: 'app-client-info',
@@ -190,21 +190,21 @@ export class ClientInfoComponent implements OnInit {
       })
     }
   }
-  assignMentor(){
+  assignMentor() {
     let data = {
       'MentorId': this.clientInfoForm.value.mentor,
-      'MenteeId':  this.idClient
+      'MenteeId': this.idClient
     }
     this._helper.toggleLoadng(true);
     this._api.assignMentor(data).then((res: any) => {
       this._helper.toggleLoadng(false);
-      if(res.status == STATUS.error || res.data == 'not ok'){
+      if (res.status == STATUS.error || res.data == 'not ok') {
         this.toast.addToast({ title: 'Message', msg: 'Assign Mentor error', timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
       } else {
         this.toast.addToast({ title: 'Message', msg: 'Assign Mentor success', timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
         this.getClientInfo();
       }
-    }, err =>{
+    }, err => {
       console.log(err);
       this._helper.toggleLoadng(false);
     })

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { SERVER_URL,SERVER_URL_MOBILE } from '../../constants/config';
+import { SERVER_URL } from '../../constants/config';
 
 @Injectable()
 export class ApiService {
@@ -101,7 +101,7 @@ export class ApiService {
     })
   }
   assignMentor(req){
-    let url = SERVER_URL_MOBILE + 'managementclient';
+    let url = SERVER_URL + 'managementclient';
     return new Promise((resolve, reject) => {
       this.http.put(url, req).subscribe(res => {
         resolve(res);
