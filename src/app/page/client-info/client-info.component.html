@@ -90,7 +90,7 @@
               <ng-select class="select-custom" [options]="listMentor" formControlName="mentor" placeholder="select Mentor"></ng-select>
             </div>
             <div class="col-md-3">
-              <button class="btn btn-secondary btn--form">Assign</button>
+              <button class="btn btn-secondary btn--form" (click)='assignMentor()'>Assign</button>
             </div>
           </div>
           <div class="row" *ngIf="clientInfo.MentorEmail">

@@ -81,7 +81,7 @@ export class ClientInfoComponent implements OnInit {
         email: this.clientInfo.Email,
         DateOfBirth: moment(this.clientInfo.DateOfBirth).format('YYYY-MM-DD'),
         City: this.clientInfo.City,
-        mentor: this.listMentor,
+        mentor: this.clientInfo.MentorId,
         Status: this.clientInfo.Status,
         Gender: this.clientInfo.Gender,
         StartDate: moment(this.clientInfo.StartDate).format('YYYY-MM-DD'),
@@ -189,6 +189,25 @@ export class ClientInfoComponent implements OnInit {
         this._helper.toggleLoadng(false);
       })
     }
+  }
+  assignMentor(){
+    let data = {
+      'MentorId': this.clientInfoForm.value.mentor,
+      'MenteeId':  this.idClient
+    }
+    this._helper.toggleLoadng(true);
+    this._api.assignMentor(data).then((res: any) => {
+      this._helper.toggleLoadng(false);
+      if(res.status == STATUS.error || res.data == 'not ok'){
+        this.toast.addToast({ title: 'Message', msg: 'Assign Mentor error', timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
+      } else {
+        this.toast.addToast({ title: 'Message', msg: 'Assign Mentor success', timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
+        this.getClientInfo();
+      }
+    }, err =>{
+      console.log(err);
+      this._helper.toggleLoadng(false);
+    })
   }
 }
 
