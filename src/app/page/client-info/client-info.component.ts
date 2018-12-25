@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../services/api-service/api.service';
 import { FormBuilder, Validators, FormGroup, AbstractControl } from '@angular/forms';
 import { HelperService } from '../../services/helper-service/helper.service';
-import moment = require('moment');
+import * as moment from 'moment';
 import { STATUS } from '../../constants/config';
 @Component({
   selector: 'app-client-info',
