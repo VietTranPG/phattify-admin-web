@@ -14,7 +14,9 @@
                 <option value="Mentee">Mentee</option>
                 <option value="Mentor">Mentor</option>
               </select> -->
-              <ng-select class="select-custom" [options]="listMentor" [(ngModel)]="mentor" placeholder="select Mentor"></ng-select>
+              <ng-select class="select-custom" [options]="listMentor" [(ngModel)]="mentor" placeholder="select Mentor">
+  
+              </ng-select>
             </div>
             <div class="col-md-2">
               <select [(ngModel)]="status" class="form-control">
@@ -66,7 +68,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let client of listClient; let i = index" (click)="goToClientInfo(client.Id)">
+            <tr *ngFor="let client of listClient; let i = index" (click)="goToClientInfo(client.Id)" class="client">
               <td>
                 <input type="checkbox" (click)="$event.stopPropagation()" (change)="changeOne()" [(ngModel)]="client.checked">
               </td>

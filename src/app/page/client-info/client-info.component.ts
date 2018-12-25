@@ -20,6 +20,7 @@ export class ClientInfoComponent implements OnInit {
   wipeData: boolean;
   checkShowDelete: boolean;
   checkShowWipeData: boolean;
+  showAssignButton = false;
   @ViewChild('modalChangePassword')
   modalChangePassword: any;
   @ViewChild('toast')
@@ -27,6 +28,9 @@ export class ClientInfoComponent implements OnInit {
   @ViewChild('modalDelete')
   modalDelete: any;
   changePasswordForm: FormGroup;
+  @ViewChild('modalAssign')
+  modalAssign: any;
+  mentorEmail: any;
   constructor(
     private router: ActivatedRoute,
     private _api: ApiService,
@@ -46,6 +50,7 @@ export class ClientInfoComponent implements OnInit {
       this._api.getClientInfo(this.idClient).then(data => {
         this.clientInfo = data['data'];
         this.healthList = data['data']['Health'];
+        console.log(this.clientInfo);
         this.checkResendCode = data['data']['Status'] !== 'active' ? false : true;
         this.wipeData = data['data']['RoundId'] ? true : false;
         this.fillDataClientInfo();
@@ -81,8 +86,8 @@ export class ClientInfoComponent implements OnInit {
         email: this.clientInfo.Email,
         DateOfBirth: moment(this.clientInfo.DateOfBirth).format('YYYY-MM-DD'),
         City: this.clientInfo.City,
-        mentor: this.clientInfo.MentorId,
-        Status: this.clientInfo.Status,
+        mentor: this.clientInfo.MentorEmail,
+        Status: this.clientInfo.Status ? this.clientInfo.Status : 'pending',
         Gender: this.clientInfo.Gender,
         StartDate: moment(this.clientInfo.StartDate).format('YYYY-MM-DD'),
         StartWeight: this.clientInfo.StartWeight,
@@ -105,7 +110,11 @@ export class ClientInfoComponent implements OnInit {
       IdMentor: this.idClient
     };
     this._api.resendCode(apiResendCode).then(res => {
-
+      if (res['status'] === STATUS.error) {
+        this.toast.addToast({ title: 'Message', msg: 'Can not resend code', timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
+      } else {
+        this.toast.addToast({ title: 'Message', msg: 'Resend code success', timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
+      }
     }).catch(err => {
       console.log(err);
     })
@@ -144,7 +153,7 @@ export class ClientInfoComponent implements OnInit {
       this.checkShowWipeData = false;
       this.modalDelete.show();
     } else if (!this.wipeData) {
-      this.toast.addToast({ title: 'Message', msg: 'Delete round error,Do not have round is running', timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
+      this.toast.addToast({ title: 'Message', msg: 'Delete round error, do not have round is running', timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
     }
   }
   hideDelete() {
@@ -190,24 +199,35 @@ export class ClientInfoComponent implements OnInit {
       })
     }
   }
-  assignMentor(){
+  assignMentor() {
     let data = {
       'MentorId': this.clientInfoForm.value.mentor,
-      'MenteeId':  this.idClient
+      'MenteeId': this.idClient
     }
     this._helper.toggleLoadng(true);
     this._api.assignMentor(data).then((res: any) => {
       this._helper.toggleLoadng(false);
-      if(res.status == STATUS.error || res.data == 'not ok'){
+      if (res.status == STATUS.error || res.data == 'not ok') {
+        this.modalAssign.hide();
         this.toast.addToast({ title: 'Message', msg: 'Assign Mentor error', timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
       } else {
-        this.toast.addToast({ title: 'Message', msg: 'Assign Mentor success', timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
+        this.modalAssign.hide();
+        this.toast.addToast({ title: 'Message', msg: 'Assign mentor successfully', timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
         this.getClientInfo();
       }
-    }, err =>{
+    }, err => {
       console.log(err);
+      this.modalAssign.hide();
       this._helper.toggleLoadng(false);
     })
+  }
+  showModalAssign() {
+    if(this.clientInfoForm.value.mentor){ 
+      this.mentorEmail = this.listMentor.find(x => x.value === this.clientInfoForm.value.mentor)
+      this.modalAssign.show();
+    } else { 
+      this.toast.addToast({ title: 'Message', msg: 'You must select email', timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
+    }
   }
 }
 

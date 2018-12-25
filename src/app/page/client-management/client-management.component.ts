@@ -66,6 +66,8 @@ export class ClientManagementComponent implements OnInit {
       mentor: this.mentor,
       checked: false
     };
+    console.log(data);
+    
     this._api.management(data).then(res => {
       this.listClient = res['data']['clients']
       this.totalItem = res['data']['totalItem'];
