@@ -113,7 +113,7 @@ export class ClientInfoComponent implements OnInit {
       if (res['status'] === STATUS.error) {
         this.toast.addToast({ title: 'Message', msg: 'Can not resend code', timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
       } else {
-        this.toast.addToast({ title: 'Message', msg: 'Resend code success', timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
+        this.toast.addToast({ title: 'Message', msg: 'Successfully', timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
       }
     }).catch(err => {
       console.log(err);
@@ -190,7 +190,7 @@ export class ClientInfoComponent implements OnInit {
         if (res.status == STATUS.error) {
           this.toast.addToast({ title: 'Message', msg: 'Delete round error', timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
         } else {
-          this.toast.addToast({ title: 'Message', msg: 'Delete round Success', timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
+          this.toast.addToast({ title: 'Message', msg: 'Successfully', timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
           this.getClientInfo();
         }
       }, err => {
