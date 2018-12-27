@@ -6,7 +6,7 @@
         <div class="headerTable">
           <div class="row">
             <div class="col-md-2">
-              <input type="text" class="form-control" placeholder="Name or email">
+              <input type="text" [(ngModel)]="searchInput" class="form-control" placeholder="search by group">
             </div>
             <div class="col-md-2">
               <!-- <select [(ngModel)]="type" class="form-control">
@@ -14,18 +14,13 @@
                 <option value="Mentee">Mentee</option>
                 <option value="Mentor">Mentor</option>
               </select> -->
-              <ng-select class="select-custom" [(ngModel)]="mentor" placeholder="select Mentor">
+              <ng-select class="select-custom" [(ngModel)]="mentor" placeholder="search by group">
 
               </ng-select>
             </div>
             <div class="col-md-2">
-              <select [(ngModel)]="status" class="form-control">
-                <option value="">All</option>
-                <option value="active">Active</option>
-                <option value="deactive">Inactivate</option>
-                <option value="pending">Invite pending</option>
-                <option value="connected">Connected</option>
-                <option value="not-connected">Not Connected</option>
+              <select [(ngModel)]="mentee" class="form-control"  placeholder="search by mentee">
+                <option value=""></option>
               </select>
             </div>
             <button type="button" class="btn btn-warning btn-header" (click)="searchTable()">Search</button>
@@ -40,9 +35,18 @@
               <input type="checkbox" />
             </th>
             <th rowspan="2">#</th>
-            <th rowspan="2">First Name</th>
-            <th rowspan="2">Last Name</th>
-            <th rowspan="2">Email</th>
+            <th rowspan="2" (click)="sortTable('FirstName')">
+              <i *ngIf="this.typeOrderBoolean==false && this.selectSort=='FirstName'" class="icofont icofont-caret-up"></i>
+              <i *ngIf="this.typeOrderBoolean && this.selectSort=='FirstName'" class="icofont icofont-caret-down"></i>
+              First Name</th>
+            <th rowspan="2" (click)="sortTable('SurName')">
+              <i *ngIf="this.typeOrderBoolean==false && this.selectSort=='SurName'" class="icofont icofont-caret-up"></i>
+              <i *ngIf="this.typeOrderBoolean && this.selectSort=='SurName'" class="icofont icofont-caret-down"></i>
+              Last Name</th>
+            <th rowspan="2" (click)="sortTable('Email')">
+              <i *ngIf="this.typeOrderBoolean==false && this.selectSort=='Email'" class="icofont icofont-caret-up"></i>
+              <i *ngIf="this.typeOrderBoolean && this.selectSort=='Email'" class="icofont icofont-caret-down"></i>
+              Email</th>
             <th rowspan="2">Contact Number</th>
             <th rowspan="2">Status</th>
             <th colspan="2" style="padding: 5px">Number of client</th>
@@ -56,16 +60,16 @@
             <th style="padding: 5px">Total</th>
           </tr>
           <tbody>
-            <tr>
+            <tr *ngFor="let item of listMentor;let i = index">
               <td><input type="checkbox" /></td>
-              <td>1</td>
-              <td>Nana</td>
-              <td>Taylor</td>
-              <td>nana@gmail.com</td>
+              <td>{{i+1}}</td>
+              <td>{{item.FirstName}}</td>
+              <td>{{item.SurName}}</td>
+              <td>{{item.Email}}</td>
               <td>1234567891</td>
-              <td>Active</td>
-              <td>12</td>
-              <td>30</td>
+              <td>{{item.Status}}</td>
+              <td>{{item.clientThisMonth}}</td>
+              <td>{{item.TotalClient ? item.TotalClient : 0}}</td>
               <td>
                 <select class="table-select">
                   <option>Group A</option>
@@ -74,32 +78,8 @@
                 </select>
                 <button class="btn-custom btn-orange">Assign</button>
               </td>
-              <td>10/12/2019</td>
-              <td>130104033</td>
-              <td>
-                <button class="btn-custom btn-orange"><i class="fa fa-paper-plane"></i></button>
-              </td>
-            </tr>
-            <tr>
-              <td><input type="checkbox" /></td>
-              <td>1</td>
-              <td>Nana</td>
-              <td>Taylor</td>
-              <td>nana@gmail.com</td>
-              <td>1234567891</td>
-              <td>Active</td>
-              <td>12</td>
-              <td>30</td>
-              <td>
-                <select class="table-select">
-                  <option>Group A</option>
-                  <option>Group B</option>
-                  <option>Group C</option>
-                </select>
-                <button class="btn-custom btn-orange">Assign</button>
-              </td>
-              <td>10/12/2019</td>
-              <td>130104033</td>
+              <td>{{item.createdAt | date: 'dd/MM/yyyy'}}</td>
+              <td>{{item.RefCode}}</td>
               <td>
                 <button class="btn-custom btn-orange"><i class="fa fa-paper-plane"></i></button>
               </td>
@@ -108,7 +88,7 @@
         </table>
       </div>
       <ngb-pagination class="d-flex justify-content-center" [collectionSize]="totalItem" [pageSize]="limit" [(page)]="page"
-                      [maxSize]="5" [boundaryLinks]="true" (pageChange)="onChangePage($event)"></ngb-pagination>
+        [maxSize]="5" [boundaryLinks]="true" (pageChange)="onChangePage($event)"></ngb-pagination>
     </app-card>
   </div>
 </div>
