@@ -1,0 +1,25 @@
+table {
+  font-size: 13px;
+  th {
+    text-align: center;
+    border-right: 1px solid #eeeeee;
+    &:last-child {
+      border-right: 0;
+    }
+  }
+  td {
+    text-align: center;
+    .table-select, .btn-custom {
+      height: 30px;
+      display: inline-block;
+    }
+    .btn-custom {
+      border-radius: 3px;
+      &.btn-orange {
+        background: #ffba57;
+        border: 1px solid #ffba57;
+        color: #FFF;
+      }
+    }
+  }
+}
