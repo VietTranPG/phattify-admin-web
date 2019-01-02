@@ -72,7 +72,6 @@ export class CoachManagementComponent implements OnInit {
 
     }, err => {
       console.log(err);
-
     })
   }
   changeAll(value) {

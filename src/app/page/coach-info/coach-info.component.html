@@ -1,3 +1,16 @@
-<p>
-  coach-info works!
-</p>
+<div class="row">
+  <div class="col-md-3" (click)="coachDetail = true">
+    <h5>Coach detail</h5>
+  </div>
+  <div class="col-md-3" (click)="coachDetail = false">
+    <h5>list mentee</h5>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12" *ngIf="coachDetail">
+    <app-mentor-detail></app-mentor-detail>
+  </div>
+  <div class="col-md-12" *ngIf="!coachDetail">
+    <app-list-mentee></app-list-mentee>
+  </div>
+</div>

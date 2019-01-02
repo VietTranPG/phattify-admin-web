@@ -7,11 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./coach-info.component.css']
 })
 export class CoachInfoComponent implements OnInit {
-
+  coachDetail = true;
   constructor() {
 
    }
 
   ngOnInit() {
   }
+  
 }
