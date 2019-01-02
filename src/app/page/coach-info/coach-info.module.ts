@@ -5,6 +5,8 @@ import { SharedModule } from '../../shared/shared.module';
 import { RouterModule, Routes } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SelectModule } from 'ng-select';
+import { MentorDetailComponent } from './mentor-detail/mentor-detail.component';
+import { ListMenteeComponent } from './list-mentee/list-mentee.component';
 const routes: Routes = [
   { path: '', component: CoachInfoComponent }
 ]
@@ -17,6 +19,6 @@ const routes: Routes = [
     SelectModule,
     FormsModule,
   ],
-  declarations: [CoachInfoComponent]
+  declarations: [CoachInfoComponent, MentorDetailComponent, ListMenteeComponent]
 })
 export class CoachInfoModule { }
