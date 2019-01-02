@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row"> 
   <div class="col-sm-12">
     <app-card [classHeader]="true" [blockClass]="'table-border-style'" [cardOptionBlock]="true">
       <!-- <span class="code-header">Example of <code>horizontal</code> table borders. This is a default table border style attached to <code>.table</code> class. All borders have the same grey color and style, table itself doesn't have a border, but you can add this border using <code>.table-framed</code> class added to the table with <code>.table</code> class.</span> -->
@@ -19,8 +19,8 @@
               </ng-select>
             </div>
             <div class="col-md-2">
-              <ng-select class="select-custom" [(ngModel)]="mentee" placeholder="search by mentee">
-
+              <ng-select class="select-custom loading-search" [(ngModel)]="mentee" [options]="listMentee" (filterInputChanged)= "searchMentee($event)" placeholder="search by mentee">
+                
               </ng-select>
             </div>
             <button type="button" class="btn btn-warning btn-header" (click)="searchTable()">Search</button>
