@@ -14,14 +14,14 @@
                 <option value="Mentee">Mentee</option>
                 <option value="Mentor">Mentor</option>
               </select> -->
-              <ng-select class="select-custom" [(ngModel)]="mentor" placeholder="search by group">
+              <ng-select class="select-custom" [(ngModel)]="group" placeholder="search by group">
 
               </ng-select>
             </div>
             <div class="col-md-2">
-              <select [(ngModel)]="mentee" class="form-control"  placeholder="search by mentee">
-                <option value=""></option>
-              </select>
+              <ng-select class="select-custom" [(ngModel)]="mentee" placeholder="search by mentee">
+
+              </ng-select>
             </div>
             <button type="button" class="btn btn-warning btn-header" (click)="searchTable()">Search</button>
             <button type="button" class="btn btn-header" (click)="showAll()">Show All</button>
@@ -32,7 +32,7 @@
         <table class="table table-framed table-wrap-text">
           <tr>
             <th rowspan="2">
-              <input type="checkbox" />
+              <input type="checkbox" [(ngModel)]="selectAll" (change)="changeAll(selectAll)"/>
             </th>
             <th rowspan="2">#</th>
             <th rowspan="2" (click)="sortTable('FirstName')">
@@ -61,7 +61,7 @@
           </tr>
           <tbody>
             <tr *ngFor="let item of listMentor;let i = index">
-              <td><input type="checkbox" /></td>
+              <td><input type="checkbox" (change)="changeOne()" [(ngModel)]="item.checked" /></td>
               <td>{{i+1}}</td>
               <td>{{item.FirstName}}</td>
               <td>{{item.SurName}}</td>

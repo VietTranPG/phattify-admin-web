@@ -9,7 +9,7 @@ import { ApiService } from '../../services/api-service/api.service';
 export class CoachManagementComponent implements OnInit {
   page = 1;
   searchInput: any = '';
-  typeOrder: any = '';
+  typeOrder = '';
   typeOrderBoolean: boolean;
   limit: number = 20;
   mentee: any = '';
@@ -17,6 +17,7 @@ export class CoachManagementComponent implements OnInit {
   totalItem: number = 0;
   selectAll: any;
   selectSort: any = '';
+  group = '';
   constructor(private _api: ApiService, ) {
 
   }
@@ -27,7 +28,6 @@ export class CoachManagementComponent implements OnInit {
   showAll() {
     this.searchInput = '';
     this.page = 1;
-    this.typeOrder = '';
     this.typeOrder = '';
     this.mentee = '';
     this.getListMentor();
@@ -61,7 +61,8 @@ export class CoachManagementComponent implements OnInit {
       limit: this.limit,
       orderType: this.typeOrder,
       mentee: this.mentee,
-      orderby: this.selectSort
+      orderby: this.selectSort,
+      checked: false
     };
     console.log(data);
     this._api.getAllMentor(data).then(res => {
@@ -73,5 +74,26 @@ export class CoachManagementComponent implements OnInit {
       console.log(err);
 
     })
+  }
+  changeAll(value) {
+    console.log(value);
+    
+    if (this.listMentor) {
+      if (value !== undefined) {
+        for (let index = 0; index < this.listMentor.length; index++) {
+          this.listMentor[index].checked = value;
+        }
+      }
+    }
+  }
+  changeOne() {
+    let count = 0;
+    if (this.listMentor) {
+      for(let i = 0; i < this.listMentor.length;i++){ 
+        if(this.listMentor[i].checked === true)
+        count++;
+      }
+      this.selectAll = count === this.limit ? true : false;
+    }
   }
 }
