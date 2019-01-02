@@ -85,7 +85,7 @@ export class ApiService {
     return new Promise((resolve, reject) => {
       this.http.put(url, req).subscribe(res => {
         resolve(res);
-      }, err => { 
+      }, err => {
         reject(err);
       })
     })
@@ -100,17 +100,17 @@ export class ApiService {
       })
     })
   }
-  assignMentor(req){
+  assignMentor(req) {
     let url = SERVER_URL + 'managementclient';
     return new Promise((resolve, reject) => {
       this.http.put(url, req).subscribe(res => {
         resolve(res);
-      }, err => { 
+      }, err => {
         reject(err);
       })
     })
   }
-  getAllMentor(req){ 
+  getAllMentor(req) {
     let url = SERVER_URL + 'managementmentor';
     return new Promise((resolve, reject) => {
       this.http.post(url, req).subscribe(res => {
@@ -119,5 +119,9 @@ export class ApiService {
         reject(err);
       })
     })
+  }
+  searchMentee(q) {
+    let url = SERVER_URL + 'managementmentor?search=' + q;
+    return this.http.get(url);
   }
 }
