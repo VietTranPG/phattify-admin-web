@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-coach-info',
   templateUrl: './coach-info.component.html',
-  styleUrls: ['./coach-info.component.css']
+  styleUrls: ['./coach-info.component.scss']
 })
 export class CoachInfoComponent implements OnInit {
   coachDetail = true;
@@ -14,5 +14,5 @@ export class CoachInfoComponent implements OnInit {
 
   ngOnInit() {
   }
-  
+
 }

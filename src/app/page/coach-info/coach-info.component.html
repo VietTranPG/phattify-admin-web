@@ -1,16 +1,22 @@
-<div class="row">
-  <div class="col-md-3" (click)="coachDetail = true">
-    <h5>Coach detail</h5>
+<div class="card card--coach-management">
+  <div class="row">
+    <div class="col">
+      <div class=" col-flex">
+        <div class="col-detail col-active" (click)="coachDetail = true">
+          <h5>Mentor detail</h5>
+        </div>
+        <div class="col-detail" (click)="coachDetail = false">
+          <h5>Client list</h5>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="col-md-3" (click)="coachDetail = false">
-    <h5>list mentee</h5>
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-12" *ngIf="coachDetail">
-    <app-mentor-detail></app-mentor-detail>
-  </div>
-  <div class="col-md-12" *ngIf="!coachDetail">
-    <app-list-mentee></app-list-mentee>
+  <div class="row">
+    <div class="col-md-12" *ngIf="coachDetail">
+      <app-mentor-detail></app-mentor-detail>
+    </div>
+    <div class="col-md-12" *ngIf="!coachDetail">
+      <app-list-mentee></app-list-mentee>
+    </div>
   </div>
 </div>

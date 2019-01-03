@@ -1,0 +1,30 @@
+.card-mentor-detail {
+  padding: 20px 0;
+}
+.row {
+  margin-bottom: 10px;
+  &.row-custom {
+    padding: 0 15px;
+  }
+  &.row--flex-end {
+    justify-content: flex-end;
+    button {
+      margin-right: 10px;
+      min-width: 100px;
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+  .form-control {
+    margin-bottom: 10px;
+    border: 1px solid #cccccc;
+    @media screen and (min-width: 768px) {
+      margin-bottom: 0;
+    }
+  }
+  .btn {
+    height: calc(2.25rem + 2px);
+    padding: 0.375rem 0.75rem;
+  }
+}
