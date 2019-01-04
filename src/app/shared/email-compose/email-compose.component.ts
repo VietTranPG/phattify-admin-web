@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'email-compose',
   templateUrl: './email-compose.component.html',
-  styleUrls: ['./email-compose.component.css']
+  styleUrls: ['./email-compose.component.scss']
 })
 export class EmailComposeComponent implements OnInit {
   public editor;
@@ -28,7 +28,7 @@ export class EmailComposeComponent implements OnInit {
     console.log('quill is ready! this is current quill instance object', quill);
   }
 
-  onContentChanged({ quill, html, text }) {    
+  onContentChanged({ quill, html, text }) {
     console.log('quill content is changed!', html);
   }
 }
