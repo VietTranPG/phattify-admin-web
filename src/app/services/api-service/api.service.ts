@@ -124,4 +124,45 @@ export class ApiService {
     let url = SERVER_URL + 'managementmentor?search=' + q;
     return this.http.get(url);
   }
+  getMentorInfo(id){
+    let url = this.url + 'mentor-info?Id=' + id;
+    return new Promise((resolve, reject) => {
+      this.http.get(url).subscribe(res => {
+        resolve(res);
+      }, err => {
+        reject(err);
+      })
+    })
+  }
+  downGradeMentor(id){ 
+    let url = this.url + 'mentor-info?Id=' + id;
+    return new Promise((resolve, reject) => {
+      this.http.delete(url).subscribe(res => {
+        resolve(res);
+      }, err => {
+        reject(err);
+      })
+    })
+  }
+  blockMentor(id){ 
+    let url = this.url + 'mentor-info?id=' + id;
+    return new Promise((resolve, reject) => {
+      this.http.patch(url, id).subscribe(res => {
+        resolve(res);
+        console.log(res)
+      }, err => {
+        reject(err);
+      })
+    }) 
+  }
+  addNewMentee(req){ 
+    let url = SERVER_URL + 'inviteclient';
+    return new Promise((resolve, reject) => {
+      this.http.post(url, req).subscribe(res => {
+        resolve(res);
+      }, err => {
+        reject(err);
+      })
+    })  
+  }
 }

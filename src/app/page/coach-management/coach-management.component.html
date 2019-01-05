@@ -61,8 +61,8 @@
             <th style="padding: 5px">Total</th>
           </tr>
           <tbody>
-            <tr *ngFor="let item of listMentor;let i = index">
-              <td><input type="checkbox" (change)="changeOne()" [(ngModel)]="item.checked" /></td>
+            <tr *ngFor="let item of listMentor;let i = index" (click)="goToCoachInfo(item.Id)" class = "coach">
+              <td><input type="checkbox" (change)="changeOne()" (click)="$event.stopPropagation()" [(ngModel)]="item.checked" /></td>
               <td>{{i+1}}</td>
               <td>{{item.FirstName}}</td>
               <td>{{item.SurName}}</td>
@@ -72,17 +72,17 @@
               <td>{{item.clientThisMonth}}</td>
               <td>{{item.TotalClient ? item.TotalClient : 0}}</td>
               <td>
-                <select class="table-select">
+                <select class="table-select" (click)="$event.stopPropagation()">
                   <option>Group A</option>
                   <option>Group B</option>
                   <option>Group C</option>
                 </select>
-                <button class="btn-custom btn-orange">Assign</button>
+                <button class="btn-custom btn-orange" (click)="$event.stopPropagation()">Assign</button>
               </td>
               <td>{{item.createdAt | date: 'dd/MM/yyyy'}}</td>
               <td>{{item.RefCode}}</td>
               <td>
-                <button class="btn-custom btn-orange"><i class="fa fa-paper-plane"></i></button>
+                <button class="btn-custom btn-orange" (click)="$event.stopPropagation()" ><i class="fa fa-paper-plane"></i></button>
               </td>
             </tr>
           </tbody>

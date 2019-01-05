@@ -40,7 +40,9 @@ table {
   display: flex;
   align-items: center;
 }
-
+.coach {
+  cursor: pointer;
+}
 .email-compose {
   max-width: 600px;
   position: fixed;

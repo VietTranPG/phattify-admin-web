@@ -156,7 +156,7 @@ export class ClientManagementComponent implements OnInit {
         if(this.listClient[i].checked === true)
         count++;
       }
-      this.selectAll = count === this.limit ? true : false;
+      this.selectAll = (count === this.listClient.length || count === this.limit)  ? true : false;
     }
   }
   goToClientInfo(id) {
