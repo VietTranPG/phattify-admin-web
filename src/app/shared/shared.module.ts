@@ -18,7 +18,8 @@ import { DataFilterPipe } from './elements/data-filter.pipe';
 import { FormatNumberPipe } from '../pipes/format-number.pipe';
 import { ToastComponent } from './toast/toast.component';
 import { ToastyService, ToastyModule } from 'ng2-toasty';
-
+import { EmailComposeComponent } from './email-compose/email-compose.component';
+import {QuillEditorModule} from 'ngx-quill-editor';
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
 };
@@ -30,7 +31,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     HttpClientModule,
     PerfectScrollbarModule,
     ClickOutsideModule,
-    ToastyModule.forRoot()
+    ToastyModule.forRoot(),
+    QuillEditorModule
   ],
   exports: [
     NgbModule,
@@ -49,7 +51,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ClickOutsideModule,
     DataFilterPipe,
     FormatNumberPipe,
-    ToastComponent
+    ToastComponent,
+    EmailComposeComponent
   ],
   declarations: [
     ToggleFullScreenDirective,
@@ -64,7 +67,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     SpinnerComponent,
     DataFilterPipe,
     FormatNumberPipe,
-    ToastComponent
+    ToastComponent,
+    EmailComposeComponent
   ],
   providers: [
     {
