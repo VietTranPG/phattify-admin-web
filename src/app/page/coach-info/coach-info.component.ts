@@ -7,7 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./coach-info.component.scss']
 })
 export class CoachInfoComponent implements OnInit {
-  coachDetail = true;
+  showCoachDetail = true;
+  
   constructor() {
 
    }

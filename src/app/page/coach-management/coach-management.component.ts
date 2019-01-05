@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api-service/api.service';
-
+import { HelperService } from '../../services/helper-service/helper.service';
+import { STATUS } from '../../constants/config';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-coach-management',
   templateUrl: './coach-management.component.html',
@@ -20,7 +22,11 @@ export class CoachManagementComponent implements OnInit {
   group = '';
   listMentee: any = [];
   loadingSelect: boolean = false;
-  constructor(private _api: ApiService, ) {
+  constructor(
+    private _api: ApiService, 
+    private _helper: HelperService,
+    private router: Router
+    ) {
 
   }
 
@@ -94,7 +100,7 @@ export class CoachManagementComponent implements OnInit {
         if (this.listMentor[i].checked === true)
           count++;
       }
-      this.selectAll = count === this.limit ? true : false;
+      this.selectAll = (count === this.listMentor.length || count === this.limit)  ? true : false;
     }
   }
   searchMentee(q) {
@@ -106,5 +112,8 @@ export class CoachManagementComponent implements OnInit {
     }, err => {
       this.loadingSelect = false;
     })
+  }
+  goToCoachInfo(id){
+    this.router.navigate(['mentor-info',id]);
   }
 }
