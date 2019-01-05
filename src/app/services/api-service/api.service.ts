@@ -165,4 +165,14 @@ export class ApiService {
       })
     })  
   }
+  sendMail(req){ 
+    let url = SERVER_URL+'admin-email-compose';
+    return new Promise((resolve, reject) => {
+      this.http.post(url, req).subscribe(res => {
+        resolve(res);
+      }, err => {
+        reject(err);
+      })
+    })  
+  }
 }

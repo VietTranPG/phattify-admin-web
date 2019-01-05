@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input } from '@angular/core';
 import { ApiService } from '../../services/api-service/api.service';
 import { HelperService } from '../../services/helper-service/helper.service';
 import { STATUS } from '../../constants/config';
@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./coach-management.component.scss']
 })
 export class CoachManagementComponent implements OnInit {
+  listMail = [];
   page = 1;
   searchInput: any = '';
   typeOrder = '';
@@ -97,8 +98,16 @@ export class CoachManagementComponent implements OnInit {
     let count = 0;
     if (this.listMentor) {
       for (let i = 0; i < this.listMentor.length; i++) {
-        if (this.listMentor[i].checked === true)
+        if (this.listMentor[i].checked === true){
           count++;
+          if(this.listMail.indexOf(this.listMentor[i].Email)==-1){
+            this.listMail.push(this.listMentor[i].Email)
+          }    
+        } else {
+          if(this.listMail.indexOf(this.listMentor[i].Email) !=-1){
+            this.listMail.splice(this.listMail.indexOf(this.listMentor[i].Email),1);
+          }
+        }
       }
       this.selectAll = (count === this.listMentor.length || count === this.limit)  ? true : false;
     }

@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { ApiService } from '../../services/api-service/api.service';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'email-compose',
@@ -8,13 +10,33 @@ import { Component, OnInit } from '@angular/core';
 export class EmailComposeComponent implements OnInit {
   public editor;
   public editorContent;
-  isMinimize:boolean=false;
+  sendMailForm: any;
+  fileName:any;
+  isMinimize: boolean = false;
+  content:any;
+  file:any;
+  @Input() listMail: any;
   public editorConfig = {
     placeholder: 'Put your things hear'
   };
-  constructor() { }
+  constructor(
+    private _api: ApiService,
+    private formBuilder: FormBuilder,
+  ) { }
 
   ngOnInit() {
+    console.log(this.listMail);
+    this.initForm();
+  }
+  initForm() {
+    this.sendMailForm = this.formBuilder.group({
+      email: [''],
+      emailCc: [''],
+      subject: [''],
+      editorContent: [],
+      file: []
+
+    })
   }
   onEditorBlured(quill) {
     console.log('editor blur!', quill);
@@ -31,8 +53,48 @@ export class EmailComposeComponent implements OnInit {
 
   onContentChanged({ quill, html, text }) {
     console.log('quill content is changed!', html);
-  }
-  minimize(){
+    this.content = html;
     
+  }
+  minimize() {
+
+  }
+  changeListener($event): void {
+    let file = $event.target.files[0];
+    this.fileName = file.name;
+    this.readThis($event.target);
+  }
+
+  readThis(inputValue: any): void {
+    let file: File = inputValue.files[0];
+    let myReader: FileReader = new FileReader();
+
+    myReader.onloadend = (e) => {
+      this.file = myReader.result as any;
+      console.log(this.file);
+      this.file = this.file.split(',')[1]
+      
+      
+      // let a = this.file.split(',');
+      // console.log(a);
+    }
+    myReader.readAsDataURL(file);
+  }
+  sendMail() {
+    let req =
+    {
+      "email": [this.sendMailForm.value.email],
+      "subject": this.sendMailForm.value.subject,
+      "content": this.content,
+      "attachments": [{
+        "filename": this.fileName,
+        "content": this.file,
+        "encoding": "base64"
+      }]
+    }
+    this._api.sendMail(req).then(res => { 
+      console.log(req);      
+      console.log(res);
+    })
   }
 }
