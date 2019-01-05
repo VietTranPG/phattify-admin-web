@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class EmailComposeComponent implements OnInit {
   public editor;
   public editorContent;
+  isMinimize:boolean=false;
   public editorConfig = {
     placeholder: 'Put your things hear'
   };
@@ -30,5 +31,8 @@ export class EmailComposeComponent implements OnInit {
 
   onContentChanged({ quill, html, text }) {
     console.log('quill content is changed!', html);
+  }
+  minimize(){
+    
   }
 }

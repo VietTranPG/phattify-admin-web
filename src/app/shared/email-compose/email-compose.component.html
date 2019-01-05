@@ -1,11 +1,11 @@
 <div class="page-body">
-  <div class="card card-email-compose card-email-hide">
+  <div class="card card-email-compose" [class.card-email-hide]="isMinimize">
     <!-- Email-card start -->
     <div class="card-block email-card">
       <div class="row row--email-header">
-        <span class="email-title">New message</span>
+        <span class="email-title" (click)="isMinimize = false">New message</span>
         <span class="email-action">
-          <i class="fa fa-minus"></i>
+          <i class="fa fa-minus" (click)="isMinimize = true"></i>
           <i class="fa fa-close"></i>
         </span>
       </div>
@@ -28,13 +28,13 @@
                         <label class="">Cc</label>
                       </div>
                     </div>
-                    <div class="col-md-6">
+                    <!-- <div class="col-md-6">
                       <div class="form-group form-primary">
                         <input type="email" name="footer-email" class="form-control" required="">
                         <span class="form-bar"></span>
                         <label class="">Bcc</label>
                       </div>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
                 <div class="form-group form-primary">
