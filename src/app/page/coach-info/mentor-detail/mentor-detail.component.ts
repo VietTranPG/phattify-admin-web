@@ -107,6 +107,25 @@ export class MentorDetailComponent implements OnInit {
       this._helper.toggleLoadng(false);
     })
   }
+  changePassword(){ 
+    this.modalChangePassword.hide();
+    let data = {
+      "password": this.changePasswordForm.value.password
+    }
+    this._helper.toggleLoadng(true);
+    this._api.changePassword(data, this.idMentor).then(res => {
+      this._helper.toggleLoadng(false);
+      if (res['status'] === STATUS.error) {
+        this.changePasswordForm.reset();
+        this.toast.addToast({ title: 'Message', msg: 'Can not change password', timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
+      } else {
+        this.changePasswordForm.reset();
+        this.toast.addToast({ title: 'Message', msg: 'Change password success', timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
+      }
+    }).catch(err => {
+      console.log(err)
+    })
+  }
 }
 // export function confirmValidate(control: AbstractControl) {
 //   if (control && control.value !== null) {

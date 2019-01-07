@@ -136,8 +136,10 @@ export class ClientInfoComponent implements OnInit {
     this._api.changePassword(data, this.idClient).then(res => {
       this._helper.toggleLoadng(false);
       if (res['status'] === STATUS.error) {
+        this.changePasswordForm.reset();
         this.toast.addToast({ title: 'Message', msg: 'Can not change password', timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
       } else {
+        this.changePasswordForm.reset();
         this.toast.addToast({ title: 'Message', msg: 'Change password success', timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
       }
     }).catch(err => {

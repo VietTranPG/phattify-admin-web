@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ApiService } from '../../services/api-service/api.service';
 import { FormBuilder, Validators } from '@angular/forms';
+import { ValidateExtendService } from '../../services/validate-service/validate-extend.service';
 
 @Component({
   selector: 'email-compose',
@@ -16,7 +17,7 @@ export class EmailComposeComponent implements OnInit {
   content:any;
   file:any;
   @Output() closeSendMail: EventEmitter<any> = new EventEmitter();
-  @Input() listMail: any;
+  @Input() listMail: any = [];
   public editorConfig = {
     placeholder: 'Put your things hear'
   };
@@ -31,12 +32,11 @@ export class EmailComposeComponent implements OnInit {
   }
   initForm() {
     this.sendMailForm = this.formBuilder.group({
-      email: ['',Validators.email],
+      email: [this.listMail,[Validators.email,Validators.required]],
       emailCc: [''],
       subject: [''],
       editorContent: [],
       file: []
-
     })
   }
   onEditorBlured(quill) {
@@ -97,6 +97,20 @@ export class EmailComposeComponent implements OnInit {
       console.log(req);      
       console.log(res);
     })
+  }
+  validateEmailList(val){ 
+    // for(let i = 0;i<this.listMail.length;i++){ 
+    //   if(ValidateExtendService.listEmail(this.listMail[i])){ 
+    //     console.log(this.listMail[i]);
+        
+    //   }
+    // }
+    // console.log(val);
+    if(ValidateExtendService.listEmail(val)){ 
+      console.log(111);
+      
+    }
+    
   }
   closeForm(){
     this.closeSendMail.emit();

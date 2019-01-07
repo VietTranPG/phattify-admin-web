@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../../services/api-service/api.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { HelperService } from '../../../services/helper-service/helper.service';
-import { GENDER } from '../../../constants/config';
+import { GENDER, STATUS } from '../../../constants/config';
 import { ValidateExtendService } from '../../../services/validate-service/validate-extend.service';
 @Component({
   selector: 'app-list-mentee',
@@ -24,6 +24,8 @@ export class ListMenteeComponent implements OnInit {
   typeOrder: any = '';
   totalItem: number = 0;
   selectAll: any;
+  @ViewChild('toast')
+  toast: any;
   listGender: any = [
     {
       name: 'Male',
@@ -46,7 +48,7 @@ export class ListMenteeComponent implements OnInit {
   ngOnInit() {
     this.InitFormAddClient();
     this.router.params.subscribe(res => { 
-      this.idMentor = res.ud;
+      this.idMentor = res.id;
       this.getListMentee(res.id);
     })
   }
@@ -120,9 +122,15 @@ export class ListMenteeComponent implements OnInit {
   }
   addNewMentee(){ 
     let data = this.addClientForm.value;
-    this._api.addNewMentee(data).then(res => { 
-      console.log(data);
-      console.log(res); 
+    data['userId'] = this.idMentor;
+    this._api.addNewMentee(data).then((res:any) => {
+      if(res.status == 'error'){ 
+        this.toast.addToast({ title: 'Message', msg: res.message, timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
+      } else { 
+        this.toast.addToast({ title: 'Message', msg: "Successfully", timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
+        this.addClientForm.reset();
+        this.modalAddMentee.hide();
+      } 
     })
   }
 }

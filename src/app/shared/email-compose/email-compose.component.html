@@ -5,7 +5,7 @@
       <div class="row row--email-header">
         <span class="email-title" (click)="isMinimize = false">New message</span>
         <span class="email-action">
-          <i class="fa fa-minus" (click)="isMinimize = true"></i>
+          <i class="fa fa-minus" (click)="closeForm()"></i>
           <i class="fa fa-close"></i>
         </span>
       </div>
@@ -15,9 +15,13 @@
             <div class="mail-body-content">
               <form class="form-material" action="javascript:" [formGroup]="sendMailForm">
                 <div class="form-group form-primary">
-                  <input type="email" name="footer-email" formControlName="email" class="form-control" required="">
+                  <input type="email" name="footer-email" formControlName="email" class="form-control" required="" (keyup)="validateEmailList($event.target.value)">
                   <span class="form-bar"></span>
                   <label class="">To</label>
+                </div>
+                <div class="erros-message">
+                  <p class="error-text" *ngIf=" sendMailForm.controls.email?.touched &&  (sendMailForm.controls.email?.errors?.required || !sendMailForm.controls.email?.valid) ">This
+                    field is email.</p>
                 </div>
                 <div class="form-group">
                   <div class="row">

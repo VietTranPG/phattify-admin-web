@@ -94,16 +94,24 @@
                 <td><input type="email" class="form-control" placeholder="abc@gmail.com" formControlName="email"></td>
               </tr>
               <tr>
-                <p class="error-text" *ngIf=" addClientForm.controls.email?.touched &&  (addClientForm.controls.email?.errors?.required || !addClientForm.controls.email?.valid) ">This
-                  field is email.</p>
+                <p *ngIf="addClientForm.controls.email.touched && !addClientForm.controls.email.valid" class="error-text">
+                  Email is required
+                </p>
+                <p class="error-text" *ngIf="addClientForm.hasError('email', 'email') && addClientForm.get('email').touched">
+                  Email is invalid.
+                </p>
               </tr>
               <tr>
                 <td><label>Confirm email:</label></td>
                 <td><input type="email" class="form-control" placeholder="abc@gmail.com" formControlName="confirmEmail"></td>
               </tr>
               <tr>
-                <p class="error-text" *ngIf="addClientForm.controls.confirmEmail?.invalid && addClientForm.controls.email?.touched">This
-                  Email do not match.</p>
+                <p *ngIf="addClientForm.controls.confirmEmail.touched && !addClientForm.controls.confirmEmail.valid" class="error-text">
+                  {{ 'Confirm email is required' }}
+                </p>
+                <p *ngIf ="addClientForm.controls.confirmEmail.touched && addClientForm.errors?.mismatchedEmail" class="error-text">
+                  {{ "Email doesn't match" }}
+                </p>
               </tr>
               <tr>
                 <td><label>Date of Birth:</label></td>
@@ -115,7 +123,7 @@
                 </tr>
               <tr>
                 <td><label>Contact number:</label></td>
-                <td><input type="text" class="form-control" placeholder="123456789" formControlName="contactNumber"></td>
+                <td><input type="number" class="form-control" placeholder="123456789" formControlName="contactNumber"></td>
               </tr>
               <tr>
                 <td><label>Notes:</label></td>
@@ -133,3 +141,4 @@
     </div>
   </div>
 </app-modal-basic>
+<toast #toast></toast>
