@@ -4,7 +4,8 @@
 export const SERVER_URL = "http://phattifymobileservice.azurewebsites.net/api/";
 // export const SERVER_URL = "http://localhost:3000/api/";
 export const STATUS = {
-    error:'error'
+    error:'error',
+    success:'success'
 }
 export const GENDER = {
     Male: '0',

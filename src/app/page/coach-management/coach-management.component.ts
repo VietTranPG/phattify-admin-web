@@ -23,6 +23,7 @@ export class CoachManagementComponent implements OnInit {
   group = '';
   listMentee: any = [];
   loadingSelect: boolean = false;
+  showSendMail:boolean = false;
   constructor(
     private _api: ApiService, 
     private _helper: HelperService,
@@ -85,11 +86,14 @@ export class CoachManagementComponent implements OnInit {
   }
   changeAll(value) {
     console.log(value);
-
+    this.listMail = [];
     if (this.listMentor) {
       if (value !== undefined) {
         for (let index = 0; index < this.listMentor.length; index++) {
           this.listMentor[index].checked = value;
+          if(this.listMentor[index].checked == true){
+            this.listMail.push(this.listMentor[index].Email)
+          }
         }
       }
     }
@@ -111,6 +115,7 @@ export class CoachManagementComponent implements OnInit {
       }
       this.selectAll = (count === this.listMentor.length || count === this.limit)  ? true : false;
     }
+
   }
   searchMentee(q) {
     this.loadingSelect = true;

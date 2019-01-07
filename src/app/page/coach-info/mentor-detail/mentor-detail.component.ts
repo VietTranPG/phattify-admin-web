@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../../services/api-service/api.service';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { HelperService } from '../../../services/helper-service/helper.service';
 import * as moment from 'moment';
+import { ValidateExtendService } from '../../../services/validate-service/validate-extend.service';
+import { STATUS } from '../../../constants/config';
 @Component({
   selector: 'app-mentor-detail',
   templateUrl: './mentor-detail.component.html',
@@ -14,6 +16,11 @@ export class MentorDetailComponent implements OnInit {
   mentorInfo: any;
   healthList: any = [];
   mentorInfoForm: any;
+  changePasswordForm: any;
+  @ViewChild('toast')
+  toast: any;
+  @ViewChild('modalChangePassword')
+  modalChangePassword: any;
   constructor(
     private router: ActivatedRoute,
     private _api: ApiService,
@@ -29,7 +36,7 @@ export class MentorDetailComponent implements OnInit {
     this.getMentorInfo();
   }
   InitForm() {
-    this.mentorInfoForm = this.formBuilder.group({ 
+    this.mentorInfoForm = this.formBuilder.group({
       FirstName: [{ value: '', disabled: true }],
       Email: [{ value: '', disabled: true }],
       ContactNumber: [{ value: '', disabled: true }],
@@ -40,6 +47,10 @@ export class MentorDetailComponent implements OnInit {
       SurName: [{ value: '', disabled: true }],
       Status: [{ value: '', disabled: true }]
     })
+    this.changePasswordForm = this.formBuilder.group({
+      password: ['', Validators.required],
+      confirmPassword: ['', [Validators.required]]
+    }, { validator: ValidateExtendService.matchingPassword('password', 'confirmPassword') })
   }
   getMentorInfo() {
     this.router.params.subscribe(res => {
@@ -53,9 +64,9 @@ export class MentorDetailComponent implements OnInit {
       })
     })
   }
-  fillDataMentorInfo(){ 
-    if(this.mentorInfo){ 
-      this.mentorInfoForm.setValue({ 
+  fillDataMentorInfo() {
+    if (this.mentorInfo) {
+      this.mentorInfoForm.setValue({
         FirstName: this.mentorInfo.FirstName,
         Email: this.mentorInfo.Email,
         ContactNumber: this.mentorInfo.ContactNumber,
@@ -69,24 +80,47 @@ export class MentorDetailComponent implements OnInit {
       console.log(this.mentorInfo.Status)
     }
   }
-  downGradeMentor(){ 
+  downGradeMentor() {
     this._helper.toggleLoadng(true);
-    this._api.downGradeMentor(this.idMentor).then(res => { 
+    this._api.downGradeMentor(this.idMentor).then((res: any) => {
       this._helper.toggleLoadng(false);
       console.log(res);
-      this._router.navigate(['/coach-management'])
-    },err => {
+      if (res.status == STATUS.error){ 
+        this.toast.addToast({ title: 'Message', msg: res.message, timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
+      } else { 
+        setTimeout(()=>{ 
+          this.toast.addToast({ title: 'Message', msg: res.message, timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
+          this._router.navigate(['/coach-management']);
+        })     
+      }
+    }, err => {
       this._helper.toggleLoadng(false);
     })
   }
-  blockMentor(){ 
+  blockMentor() {
     this._helper.toggleLoadng(true);
-    this._api.blockMentor(this.idMentor).then(res => { 
+    this._api.blockMentor(this.idMentor).then(res => {
       this._helper.toggleLoadng(false);
       console.log(res);
-      
-    }, err => { 
+
+    }, err => {
       this._helper.toggleLoadng(false);
     })
   }
 }
+// export function confirmValidate(control: AbstractControl) {
+//   if (control && control.value !== null) {
+//     const confirmPassword = control.value;
+//     const pass = control.root.get('password');
+//     if (pass) {
+//       const password = pass.value;
+
+//       if (password !== confirmPassword) {
+//         return {
+//           isError: true,
+//         };
+//       }
+//     }
+//   }
+//   return null;
+// }

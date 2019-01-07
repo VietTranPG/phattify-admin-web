@@ -1,9 +1,10 @@
 import { Component, OnInit,ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../../services/api-service/api.service';
-import { FormBuilder, Validators,AbstractControl } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { HelperService } from '../../../services/helper-service/helper.service';
 import { GENDER } from '../../../constants/config';
+import { ValidateExtendService } from '../../../services/validate-service/validate-extend.service';
 @Component({
   selector: 'app-list-mentee',
   templateUrl: './list-mentee.component.html',
@@ -14,6 +15,7 @@ export class ListMenteeComponent implements OnInit {
   modalAddMentee:any;
   addClientForm:any;
   listMentee:any;
+  changePasswordForm:any;
   idMentor:any;
   limit: number = 20;
   status: string = '';
@@ -54,11 +56,11 @@ export class ListMenteeComponent implements OnInit {
       surName: ['', Validators.required],
       gender: ['', Validators.required],
       email: ['', [Validators.required,Validators.email]],
-      confirmEmail: ['', [confirmValidate, Validators.required]],
+      confirmEmail: ['', [Validators.required]],
       dateOfBirth: ['', Validators.required],
       contactNumber: [''],
       note: ['']
-    })
+    },{ validator: ValidateExtendService.matchingEmail('email', 'confirmEmail') })
   }
   onChangePage(event) {
     this.selectAll = false;
@@ -123,20 +125,4 @@ export class ListMenteeComponent implements OnInit {
       console.log(res); 
     })
   }
-}
-export function confirmValidate(control: AbstractControl) {
-  if (control && control.value !== null) {
-    const ConfirmEmail = control.value;
-    const email = control.root.get('Email');
-    if (email) {
-      const Email = email.value;
-
-      if (Email !== ConfirmEmail) {
-        return {
-          isError: true,
-        };
-      }
-    }
-  }
-  return null;
 }

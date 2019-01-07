@@ -28,7 +28,7 @@
             <button type="button" class="btn btn-header" (click)="showAll()">Show All</button>
           </div>
         </div>
-        <button type="button" class="btn btn-danger margin-button">COMPOSE</button>
+        <button type="button" class="btn btn-danger margin-button" (click)="showSendMail = true">COMPOSE</button>
 
         <table class="table table-framed table-wrap-text">
           <tr>
@@ -93,6 +93,6 @@
     </app-card>
   </div>
 </div>
-<div class="email-compose">
-  <email-compose [listMail]="listMail"></email-compose>
+<div class="email-compose" *ngIf="showSendMail">
+  <email-compose [listMail]="listMail" (closeSendMail) = "showSendMail = false"></email-compose>
 </div>

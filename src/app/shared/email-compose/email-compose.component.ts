@@ -1,6 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ApiService } from '../../services/api-service/api.service';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'email-compose',
@@ -15,6 +15,7 @@ export class EmailComposeComponent implements OnInit {
   isMinimize: boolean = false;
   content:any;
   file:any;
+  @Output() closeSendMail: EventEmitter<any> = new EventEmitter();
   @Input() listMail: any;
   public editorConfig = {
     placeholder: 'Put your things hear'
@@ -30,7 +31,7 @@ export class EmailComposeComponent implements OnInit {
   }
   initForm() {
     this.sendMailForm = this.formBuilder.group({
-      email: [''],
+      email: ['',Validators.email],
       emailCc: [''],
       subject: [''],
       editorContent: [],
@@ -96,5 +97,8 @@ export class EmailComposeComponent implements OnInit {
       console.log(req);      
       console.log(res);
     })
+  }
+  closeForm(){
+    this.closeSendMail.emit();
   }
 }

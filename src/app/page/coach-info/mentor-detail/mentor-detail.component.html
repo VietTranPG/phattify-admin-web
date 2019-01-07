@@ -29,7 +29,7 @@
         </div>
       </div>
       <div class="row row-custom">
-        <button class="btn btn-warning btn--form">Change password</button>
+        <button class="btn btn-warning btn--form" (click)="modalChangePassword.show()">Change password</button>
       </div>
       <div class="row">
         <div class="col-sm-6">
@@ -99,3 +99,39 @@
 
   </div>
 </div>
+<!-- modal change password-->
+<app-modal-basic #modalChangePassword>
+  <div class="app-modal-header">
+    <h4 class="modal-title">Change password</h4>
+    <button type="button" class="btn btn-warning btn--form" (click)="modalChangePassword.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="app-modal-body">
+    <div class="container">
+      <form class="form" [formGroup]="changePasswordForm">
+        <div class="row">
+          <div class="col-md-6">
+            <label>New password: </label>
+            <input type="password" formControlName="password">
+            <p class="error-text" *ngIf="changePasswordForm.controls.password?.invalid && changePasswordForm.controls.password?.touched">This
+              field is required.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label>Confirm new password: </label>
+            <input type="password" formControlName="confirmPassword">
+            <p class="error-text" *ngIf="changePasswordForm.controls.confirmPassword?.invalid && changePasswordForm.controls.password?.touched">This
+              Passwords do not match.</p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="app-modal-footer">
+    <button type="button" class="btn btn-default ripple" (click)="modalChangePassword.hide()">Close</button>
+    <button type="button" class="btn btn-danger ripple light" (click)="changePassword()" [disabled]='changePasswordForm.invalid'>Confirm</button>
+  </div>
+</app-modal-basic>
+<toast #toast></toast>
