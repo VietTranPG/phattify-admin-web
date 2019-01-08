@@ -21,6 +21,8 @@ import { ToastyService, ToastyModule } from 'ng2-toasty';
 import { EmailComposeComponent } from './email-compose/email-compose.component';
 import {QuillEditorModule} from 'ngx-quill-editor';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
+
+import { ChipsComponent } from './chips/chips.component';
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
 };
@@ -35,7 +37,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ToastyModule.forRoot(),
     QuillEditorModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+
   ],
   exports: [
     NgbModule,
@@ -71,7 +74,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     DataFilterPipe,
     FormatNumberPipe,
     ToastComponent,
-    EmailComposeComponent
+    EmailComposeComponent,
+    ChipsComponent
   ],
   providers: [
     {

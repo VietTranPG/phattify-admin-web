@@ -1,5 +1,5 @@
 import { DateFormatPipe } from './../../date-format.pipe';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from './../../shared/shared.module';
 import { RouterModule, Routes } from '@angular/router';
@@ -17,8 +17,8 @@ const routes: Routes = [
     SharedModule,
     NgbModule.forRoot(),
     RouterModule.forChild(routes),
-    SelectModule
-    
+    SelectModule,
+    ReactiveFormsModule
   ],
   declarations: [ClientManagementComponent, DateFormatPipe,]
 })

@@ -2,7 +2,6 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ApiService } from '../../services/api-service/api.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ValidateExtendService } from '../../services/validate-service/validate-extend.service';
-
 @Component({
   selector: 'email-compose',
   templateUrl: './email-compose.component.html',
@@ -18,6 +17,7 @@ export class EmailComposeComponent implements OnInit {
   file:any;
   @Output() closeSendMail: EventEmitter<any> = new EventEmitter();
   @Input() listMail: any = [];
+  @Input() displayField: string = 'displayValue';
   public editorConfig = {
     placeholder: 'Put your things hear'
   };
@@ -115,4 +115,19 @@ export class EmailComposeComponent implements OnInit {
   closeForm(){
     this.closeSendMail.emit();
   }
+//   addTag(tagInput: HTMLInputElement): void {
+//     if (tagInput.value.trim() !== ''){
+//         let tag = {
+//             [this.displayField]: tagInput.value
+//         };
+//         this.addPredefinedTag(tag);
+//     }
+//     tagInput.value = '';
+// }
+// addPredefinedTag(tag: Object): void {
+//   if (!this.maximumOfTagsReached()){
+//       this.tags.push(tag);
+//       this.tagsChanged('add', tag);
+//   }
+// }
 }
