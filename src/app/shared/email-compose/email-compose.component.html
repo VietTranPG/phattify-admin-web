@@ -15,22 +15,21 @@
             <div class="mail-body-content">
               <form class="form-material" action="javascript:" [formGroup]="sendMailForm">
                 <div class="form-group form-primary">
-                  <input type="email" name="footer-email" formControlName="email" class="form-control" required="" (keyup)="validateEmailList($event.target.value)">
-                  <!-- <input
-                  class="tags-input__input-field" 
-                  type="email" 
-                  name="tags"
-                  [disabled]="maximumOfTagsReached()"
-                  [hidden]="maximumOfTagsReached()"
-                  (keyup.enter)="addTag(tagInput)" (keydown.backspace)="removeLastTag(tagInput)"
-                  #tagInput /> -->
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <span class="col-chip" *ngFor="let email of listMail;let i = index">
+                          <app-chips [email]="email" (deletemail) = "getEmail($event)"></app-chips>
+                      </span>
+                    </div>
+                  </div>
+                  <input type="email" name="footer-email" (keyup)="sendMailToChip($event)" formControlName="email" class="form-control" required="">
                   <span class="form-bar"></span>
                   <label class="">To</label>
                 </div>
-                <div class="erros-message">
-                  <p class="error-text" *ngIf=" sendMailForm.controls.email?.touched &&  (sendMailForm.controls.email?.errors?.required || !sendMailForm.controls.email?.valid) ">This
+                <!-- <div class="erros-message">
+                  <p class="error-text" *ngIf="!checkmail && listMail.length>0">This
                     field is email.</p>
-                </div>
+                </div> -->
                 <div class="form-group">
                   <div class="row">
                     <div class="col-md-6">
@@ -75,3 +74,4 @@
     </div>
   </div>
 </div>
+<toast #toast></toast>

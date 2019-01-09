@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { ApiService } from '../../services/api-service/api.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ValidateExtendService } from '../../services/validate-service/validate-extend.service';
+import { STATUS } from '../../constants/config';
 @Component({
   selector: 'email-compose',
   templateUrl: './email-compose.component.html',
@@ -11,13 +12,18 @@ export class EmailComposeComponent implements OnInit {
   public editor;
   public editorContent;
   sendMailForm: any;
-  fileName:any;
+  fileName: any;
   isMinimize: boolean = false;
-  content:any;
-  file:any;
+  content: any;
+  file: any;
+  tempEmail: string;
+  checkmail: boolean = false;
   @Output() closeSendMail: EventEmitter<any> = new EventEmitter();
   @Input() listMail: any = [];
   @Input() displayField: string = 'displayValue';
+  @Output() deleteMail: EventEmitter<any> = new EventEmitter();
+  @ViewChild('toast')
+  toast: any;
   public editorConfig = {
     placeholder: 'Put your things hear'
   };
@@ -27,12 +33,11 @@ export class EmailComposeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.listMail);
     this.initForm();
   }
   initForm() {
     this.sendMailForm = this.formBuilder.group({
-      email: [this.listMail,[Validators.email,Validators.required]],
+      email: [''],
       emailCc: [''],
       subject: [''],
       editorContent: [],
@@ -55,7 +60,7 @@ export class EmailComposeComponent implements OnInit {
   onContentChanged({ quill, html, text }) {
     console.log('quill content is changed!', html);
     this.content = html;
-    
+
   }
   minimize() {
 
@@ -74,8 +79,8 @@ export class EmailComposeComponent implements OnInit {
       this.file = myReader.result as any;
       console.log(this.file);
       this.file = this.file.split(',')[1]
-      
-      
+
+
       // let a = this.file.split(',');
       // console.log(a);
     }
@@ -84,7 +89,7 @@ export class EmailComposeComponent implements OnInit {
   sendMail() {
     let req =
     {
-      "email": [this.sendMailForm.value.email],
+      "email": this.listMail.length > 0 ? this.listMail : [],
       "subject": this.sendMailForm.value.subject,
       "content": this.content,
       "attachments": [{
@@ -93,41 +98,61 @@ export class EmailComposeComponent implements OnInit {
         "encoding": "base64"
       }]
     }
-    this._api.sendMail(req).then(res => { 
-      console.log(req);      
-      console.log(res);
-    })
-  }
-  validateEmailList(val){ 
-    // for(let i = 0;i<this.listMail.length;i++){ 
-    //   if(ValidateExtendService.listEmail(this.listMail[i])){ 
-    //     console.log(this.listMail[i]);
-        
-    //   }
-    // }
-    // console.log(val);
-    if(ValidateExtendService.listEmail(val)){ 
-      console.log(111);
-      
+    if (this.tempEmail && this.listMail.indexOf(this.tempEmail) == -1) {
+      req.email.push(this.tempEmail);
     }
-    
+    if (req.email.length > 0 && this.ValidateEmail(this.sendMailForm.value.email)) {
+      this._api.sendMail(req).then((res: any) => {
+        console.log(req);
+        if (res.status == STATUS.success) {
+          
+          this.closeForm("Successfully");
+        }
+      })
+    } else if(req.email.length <=0) {
+      this.toast.addToast({ title: 'Message', msg: 'Please fill in at least one email', timeout: 5000, theme: 'material', position: 'bottom-right', type: 'error' });
+    } else if(!this.ValidateEmail(this.sendMailForm.value.email)){
+      let mess = `The "${this.sendMailForm.value.email}" address cannot be recognized in the "To" field. Make sure all addresses are formatted correctly.`
+      this.toast.addToast({ title: 'Message', msg: mess, timeout: 5000, theme: 'material', position: 'bottom-right', type: 'error' });
+    }
+
   }
-  closeForm(){
-    this.closeSendMail.emit();
+  ValidateEmail(str: string) {
+    const filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    if (!filter.test(str)) {
+      return false;
+    }
+    return true;
   }
-//   addTag(tagInput: HTMLInputElement): void {
-//     if (tagInput.value.trim() !== ''){
-//         let tag = {
-//             [this.displayField]: tagInput.value
-//         };
-//         this.addPredefinedTag(tag);
-//     }
-//     tagInput.value = '';
-// }
-// addPredefinedTag(tag: Object): void {
-//   if (!this.maximumOfTagsReached()){
-//       this.tags.push(tag);
-//       this.tagsChanged('add', tag);
-//   }
-// }
+  sendMailToChip(event) {
+    if (event.keyCode == 32) {
+      if (this.ValidateEmail(event.target.value)) {
+        this.tempEmail = event.target.value;
+        this.listMail.push(this.tempEmail);
+        this.sendMailForm.patchValue({
+          email: ''
+        })
+        // this.checkmail = true;
+      } else {
+        //       this.checkmail = false;
+      }
+    }
+    if (this.ValidateEmail(event.target.value)) {
+      this.tempEmail = event.target.value;
+      // this.checkmail = true;
+    }
+  }
+  closeForm(mess?:string) {
+    this.listMail = [];
+    this.closeSendMail.emit(mess);
+  }
+  getEmail(val) {
+    for (let i = 0; i < this.listMail.length; i++) {
+      if (this.listMail[i] === val) {
+        this.listMail.splice(i, 1);
+      }
+    }
+    this.deleteMail.emit(val);
+    console.log(this.listMail);
+  }
 }

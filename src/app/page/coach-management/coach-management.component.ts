@@ -1,4 +1,4 @@
-import { Component, OnInit,Input } from '@angular/core';
+import { Component, OnInit,Input, ViewChild } from '@angular/core';
 import { ApiService } from '../../services/api-service/api.service';
 import { HelperService } from '../../services/helper-service/helper.service';
 import { STATUS } from '../../constants/config';
@@ -24,6 +24,8 @@ export class CoachManagementComponent implements OnInit {
   listMentee: any = [];
   loadingSelect: boolean = false;
   showSendMail:boolean = false;
+  @ViewChild('toast')
+  toast: any;
   constructor(
     private _api: ApiService, 
     private _helper: HelperService,
@@ -129,5 +131,24 @@ export class CoachManagementComponent implements OnInit {
   }
   goToCoachInfo(id){
     this.router.navigate(['mentor-info',id]);
+  }
+  closeSendForm(val?){
+    this.showSendMail = false;
+    if(val === "Successfully"){
+      this.toast.addToast({ title: 'Message', msg: val, timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
+      this.listMail = [];
+      for(let i = 0; i<this.listMentor.length;i++){
+        this.listMentor[i].checked = false;
+      }
+      this.selectAll = false;
+    }
+  }
+  deleteMail(val){
+    this.listMail.splice(this.listMail.indexOf(val),0);
+    for(let i = 0;i<this.listMentor.length;i++){
+      if(this.listMentor[i].Email == val){
+        this.listMentor[i].checked = false;
+      }
+    }
   }
 }

@@ -94,5 +94,6 @@
   </div>
 </div>
 <div class="email-compose" *ngIf="showSendMail">
-  <email-compose [listMail]="listMail" (closeSendMail) = "showSendMail = false"></email-compose>
+  <email-compose [listMail]="listMail" (closeSendMail) = "closeSendForm($event)" (deleteMail) = "deleteMail($event)"></email-compose>
 </div>
+<toast #toast></toast>
