@@ -113,7 +113,8 @@ export class EmailComposeComponent implements OnInit {
       this.toast.addToast({ title: 'Message', msg: 'Please fill in at least one email', timeout: 5000, theme: 'material', position: 'bottom-right', type: 'error' });
     } else if(!this.ValidateEmail(this.sendMailForm.value.email)){
       let mess = `The "${this.sendMailForm.value.email}" address cannot be recognized in the "To" field. Make sure all addresses are formatted correctly.`
-      this.toast.addToast({ title: 'Message', msg: mess, timeout: 5000, theme: 'material', position: 'bottom-right', type: 'error' });
+      // this.toast.addToast({ title: 'Message', msg: mess, timeout: 5000, theme: 'material', position: 'bottom-right', type: 'error' });
+      alert(mess)
     }
 
   }

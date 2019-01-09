@@ -73,10 +73,16 @@ export class ClientManagementComponent implements OnInit {
       gender: ['', Validators.required],
       email: ['', [Validators.required,Validators.email]],
       confirmEmail: ['', [Validators.required]],
+      password: ['',Validators.required],
+      confirmPassword: ['',Validators.required],
       dateOfBirth: ['', Validators.required],
       contactNumber: [''],
       note: ['']
-    },{ validator: ValidateExtendService.matchingEmail('email', 'confirmEmail') })
+    },{ validator: 
+      [
+        ValidateExtendService.matchingEmail('email', 'confirmEmail'),
+        ValidateExtendService.matchingPassword('password','confirmPassword')
+    ] })
   }
   onChangePage(event) {
     this.selectAll = false;
@@ -192,16 +198,15 @@ export class ClientManagementComponent implements OnInit {
   }
   addNewMentee(){ 
     let data = this.addClientForm.value;
-    data['userID'] = "e7864830-39a9-4c7b-87cd-787c6132019c";
-    this._api.addNewMentee(data).then((res:any) => {
+    this._api.adminAddClient(data).then((res:any) => {
       console.log(data);
-      
       if(res.status == 'error'){ 
         this.toast.addToast({ title: 'Message', msg: res.message, timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
       } else { 
         this.toast.addToast({ title: 'Message', msg: "Successfully", timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
         this.addClientForm.reset();
         this.modalAddMentee.hide();
+        this.getListClient();
       } 
     })
   }

@@ -175,4 +175,14 @@ export class ApiService {
       })
     })  
   }
+  adminAddClient(req){ 
+    let url = SERVER_URL+'admin-addclient';
+    return new Promise((resolve, reject) => {
+      this.http.post(url, req).subscribe(res => {
+        resolve(res);
+      }, err => {
+        reject(err);
+      })
+    })  
+  }
 }

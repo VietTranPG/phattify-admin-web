@@ -205,6 +205,26 @@
                 </p>
               </tr>
               <tr>
+                <td><label>Password:</label></td>
+                <td><input type="password" class="form-control" formControlName="password"></td>
+              </tr>
+              <tr>
+                <p class="error-text" *ngIf="addClientForm.controls.password.touched && !addClientForm.controls.password.valid">This
+                  field is required.</p>
+              </tr>
+              <tr>
+                <td><label>Confirm password:</label></td>
+                <td><input type="password" class="form-control" formControlName="confirmPassword"></td>
+              </tr>
+              <tr>
+                <p *ngIf="addClientForm.controls.confirmPassword.touched && !addClientForm.controls.confirmPassword.valid" class="error-text">
+                  {{ 'Confirm password is required' }}
+                </p>
+                <p *ngIf ="addClientForm.controls.confirmPassword.touched && addClientForm.errors?.mismatchedPassWord" class="error-text">
+                  {{ "Password doesn't match" }}
+                </p>
+              </tr>             
+              <tr>
                 <td><label>Date of Birth:</label></td>
                 <td><input type="date" class="form-control" placeholder="2/2/1998" formControlName="dateOfBirth"></td>
               </tr>
