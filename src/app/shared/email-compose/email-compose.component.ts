@@ -101,7 +101,7 @@ export class EmailComposeComponent implements OnInit {
     if (this.tempEmail && this.listMail.indexOf(this.tempEmail) == -1) {
       req.email.push(this.tempEmail);
     }
-    if (req.email.length > 0 && this.ValidateEmail(this.sendMailForm.value.email)) {
+    if ((req.email.length > 0 && this.ValidateEmail(this.sendMailForm.value.email)) ||(req.email.length >0 && this.sendMailForm.value.email ==="")) {
       this._api.sendMail(req).then((res: any) => {
         console.log(req);
         if (res.status == STATUS.success) {
@@ -133,14 +133,14 @@ export class EmailComposeComponent implements OnInit {
         this.sendMailForm.patchValue({
           email: ''
         })
-        // this.checkmail = true;
+        this.checkmail = true;
       } else {
-        //       this.checkmail = false;
+              this.checkmail = false;
       }
     }
     if (this.ValidateEmail(event.target.value)) {
       this.tempEmail = event.target.value;
-      // this.checkmail = true;
+      this.checkmail = true;
     }
   }
   closeForm(mess?:string) {
