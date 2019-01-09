@@ -1,0 +1,77 @@
+<div class="page-body">
+  <div class="card card-email-compose" [class.card-email-hide]="isMinimize">
+    <!-- Email-card start -->
+    <div class="card-block email-card">
+      <div class="row row--email-header">
+        <span class="email-title" (click)="isMinimize = false">New message</span>
+        <span class="email-action">
+          <i class="fa fa-minus" (click)="closeForm()"></i>
+          <i class="fa fa-close"></i>
+        </span>
+      </div>
+      <div class="row row--email-body">
+        <div class="col-lg-12">
+          <div class="mail-body">
+            <div class="mail-body-content">
+              <form class="form-material" action="javascript:" [formGroup]="sendMailForm">
+                <div class="form-group form-primary">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <span class="col-chip" *ngFor="let email of listMail;let i = index">
+                          <app-chips [email]="email" (deletemail) = "getEmail($event)"></app-chips>
+                      </span>
+                    </div>
+                  </div>
+                  <input type="email" name="footer-email" (keyup)="sendMailToChip($event)" formControlName="email" class="form-control" required="">
+                  <span class="form-bar"></span>
+                  <label class="">To</label>
+                </div>
+                <!-- <div class="erros-message">
+                  <p class="error-text" *ngIf="!checkmail && listMail.length>0">This
+                    field is email.</p>
+                </div> -->
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group form-primary">
+                        <input type="email" name="footer-email" formControlName="emailCc" class="form-control" required="">
+                        <span class="form-bar"></span>
+                        <label class="">Cc</label>
+                      </div>
+                    </div>
+                    <!-- <div class="col-md-6">
+                      <div class="form-group form-primary">
+                        <input type="email" name="footer-email" class="form-control" required="">
+                        <span class="form-bar"></span>
+                        <label class="">Bcc</label>
+                      </div>
+                    </div> -->
+                  </div>
+                </div>
+                <div class="form-group form-primary">
+                  <input type="text" name="footer-email" formControlName="subject" class="form-control" required="">
+                  <span class="form-bar"></span>
+                  <label class="float-label">Subject</label>
+                </div>
+                {{editorContent}}
+                <quill-editor
+                  formControlName="editorContent"
+                  [options]="editorConfig"
+                  (blur)="onEditorBlured($event)"
+                  (focus)="onEditorFocused($event)"
+                  (ready)="onEditorCreated($event)"
+                  (change)="onContentChanged($event)">
+                </quill-editor>
+                <input type="file" formControlName="file" (change)="changeListener($event)">
+                <button type="button" class="btn btn-danger ripple light" (click)="sendMail()" >Send</button>
+                <button type="button" class="btn btn-danger ripple light" (click)="closeForm()">Close</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- Right-side section end -->
+      </div>
+    </div>
+  </div>
+</div>
+<toast #toast></toast>

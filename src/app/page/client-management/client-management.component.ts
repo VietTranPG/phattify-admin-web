@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from '../../services/api-service/api.service';
 import { HelperService } from '../../services/helper-service/helper.service';
-import { STATUS } from '../../constants/config';
+import { STATUS, GENDER } from '../../constants/config';
 import { Router } from '@angular/router';
+import { FormBuilder, Validators } from '@angular/forms';
+import { ValidateExtendService } from '../../services/validate-service/validate-extend.service';
 @Component({
   selector: 'app-client-management',
   templateUrl: './client-management.component.html',
@@ -32,15 +34,30 @@ export class ClientManagementComponent implements OnInit {
   modalDelete: any;
   @ViewChild('toast')
   toast: any;
+  @ViewChild('modalAddMentee')
+  modalAddMentee:any;
+  addClientForm:any;
+  listGender: any = [
+    {
+      name: 'Male',
+      value: GENDER.Male
+    },
+    {
+      name: 'Female',
+      value: GENDER.Female
+    }
+  ]
   constructor(
     private _api: ApiService,
     private _helper: HelperService,
-    private router: Router
+    private router: Router,
+    private formBuilder: FormBuilder,
   ) { }
 
   ngOnInit() {
     this.getListClient();
     this.getListMentor();
+    this.InitFormAddClient();
     // this.listMentor = [
     //   { value: '0', label: 'Alabama' },
     //   { value: '1', label: 'Wyoming' },
@@ -49,7 +66,18 @@ export class ClientManagementComponent implements OnInit {
     //   { value: '4', label: 'John Doe' }
     // ];
   }
-
+  InitFormAddClient(){ 
+    this.addClientForm = this.formBuilder.group({ 
+      firstName: ['', Validators.required],
+      surName: ['', Validators.required],
+      gender: ['', Validators.required],
+      email: ['', [Validators.required,Validators.email]],
+      confirmEmail: ['', [Validators.required]],
+      dateOfBirth: ['', Validators.required],
+      contactNumber: [''],
+      note: ['']
+    },{ validator: ValidateExtendService.matchingEmail('email', 'confirmEmail') })
+  }
   onChangePage(event) {
     this.selectAll = false;
     this.getListClient();
@@ -71,6 +99,8 @@ export class ClientManagementComponent implements OnInit {
     this._api.management(data).then(res => {
       this.listClient = res['data']['clients']
       this.totalItem = res['data']['totalItem'];
+      console.log(res);
+      
     }).catch(err => {
       console.log(err);
     })
@@ -154,10 +184,25 @@ export class ClientManagementComponent implements OnInit {
         if(this.listClient[i].checked === true)
         count++;
       }
-      this.selectAll = count === this.limit ? true : false;
+      this.selectAll = (count === this.listClient.length || count === this.limit)  ? true : false;
     }
   }
   goToClientInfo(id) {
     this.router.navigate(['client-info',id]);
+  }
+  addNewMentee(){ 
+    let data = this.addClientForm.value;
+    data['userID'] = "e7864830-39a9-4c7b-87cd-787c6132019c";
+    this._api.addNewMentee(data).then((res:any) => {
+      console.log(data);
+      
+      if(res.status == 'error'){ 
+        this.toast.addToast({ title: 'Message', msg: res.message, timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
+      } else { 
+        this.toast.addToast({ title: 'Message', msg: "Successfully", timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
+        this.addClientForm.reset();
+        this.modalAddMentee.hide();
+      } 
+    })
   }
 }

@@ -1,0 +1,22 @@
+.card--client-list {
+  padding: 15px;
+  .col-right{
+    margin-bottom: 10px;
+    text-align: right;
+  }
+  .btn {
+    height: calc(2.25rem + 2px);
+    padding: 0.375rem 0.75rem;
+  }
+  table {
+    th, td {
+      text-align: center;
+    }
+  }
+}
+.error-text { 
+  color: red;
+}
+.app-modal-footer{
+
+}

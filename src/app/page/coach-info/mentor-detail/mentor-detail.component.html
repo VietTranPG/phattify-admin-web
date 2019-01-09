@@ -1,0 +1,137 @@
+<div class="card-mentor-detail">
+  <div class="col-sm-8">
+    <form class="form" [formGroup]="mentorInfoForm">
+      <div class="row">
+        <div class="col-sm-12">
+          <label>Name</label>
+          <div class="row">
+            <div class="col-sm-6">
+              <input class="form-control" formControlName="FirstName" placeholder="First name" />
+            </div>
+            <div class="col-sm-6">
+              <input class="form-control" formControlName="SurName" placeholder="Last name" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <label>Email</label>
+          <div class="col-xs-12">
+            <input class="form-control" formControlName="Email" />
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <label>Contact Number</label>
+          <div class="col-xs-12">
+            <input class="form-control" formControlName="ContactNumber" />
+          </div>
+        </div>
+      </div>
+      <div class="row row-custom">
+        <button class="btn btn-warning btn--form" (click)="modalChangePassword.show()">Change password</button>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <label>Gender</label>
+          <div class="col-xs-12">
+            <select class="form-control" formControlName="Gender">
+              <option [ngValue]="false">Male</option>
+              <option [ngValue]="true">Female</option>
+              <option [ngValue]="null">Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <label>Date of Birth</label>
+          <div class="col-xs-12">
+            <input class="form-control" formControlName="DateOfBirth" />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <label>Country</label>
+          <div class="col-xs-12">
+            <input class="form-control" formControlName="CountryName" />
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <label>City/Town</label>
+          <div class="col-xs-12">
+            <input class="form-control" formControlName="City" />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+            <label>Health List</label>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-control--custom">
+                      <ul class="list-group list-group-flush" *ngFor="let healthList of healthList; let i = index">
+                        <li class="list-group-item disabled">{{healthList.Name}}</li>
+                      </ul>
+                    </div>             
+                  </div>
+            </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <label>Status</label>
+          <div class="row">
+            <div class="col-sm-9">
+                <input class="form-control" formControlName="Status" />
+            </div>
+            <div class="col-sm-3">
+              <button class="btn btn-secondary btn--form">Resend</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="row row-custom row--flex-end">
+        <button type="button" class="btn btn-default ripple" (click)="blockMentor()">Block</button>
+        <button type="button" class="btn btn-danger ripple light" (click)="downGradeMentor()">Downgrade mentor</button>
+      </div>
+    </form>
+
+  </div>
+</div>
+<!-- modal change password-->
+<app-modal-basic #modalChangePassword>
+  <div class="app-modal-header">
+    <h4 class="modal-title">Change password</h4>
+    <button type="button" class="close basic-close" (click)="modalChangePassword.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="app-modal-body">
+    <div class="container">
+      <form class="form" [formGroup]="changePasswordForm">
+        <div class="row">
+          <div class="col-md-6">
+            <label>New password: </label>
+            <input type="password" formControlName="password">
+            <p class="error-text" *ngIf="changePasswordForm.controls.password?.invalid && changePasswordForm.controls.password?.touched">This
+              field is required.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label>Confirm new password: </label>
+            <input type="password" formControlName="confirmPassword">
+            <p class="error-text" *ngIf="changePasswordForm.controls.confirmPassword?.invalid && changePasswordForm.controls.password?.touched">This
+              Passwords do not match.</p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="app-modal-footer">
+    <button type="button" class="btn btn-default ripple" (click)="modalChangePassword.hide()">Close</button>
+    <button type="button" class="btn btn-danger ripple light" (click)="changePassword()" [disabled]='changePasswordForm.invalid'>Confirm</button>
+  </div>
+</app-modal-basic>
+<toast #toast></toast>

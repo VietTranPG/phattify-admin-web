@@ -5,6 +5,7 @@ import { FormBuilder, Validators, FormGroup, AbstractControl } from '@angular/fo
 import { HelperService } from '../../services/helper-service/helper.service';
 import * as moment from 'moment';
 import { STATUS } from '../../constants/config';
+import { ValidateExtendService } from '../../services/validate-service/validate-extend.service';
 @Component({
   selector: 'app-client-info',
   templateUrl: './client-info.component.html',
@@ -75,8 +76,8 @@ export class ClientInfoComponent implements OnInit {
     })
     this.changePasswordForm = this.formBuilder.group({
       password: ['', Validators.required],
-      confirmPassword: ['', [confirmValidate, Validators.required]]
-    })
+      confirmPassword: ['', [Validators.required]]
+    },{Validators : ValidateExtendService.matchingPassword('password','confirmPassword')})
   }
   fillDataClientInfo() {
     if (this.clientInfo) {
@@ -122,8 +123,8 @@ export class ClientInfoComponent implements OnInit {
   showModalChangePassword() {
     this.changePasswordForm = this.formBuilder.group({
       password: ['', Validators.required],
-      confirmPassword: ['', [confirmValidate, Validators.required]]
-    })
+      confirmPassword: ['', [Validators.required]]
+    },{Validators : ValidateExtendService.matchingPassword('password','confirmPassword')})
     this.modalChangePassword.show();
   }
   changePassword() {
@@ -135,8 +136,10 @@ export class ClientInfoComponent implements OnInit {
     this._api.changePassword(data, this.idClient).then(res => {
       this._helper.toggleLoadng(false);
       if (res['status'] === STATUS.error) {
+        this.changePasswordForm.reset();
         this.toast.addToast({ title: 'Message', msg: 'Can not change password', timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
       } else {
+        this.changePasswordForm.reset();
         this.toast.addToast({ title: 'Message', msg: 'Change password success', timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
       }
     }).catch(err => {
@@ -231,19 +234,19 @@ export class ClientInfoComponent implements OnInit {
   }
 }
 
-export function confirmValidate(control: AbstractControl) {
-  if (control && control.value !== null) {
-    const confirmPassword = control.value;
-    const pass = control.root.get('password');
-    if (pass) {
-      const password = pass.value;
+// export function confirmValidate(control: AbstractControl) {
+//   if (control && control.value !== null) {
+//     const confirmPassword = control.value;
+//     const pass = control.root.get('password');
+//     if (pass) {
+//       const password = pass.value;
 
-      if (password !== confirmPassword) {
-        return {
-          isError: true,
-        };
-      }
-    }
-  }
-  return null;
-}
+//       if (password !== confirmPassword) {
+//         return {
+//           isError: true,
+//         };
+//       }
+//     }
+//   }
+//   return null;
+// }

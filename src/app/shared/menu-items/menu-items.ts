@@ -47,6 +47,13 @@ const MENUITEMS = [
         name: 'Client Managerment',
         type: 'link',
         icon: 'feather icon-menu'
+      },
+      {
+        state: 'coach-management',
+        short_label: 'C',
+        name: 'coach Managerment',
+        type: 'link',
+        icon: 'feather icon-menu'
       }
     ],
   }

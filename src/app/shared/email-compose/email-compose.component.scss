@@ -1,0 +1,41 @@
+.card-email-compose {
+    margin-bottom: 1px;
+    padding: 0 15px;
+    box-shadow: 0 4px 10px 4px rgba(000, 000, 000, 0.3);
+    &.card-email-hide {
+        .card-block.email-card {
+            width: 200px;
+        }
+        .row--email-body {
+            height: 0;
+        }
+    }
+    .card-block.email-card {
+        padding: 0;
+    }
+    .row--email-header {
+        padding: 8px;
+        justify-content: space-between;
+        background: #111111;
+        color: #FFFFFF;
+        border-radius: 4px 4px 0 0;
+        i {
+            margin: 0 3px;
+            font-size: 16px;
+            font-weight: 100;
+        }
+    }
+    .form-material {
+        .form-group {
+            margin-bottom: 10px;
+        }
+    }
+    .error-text{
+        color: red;
+    }
+}
+
+.col-chip {
+    display: inline-block;
+}
+

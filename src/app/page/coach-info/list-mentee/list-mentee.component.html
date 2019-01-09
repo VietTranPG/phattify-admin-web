@@ -1,0 +1,144 @@
+<div class="card--client-list">
+  <div class="row">
+    <div class="col col-right">
+      <button class="btn btn-warning" (click)="modalAddMentee.show()">Add</button>
+    </div>
+  </div>
+  <div class="table-client-list">
+    <table class="table table-framed table-wrap-text">
+      <thead>
+        <tr>
+          <th><input type="checkbox" [(ngModel)]="selectAll" (change)="changeAll(selectAll)" /></th>
+          <th>#</th>
+          <th (click)="sortTable('FirstName')">
+            <i *ngIf="this.typeOrderBoolean==false && this.selectSort=='FirstName'" class="icofont icofont-caret-up"></i>
+            <i *ngIf="this.typeOrderBoolean && this.selectSort=='FirstName'" class="icofont icofont-caret-down"></i>
+            First Name</th>
+          <th (click)="sortTable('SurName')">
+            <i *ngIf="this.typeOrderBoolean==false && this.selectSort=='SurName'" class="icofont icofont-caret-up"></i>
+            <i *ngIf="this.typeOrderBoolean && this.selectSort=='SurName'" class="icofont icofont-caret-down"></i>
+            Last Name</th>
+          <th (click)="sortTable('Email')">
+            <i *ngIf="this.typeOrderBoolean==false && this.selectSort=='Email'" class="icofont icofont-caret-up"></i>
+            <i *ngIf="this.typeOrderBoolean && this.selectSort=='Email'" class="icofont icofont-caret-down"></i>
+            Email</th>
+          <th>Status</th>
+          <th>Invited Code</th>
+          <th>Date Joined</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let listMentee of listMentee;let i = index">
+          <td><input type="checkbox" [(ngModel)]="listMentee.checked" (change)="changeOne()" /></td>
+          <td>{{i+1}}</td>
+          <td>{{listMentee.FirstName}}</td>
+          <td>{{listMentee.SurName}}</td>
+          <td>{{listMentee.Email}}</td>
+          <td>{{listMentee.Status}}</td>
+          <td>{{listMentee.VerifyCode}}</td>
+          <td>{{listMentee.createdAt | date: 'dd/MM/yyyy'}}</td>
+          <td>
+            <button class="btn btn-danger btn-custom"> <i class="icofont icofont-bin"></i></button>
+            <button class="btn btn-warning btn-custom"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <ngb-pagination class="d-flex justify-content-center" [collectionSize]="totalItem" [pageSize]="limit" [(page)]="page"
+    [maxSize]="5" [boundaryLinks]="true" (pageChange)="onChangePage($event)"></ngb-pagination>
+</div>
+<!-- modal add mentee-->
+<app-modal-basic #modalAddMentee>
+  <div class="app-modal-header">
+    <h4 class="modal-title">Add client</h4>
+    <button type="button" class="close basic-close" (click)="modalAddMentee.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="app-modal-body">
+    <div class="container">
+      <form class="form" [formGroup]="addClientForm">
+        <div class="row">
+          <div class="col-xs-12">
+            <table>
+              <tr>
+                <td><label>First name:</label></td>
+                <td><input type="text" class="form-control" placeholder="First name" formControlName="firstName"></td>
+                <td></td>
+              </tr>
+              <tr>
+                <p class="error-text" *ngIf="addClientForm.controls.firstName.touched && !addClientForm.controls.firstName.valid">This
+                  field is required.</p>
+              </tr>
+              <tr>
+                <td><label>Surname:</label></td>
+                <td><input type="text" class="form-control" placeholder="Sur name" formControlName="surName"></td>
+              </tr>
+              <tr>
+                <p class="error-text" *ngIf="addClientForm.controls.surName.touched && !addClientForm.controls.surName.valid">This
+                  field is required.</p>
+              </tr>
+              <tr>
+                <td><label>Gender:</label></td>
+                <td>
+                  <select class="custom-select" formControlName="gender" >
+                    <option value="">Other</option>
+                    <option *ngFor="let listGender of listGender" [value]="listGender.value">{{listGender.name}}</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td><label>Email:</label></td>
+                <td><input type="email" class="form-control" placeholder="abc@gmail.com" formControlName="email"></td>
+              </tr>
+              <tr>
+                <p *ngIf="addClientForm.controls.email.touched && !addClientForm.controls.email.valid" class="error-text">
+                  Email is required
+                </p>
+                <p class="error-text" *ngIf="addClientForm.hasError('email', 'email') && addClientForm.get('email').touched">
+                  Email is invalid.
+                </p>
+              </tr>
+              <tr>
+                <td><label>Confirm email:</label></td>
+                <td><input type="email" class="form-control" placeholder="abc@gmail.com" formControlName="confirmEmail"></td>
+              </tr>
+              <tr>
+                <p *ngIf="addClientForm.controls.confirmEmail.touched && !addClientForm.controls.confirmEmail.valid" class="error-text">
+                  {{ 'Confirm email is required' }}
+                </p>
+                <p *ngIf ="addClientForm.controls.confirmEmail.touched && addClientForm.errors?.mismatchedEmail" class="error-text">
+                  {{ "Email doesn't match" }}
+                </p>
+              </tr>
+              <tr>
+                <td><label>Date of Birth:</label></td>
+                <td><input type="date" class="form-control" placeholder="2/2/1998" formControlName="dateOfBirth"></td>
+              </tr>
+              <tr>
+                <p class="error-text" *ngIf="addClientForm.controls.dateOfBirth?.invalid && addClientForm.controls.dateOfBirth?.touched">This
+                    field is required.</p>
+                </tr>
+              <tr>
+                <td><label>Contact number:</label></td>
+                <td><input type="number" class="form-control" placeholder="123456789" formControlName="contactNumber"></td>
+              </tr>
+              <tr>
+                <td><label>Notes:</label></td>
+                <td><input type="text" class="form-control" placeholder="abc" formControlName="note"></td>
+              </tr>
+            </table>
+          </div>
+          <div class="app-modal-footer">
+            <button type="button" class="btn btn-default ripple" (click)="modalAddMentee.hide()">Close</button>
+            <button type="button" class="btn btn-danger ripple light" (click)="addNewMentee()">Confirm</button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</app-modal-basic>
+<toast #toast></toast>

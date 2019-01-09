@@ -1,14 +1,13 @@
-import { DateFormatPipe } from './../../date-format.pipe';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from './../../shared/shared.module';
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ClientManagementComponent } from './client-management.component';
+import { CoachManagementComponent } from './coach-management.component';
 import { SelectModule } from 'ng-select';
 const routes: Routes = [
-  { path: '', component: ClientManagementComponent }
+  { path: '', component: CoachManagementComponent }
 ]
 @NgModule({
   imports: [
@@ -17,9 +16,8 @@ const routes: Routes = [
     SharedModule,
     NgbModule.forRoot(),
     RouterModule.forChild(routes),
-    SelectModule,
-    ReactiveFormsModule
+    SelectModule
   ],
-  declarations: [ClientManagementComponent, DateFormatPipe,]
+  declarations: [CoachManagementComponent]
 })
-export class ClientManagementModule { }
+export class CoachManagementModule { }
