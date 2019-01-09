@@ -1,8 +1,8 @@
-<div class="row">
+<!-- <div class="row">
   <div class="col col-right">
-    <button class="btn btn-warning" (click)="modalAddMentee.show()">Add</button>
+   
   </div>
-</div>
+</div> -->
 <div class="row">
   <div class="col-sm-12">
     <app-card [classHeader]="true" [blockClass]="'table-border-style'" [cardOptionBlock]="true">
@@ -37,8 +37,8 @@
             <button type="button" class="btn btn-header" (click)="showAll()">Show All</button>
           </div>
         </div>
-        <button type="button" class="btn btn-danger margin-button">COMPOSE</button>
-
+        <button type="button" class="btn btn-danger margin-button" (click)="showSendMail = true">COMPOSE</button> 
+          <button class="btn btn-warning col-right" (click)="modalAddMentee.show()">Add</button>
         <table class="table table-framed table-wrap-text">
           <thead>
             <tr>
@@ -121,7 +121,9 @@
     </app-card>
   </div>
 </div>
-
+<div class="email-compose" *ngIf="showSendMail">
+  <email-compose [listMail]="listMail" (closeSendMail) = "closeSendForm($event)" (deleteMail) = "deleteMail($event)"></email-compose>
+</div>
 <!-- modal static-->
 <!-- <button type="button" class="btn btn-default ripple" (click)="modalDefault.show()">Static</button> -->
 <app-modal-basic #modalDelete>

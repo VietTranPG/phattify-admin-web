@@ -37,16 +37,16 @@
             </th>
             <th rowspan="2">#</th>
             <th rowspan="2" (click)="sortTable('FirstName')">
-              <i *ngIf="this.typeOrderBoolean==false && this.selectSort=='FirstName'" class="icofont icofont-caret-up"></i>
-              <i *ngIf="this.typeOrderBoolean && this.selectSort=='FirstName'" class="icofont icofont-caret-down"></i>
+              <i *ngIf="this.typeOrderBoolean && this.selectSort=='FirstName'" class="icofont icofont-caret-up"></i>
+              <i *ngIf="!this.typeOrderBoolean && this.selectSort=='FirstName'" class="icofont icofont-caret-down"></i>
               First Name</th>
             <th rowspan="2" (click)="sortTable('SurName')">
-              <i *ngIf="this.typeOrderBoolean==false && this.selectSort=='SurName'" class="icofont icofont-caret-up"></i>
-              <i *ngIf="this.typeOrderBoolean && this.selectSort=='SurName'" class="icofont icofont-caret-down"></i>
+              <i *ngIf="this.typeOrderBoolean && this.selectSort=='SurName'" class="icofont icofont-caret-up"></i>
+              <i *ngIf="!this.typeOrderBoolean && this.selectSort=='SurName'" class="icofont icofont-caret-down"></i>
               Last Name</th>
             <th rowspan="2" (click)="sortTable('Email')">
-              <i *ngIf="this.typeOrderBoolean==false && this.selectSort=='Email'" class="icofont icofont-caret-up"></i>
-              <i *ngIf="this.typeOrderBoolean && this.selectSort=='Email'" class="icofont icofont-caret-down"></i>
+              <i *ngIf="this.typeOrderBoolean && this.selectSort=='Email'" class="icofont icofont-caret-up"></i>
+              <i *ngIf="!this.typeOrderBoolean && this.selectSort=='Email'" class="icofont icofont-caret-down"></i>
               Email</th>
             <th rowspan="2">Contact Number</th>
             <th rowspan="2">Status</th>
@@ -82,7 +82,7 @@
               <td>{{item.createdAt | date: 'dd/MM/yyyy'}}</td>
               <td>{{item.RefCode}}</td>
               <td>
-                <button class="btn-custom btn-orange" (click)="$event.stopPropagation()" ><i class="fa fa-paper-plane"></i></button>
+                <button class="btn-custom btn-orange" (click)="$event.stopPropagation();sendOneEmail(item.Email)"><i class="fa fa-paper-plane"></i></button>
               </td>
             </tr>
           </tbody>

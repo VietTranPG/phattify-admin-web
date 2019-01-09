@@ -12,7 +12,7 @@ export class CoachManagementComponent implements OnInit {
   listMail = [];
   page = 1;
   searchInput: any = '';
-  typeOrder = '';
+  typeOrder = 'desc';
   typeOrderBoolean: boolean;
   limit: number = 20;
   mentee: any = '';
@@ -50,7 +50,7 @@ export class CoachManagementComponent implements OnInit {
   }
   sortTable(data) {
     this.selectSort = data;
-    if (this.typeOrderBoolean == false || '') {
+    if (this.typeOrderBoolean == false || '' || this.typeOrder == 'asc') {
       this.typeOrder = "desc";
       this.typeOrderBoolean = true;
     }
@@ -58,8 +58,6 @@ export class CoachManagementComponent implements OnInit {
       this.typeOrder = "asc";
       this.typeOrderBoolean = false;
     }
-    console.log(this.selectSort, this.typeOrderBoolean, this.typeOrder);
-
     this.getListMentor()
   }
   onChangePage(event) {
@@ -76,18 +74,14 @@ export class CoachManagementComponent implements OnInit {
       orderby: this.selectSort,
       checked: false
     };
-    console.log(data);
     this._api.getAllMentor(data).then(res => {
       this.listMentor = res['data']['mentors'];
       this.totalItem = res['data']['totalItem'];
-      console.log(this.listMentor);
-
     }, err => {
       console.log(err);
     })
   }
   changeAll(value) {
-    console.log(value);
     this.listMail = [];
     if (this.listMentor) {
       if (value !== undefined) {
@@ -122,7 +116,6 @@ export class CoachManagementComponent implements OnInit {
   searchMentee(q) {
     this.loadingSelect = true;
     this._api.searchMentee(q).subscribe(res => {
-      console.log(res);
       this.loadingSelect = false;
       this.listMentee = res['data'];
     }, err => {
@@ -136,12 +129,12 @@ export class CoachManagementComponent implements OnInit {
     this.showSendMail = false;
     if(val === "Successfully"){
       this.toast.addToast({ title: 'Message', msg: val, timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
-      this.listMail = [];
-      for(let i = 0; i<this.listMentor.length;i++){
-        this.listMentor[i].checked = false;
-      }
-      this.selectAll = false;
     }
+    this.listMail = [];
+    for(let i = 0; i<this.listMentor.length;i++){
+      this.listMentor[i].checked = false;
+    }
+    this.selectAll = false;
   }
   deleteMail(val){
     this.listMail.splice(this.listMail.indexOf(val),0);
@@ -150,5 +143,11 @@ export class CoachManagementComponent implements OnInit {
         this.listMentor[i].checked = false;
       }
     }
+  }
+  sendOneEmail(email){ 
+    this.listMentor.find(x => x.Email === email).checked = true;
+    this.listMail = [];
+    this.showSendMail = true;
+    this.listMail.push(email);
   }
 }

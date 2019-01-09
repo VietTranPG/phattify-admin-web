@@ -37,6 +37,8 @@ export class ClientManagementComponent implements OnInit {
   @ViewChild('modalAddMentee')
   modalAddMentee:any;
   addClientForm:any;
+  showSendMail:boolean = false;
+  listMail = [];
   listGender: any = [
     {
       name: 'Male',
@@ -174,23 +176,43 @@ export class ClientManagementComponent implements OnInit {
   }
 
   changeAll(value) {
+    this.listMail = [];
     if (this.listClient) {
       if (value !== undefined) {
         for (let index = 0; index < this.listClient.length; index++) {
           this.listClient[index].checked = value;
+          if(this.listClient[index].checked == true){
+            this.listMail.push(this.listClient[index].Email)
+          }
         }
       }
     }
   }
 
   changeOne() {
+    // let count = 0;
+    // if (this.listClient) {
+    //   for(let i = 0; i < this.listClient.length;i++){ 
+    //     if(this.listClient[i].checked === true)
+    //     count++;
+    //   }
+    //   this.selectAll = (count === this.listClient.length || count === this.limit)  ? true : false;
+    // }
     let count = 0;
     if (this.listClient) {
-      for(let i = 0; i < this.listClient.length;i++){ 
-        if(this.listClient[i].checked === true)
-        count++;
+      for (let i = 0; i < this.listClient.length; i++) {
+        if (this.listClient[i].checked === true){
+          count++;
+          if(this.listMail.indexOf(this.listClient[i].Email)==-1){
+            this.listMail.push(this.listClient[i].Email)
+          }    
+        } else {
+          if(this.listMail.indexOf(this.listClient[i].Email) !=-1){
+            this.listMail.splice(this.listMail.indexOf(this.listClient[i].Email),1);
+          }
+        }
       }
-      this.selectAll = (count === this.listClient.length || count === this.limit)  ? true : false;
+      this.selectAll = (count === this.listMentor.length || count === this.limit)  ? true : false;
     }
   }
   goToClientInfo(id) {
@@ -209,5 +231,24 @@ export class ClientManagementComponent implements OnInit {
         this.getListClient();
       } 
     })
+  }
+  closeSendForm(val?){
+    this.showSendMail = false;
+    if(val === "Successfully"){
+      this.toast.addToast({ title: 'Message', msg: val, timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
+      this.listMail = [];
+      for(let i = 0; i<this.listClient.length;i++){
+        this.listClient[i].checked = false;
+      }
+      this.selectAll = false;
+    }
+  }
+  deleteMail(val){
+    this.listMail.splice(this.listMail.indexOf(val),0);
+    for(let i = 0;i<this.listClient.length;i++){
+      if(this.listClient[i].Email == val){
+        this.listClient[i].checked = false;
+      }
+    }
   }
 }

@@ -41,3 +41,14 @@ table.table-wrap-text {
 .error-text{
   color: red ;
 }
+.email-compose {
+  max-width: 600px;
+  position: fixed;
+  right: 5px;
+  bottom: 0;
+}
+.col-right{
+  margin-bottom: 10px;
+  text-align: right;
+  float: right;
+}

@@ -103,7 +103,6 @@ export class EmailComposeComponent implements OnInit {
     }
     if ((req.email.length > 0 && this.ValidateEmail(this.sendMailForm.value.email)) ||(req.email.length >0 && this.sendMailForm.value.email ==="")) {
       this._api.sendMail(req).then((res: any) => {
-        console.log(req);
         if (res.status == STATUS.success) {
           
           this.closeForm("Successfully");
@@ -147,6 +146,7 @@ export class EmailComposeComponent implements OnInit {
     this.listMail = [];
     this.closeSendMail.emit(mess);
   }
+  
   getEmail(val) {
     for (let i = 0; i < this.listMail.length; i++) {
       if (this.listMail[i] === val) {

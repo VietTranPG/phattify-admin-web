@@ -88,8 +88,8 @@ export class MentorDetailComponent implements OnInit {
       if (res.status == STATUS.error){ 
         this.toast.addToast({ title: 'Message', msg: res.message, timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
       } else { 
+        this.toast.addToast({ title: 'Message', msg: res.message, timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
         setTimeout(()=>{ 
-          this.toast.addToast({ title: 'Message', msg: res.message, timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
           this._router.navigate(['/coach-management']);
         })     
       }
