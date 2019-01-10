@@ -145,7 +145,7 @@ export class ApiService {
     })
   }
   blockMentor(id){ 
-    let url = this.url + 'mentor-info?id=' + id;
+    let url = this.url + 'mentor-info?Id=' + id;
     return new Promise((resolve, reject) => {
       this.http.patch(url, id).subscribe(res => {
         resolve(res);
