@@ -62,7 +62,7 @@ export class EmailComposeComponent implements OnInit {
 
   }
   minimize() {
-    
+
   }
   changeListener($event): void {
     let file = $event.target.files[0];
@@ -91,28 +91,44 @@ export class EmailComposeComponent implements OnInit {
       "email": this.listMail.length > 0 ? this.listMail : [],
       "subject": this.sendMailForm.value.subject,
       "content": this.content,
-      "attachments": [{
+      "attachments": this.file ? [{
         "filename": this.fileName,
         "content": this.file,
         "encoding": "base64"
-      }]
+      }] : []
     }
+
     if (this.tempEmail && this.listMail.indexOf(this.tempEmail) == -1) {
       req.email.push(this.tempEmail);
     }
-    if ((req.email.length > 0 && this.ValidateEmail(this.sendMailForm.value.email)) ||(req.email.length >0 && this.sendMailForm.value.email ==="")) {
-      this._api.sendMail(req).then((res: any) => {
-        if (res.status == STATUS.success) {
-          
-          this.closeForm("Successfully");
+    if (this.content) {
+      if (req.email.length > 0) {
+        if (this.ValidateEmail(this.sendMailForm.value.email) || this.sendMailForm.value.email === "") {
+          this._api.sendMail(req).then((res: any) => {
+            if (res.status == STATUS.success) {
+              this.closeForm("Successfully");
+            }
+          })
+        } else {
+          if (!this.ValidateEmail(this.sendMailForm.value.email) && this.sendMailForm.value.email !== "" ) {
+            let mess = `The "${this.sendMailForm.value.email}" address cannot be recognized in the "To" field. Make sure all addresses are formatted correctly.`
+            alert(mess);
+          }
         }
-      })
-    } else if(req.email.length <=0) {
-      this.toast.addToast({ title: 'Message', msg: 'Please fill in at least one email', timeout: 5000, theme: 'material', position: 'bottom-right', type: 'error' });
-    } else if(!this.ValidateEmail(this.sendMailForm.value.email)){
-      let mess = `The "${this.sendMailForm.value.email}" address cannot be recognized in the "To" field. Make sure all addresses are formatted correctly.`
-      // this.toast.addToast({ title: 'Message', msg: mess, timeout: 5000, theme: 'material', position: 'bottom-right', type: 'error' });
-      alert(mess)
+      } else {
+        if(this.ValidateEmail(this.sendMailForm.value.email)){
+          this._api.sendMail(req).then((res: any) => {
+            if (res.status == STATUS.success) {
+              this.closeForm("Successfully");
+            }
+          })
+        } else { 
+          let mess = `The "${this.sendMailForm.value.email}" address cannot be recognized in the "To" field. Make sure all addresses are formatted correctly.`
+          alert(mess);   
+        }
+      }
+    } else { 
+      alert("Content is required");
     }
 
   }
@@ -133,7 +149,7 @@ export class EmailComposeComponent implements OnInit {
         })
         this.checkmail = true;
       } else {
-              this.checkmail = false;
+        this.checkmail = false;
       }
     }
     if (this.ValidateEmail(event.target.value)) {
@@ -141,11 +157,11 @@ export class EmailComposeComponent implements OnInit {
       this.checkmail = true;
     }
   }
-  closeForm(mess?:string) {
+  closeForm(mess?: string) {
     this.listMail = [];
     this.closeSendMail.emit(mess);
   }
-  
+
   getEmail(val) {
     for (let i = 0; i < this.listMail.length; i++) {
       if (this.listMail[i] === val) {
