@@ -122,7 +122,9 @@
   </div>
 </div>
 <div class="email-compose" *ngIf="showSendMail">
-  <email-compose [listMail]="listMail" (closeSendMail) = "closeSendForm($event)" (deleteMail) = "deleteMail($event)"></email-compose>
+  <email-compose [listMail]="listMail" 
+  (closeSendMail) = "closeSendForm($event)"
+  (deleteMail) = "deleteMail($event)"></email-compose>
 </div>
 <!-- modal static-->
 <!-- <button type="button" class="btn btn-default ripple" (click)="modalDefault.show()">Static</button> -->

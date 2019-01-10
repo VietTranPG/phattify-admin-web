@@ -149,7 +149,6 @@ export class ApiService {
     return new Promise((resolve, reject) => {
       this.http.patch(url, id).subscribe(res => {
         resolve(res);
-        console.log(res)
       }, err => {
         reject(err);
       })

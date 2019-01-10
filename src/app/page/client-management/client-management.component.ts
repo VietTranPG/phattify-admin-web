@@ -102,13 +102,11 @@ export class ClientManagementComponent implements OnInit {
       mentor: this.mentor,
       checked: false
     };
-    console.log(data);
     
     this._api.management(data).then(res => {
       this.listClient = res['data']['clients']
       this.totalItem = res['data']['totalItem'];
-      console.log(res);
-      
+
     }).catch(err => {
       console.log(err);
     })
@@ -221,7 +219,6 @@ export class ClientManagementComponent implements OnInit {
   addNewMentee(){ 
     let data = this.addClientForm.value;
     this._api.adminAddClient(data).then((res:any) => {
-      console.log(data);
       if(res.status == 'error'){ 
         this.toast.addToast({ title: 'Message', msg: res.message, timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
       } else { 
@@ -236,12 +233,12 @@ export class ClientManagementComponent implements OnInit {
     this.showSendMail = false;
     if(val === "Successfully"){
       this.toast.addToast({ title: 'Message', msg: val, timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
-      this.listMail = [];
-      for(let i = 0; i<this.listClient.length;i++){
-        this.listClient[i].checked = false;
-      }
-      this.selectAll = false;
     }
+    this.listMail = [];
+    for(let i = 0; i<this.listClient.length;i++){
+      this.listClient[i].checked = false;
+    }
+    this.selectAll = false;
   }
   deleteMail(val){
     this.listMail.splice(this.listMail.indexOf(val),0);

@@ -92,7 +92,7 @@
 
       </div>
       <div class="row row-custom row--flex-end">
-        <button type="button" class="btn btn-default ripple" (click)="blockMentor()">Block</button>
+        <button type="button" class="btn btn-default ripple" (click)="blockMentor()">{{mentorIsBlocked ? "Unblock":"Block"}}</button>
         <button type="button" class="btn btn-danger ripple light" (click)="downGradeMentor()">Downgrade mentor</button>
       </div>
     </form>

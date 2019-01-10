@@ -20,7 +20,6 @@ export class EmailComposeComponent implements OnInit {
   checkmail: boolean = false;
   @Output() closeSendMail: EventEmitter<any> = new EventEmitter();
   @Input() listMail: any = [];
-  @Input() displayField: string = 'displayValue';
   @Output() deleteMail: EventEmitter<any> = new EventEmitter();
   @ViewChild('toast')
   toast: any;
@@ -63,7 +62,7 @@ export class EmailComposeComponent implements OnInit {
 
   }
   minimize() {
-
+    
   }
   changeListener($event): void {
     let file = $event.target.files[0];

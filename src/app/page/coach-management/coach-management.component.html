@@ -54,7 +54,7 @@
             <th rowspan="2">Assign Group</th>
             <th rowspan="2">Date Joined</th>
             <th rowspan="2">Ref Code</th>
-            <th rowspan="2">Action</th>
+            <!-- <th rowspan="2">Action</th> -->
           </tr>
           <tr>
             <th style="padding: 5px">This month</th>
@@ -81,9 +81,9 @@
               </td>
               <td>{{item.createdAt | date: 'dd/MM/yyyy'}}</td>
               <td>{{item.RefCode}}</td>
-              <td>
+              <!-- <td>
                 <button class="btn-custom btn-orange" (click)="$event.stopPropagation();sendOneEmail(item.Email)"><i class="fa fa-paper-plane"></i></button>
-              </td>
+              </td> -->
             </tr>
           </tbody>
         </table>
@@ -94,6 +94,9 @@
   </div>
 </div>
 <div class="email-compose" *ngIf="showSendMail">
-  <email-compose [listMail]="listMail" (closeSendMail) = "closeSendForm($event)" (deleteMail) = "deleteMail($event)"></email-compose>
+  <email-compose 
+  [listMail]="listMail" 
+  (closeSendMail) = "closeSendForm($event)" 
+  (deleteMail) = "deleteMail($event)"></email-compose>
 </div>
 <toast #toast></toast>

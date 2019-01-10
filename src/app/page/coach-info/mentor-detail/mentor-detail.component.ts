@@ -21,6 +21,7 @@ export class MentorDetailComponent implements OnInit {
   toast: any;
   @ViewChild('modalChangePassword')
   modalChangePassword: any;
+  mentorIsBlocked:boolean;
   constructor(
     private router: ActivatedRoute,
     private _api: ApiService,
@@ -58,8 +59,8 @@ export class MentorDetailComponent implements OnInit {
       this._api.getMentorInfo(this.idMentor).then(data => {
         this.mentorInfo = data['data'];
         this.healthList = data['data']['Health'];
-        console.log(this.healthList);
-        console.log(this.mentorInfo)
+
+        this.mentorIsBlocked = this.mentorInfo.BlockedAt ? true :false;
         this.fillDataMentorInfo();
       })
     })
@@ -77,14 +78,12 @@ export class MentorDetailComponent implements OnInit {
         SurName: this.mentorInfo.SurName,
         Status: this.mentorInfo.Status
       })
-      console.log(this.mentorInfo.Status)
     }
   }
   downGradeMentor() {
     this._helper.toggleLoadng(true);
     this._api.downGradeMentor(this.idMentor).then((res: any) => {
       this._helper.toggleLoadng(false);
-      console.log(res);
       if (res.status == STATUS.error){ 
         this.toast.addToast({ title: 'Message', msg: res.message, timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
       } else { 
@@ -99,10 +98,14 @@ export class MentorDetailComponent implements OnInit {
   }
   blockMentor() {
     this._helper.toggleLoadng(true);
-    this._api.blockMentor(this.idMentor).then(res => {
+    this._api.blockMentor(this.idMentor).then((res:any) => {
       this._helper.toggleLoadng(false);
-      console.log(res);
-
+      if (res.status == STATUS.error){ 
+        this.toast.addToast({ title: 'Message', msg: 'Error', timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
+      } else { 
+        this.toast.addToast({ title: 'Message', msg: 'Successfully', timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });  
+        this.mentorIsBlocked = true;
+      }
     }, err => {
       this._helper.toggleLoadng(false);
     })
