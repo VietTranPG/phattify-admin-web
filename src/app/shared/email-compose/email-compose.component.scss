@@ -10,6 +10,9 @@
             height: 0;
         }
     }
+    .mail-body {
+        padding-top: 0;
+    }
     .card-block.email-card {
         padding: 0;
     }
@@ -28,6 +31,13 @@
     .form-material {
         .form-group {
             margin-bottom: 10px;
+            .form-control {
+                height: 35px;
+                font-size: 14px;
+                &:placeholder {
+                    font-size: 14px;
+                }
+            }
         }
     }
     .error-text{
@@ -37,5 +47,10 @@
 
 .col-chip {
     display: inline-block;
+}
+
+.col-chip-custom {
+    max-height: 150px;
+    overflow-y: auto;
 }
 

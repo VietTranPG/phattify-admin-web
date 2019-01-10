@@ -16,15 +16,14 @@
               <form class="form-material" action="javascript:" [formGroup]="sendMailForm">
                 <div class="form-group form-primary">
                   <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-sm-12 col-chip-custom">
                       <span class="col-chip" *ngFor="let email of listMail;let i = index">
                           <app-chips [email]="email" (deletemail) = "getEmail($event)"></app-chips>
                       </span>
                     </div>
                   </div>
-                  <input type="email" name="footer-email" (keyup)="sendMailToChip($event)" formControlName="email" class="form-control" required="">
+                  <input type="email" name="footer-email" (keyup)="sendMailToChip($event)" formControlName="email" class="form-control" required="" placeholder="To">
                   <span class="form-bar"></span>
-                  <label class="">To</label>
                 </div>
                 <!-- <div class="erros-message">
                   <p class="error-text" *ngIf="!checkmail && listMail.length>0">This
@@ -33,10 +32,9 @@
                 <div class="form-group">
                   <div class="row">
                     <div class="col-md-6">
-                      <div class="form-group form-primary">
-                        <input type="email" name="footer-email" formControlName="emailCc" class="form-control" required="">
+                      <div class="form-primary">
+                        <input type="email" name="footer-email" formControlName="emailCc" class="form-control" required="" placeholder="Cc">
                         <span class="form-bar"></span>
-                        <label class="">Cc</label>
                       </div>
                     </div>
                     <!-- <div class="col-md-6">
@@ -49,9 +47,8 @@
                   </div>
                 </div>
                 <div class="form-group form-primary">
-                  <input type="text" name="footer-email" formControlName="subject" class="form-control" required="">
+                  <input type="text" name="footer-email" formControlName="subject" class="form-control" required="" placeholder="Subject">
                   <span class="form-bar"></span>
-                  <label class="float-label">Subject</label>
                 </div>
                 {{editorContent}}
                 <quill-editor

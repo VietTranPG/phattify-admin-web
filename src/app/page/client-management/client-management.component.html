@@ -10,20 +10,20 @@
       <div class="table-responsive">
         <div class="headerTable">
           <div class="row">
-            <div class="col-md-2">
+            <div class="col-md-3">
               <input type="text" [(ngModel)]="searchInput" class="form-control" placeholder="Name or email">
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
               <!-- <select [(ngModel)]="type" class="form-control">
                 <option value="">All</option>
                 <option value="Mentee">Mentee</option>
                 <option value="Mentor">Mentor</option>
               </select> -->
-              <ng-select class="select-custom" [options]="listMentor" [(ngModel)]="mentor" placeholder="select Mentor">
+              <ng-select class="select-custom" [options]="listMentor" [(ngModel)]="mentor" placeholder="Select Mentor">
   
               </ng-select>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
               <select [(ngModel)]="status" class="form-control">
                 <option value="">All</option>
                 <option value="active">Active</option>

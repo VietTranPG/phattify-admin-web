@@ -5,22 +5,22 @@
       <div class="table-responsive">
         <div class="headerTable">
           <div class="row row-filter">
-            <div class="col-md-2">
-              <input type="text" [(ngModel)]="searchInput" class="form-control" placeholder="search by group">
+            <div class="col-md-3">
+              <input type="text" [(ngModel)]="searchInput" class="form-control" placeholder="Search by email or name">
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
               <!-- <select [(ngModel)]="type" class="form-control">
                 <option value="">All</option>
                 <option value="Mentee">Mentee</option>
                 <option value="Mentor">Mentor</option>
               </select> -->
-              <ng-select class="select-custom" [(ngModel)]="group" placeholder="search by group">
+              <ng-select class="select-custom" [(ngModel)]="group" placeholder="Search by group">
 
               </ng-select>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
               <ng-select class="select-custom loading-search" [(ngModel)]="mentee" [options]="listMentee"
-                (filterInputChanged)="searchMentee($event)" placeholder="search by mentee">
+                (filterInputChanged)="searchMentee($event)" placeholder="Search by mentee">
 
               </ng-select>
             </div>
