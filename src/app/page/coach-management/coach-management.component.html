@@ -5,22 +5,22 @@
       <div class="table-responsive">
         <div class="headerTable">
           <div class="row row-filter">
-            <div class="col-md-2">
-              <input type="text" [(ngModel)]="searchInput" class="form-control" placeholder="search by group">
+            <div class="col-md-3">
+              <input type="text" [(ngModel)]="searchInput" class="form-control" placeholder="Search by name or email">
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
               <!-- <select [(ngModel)]="type" class="form-control">
                 <option value="">All</option>
                 <option value="Mentee">Mentee</option>
                 <option value="Mentor">Mentor</option>
               </select> -->
-              <ng-select class="select-custom" [(ngModel)]="group" placeholder="search by group">
+              <ng-select class="select-custom" [(ngModel)]="group" placeholder="Search by group">
 
               </ng-select>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
               <ng-select class="select-custom loading-search" [(ngModel)]="mentee" [options]="listMentee"
-                (filterInputChanged)="searchMentee($event)" placeholder="search by mentee">
+                (filterInputChanged)="searchMentee($event)" placeholder="Search by mentee">
 
               </ng-select>
             </div>
@@ -28,7 +28,7 @@
             <button type="button" class="btn btn-header" (click)="showAll()">Show All</button>
           </div>
         </div>
-        <button type="button" class="btn btn-danger margin-button" (click)="showSendMail = true">COMPOSE</button>
+        <button type="button" class="btn btn-danger margin-button">COMPOSE</button>
 
         <table class="table table-framed table-wrap-text">
           <tr>
@@ -37,16 +37,16 @@
             </th>
             <th rowspan="2">#</th>
             <th rowspan="2" (click)="sortTable('FirstName')">
-              <i *ngIf="this.typeOrderBoolean && this.selectSort=='FirstName'" class="icofont icofont-caret-up"></i>
-              <i *ngIf="!this.typeOrderBoolean && this.selectSort=='FirstName'" class="icofont icofont-caret-down"></i>
+              <i *ngIf="this.typeOrderBoolean==false && this.selectSort=='FirstName'" class="icofont icofont-caret-up"></i>
+              <i *ngIf="this.typeOrderBoolean && this.selectSort=='FirstName'" class="icofont icofont-caret-down"></i>
               First Name</th>
             <th rowspan="2" (click)="sortTable('SurName')">
-              <i *ngIf="this.typeOrderBoolean && this.selectSort=='SurName'" class="icofont icofont-caret-up"></i>
-              <i *ngIf="!this.typeOrderBoolean && this.selectSort=='SurName'" class="icofont icofont-caret-down"></i>
+              <i *ngIf="this.typeOrderBoolean==false && this.selectSort=='SurName'" class="icofont icofont-caret-up"></i>
+              <i *ngIf="this.typeOrderBoolean && this.selectSort=='SurName'" class="icofont icofont-caret-down"></i>
               Last Name</th>
             <th rowspan="2" (click)="sortTable('Email')">
-              <i *ngIf="this.typeOrderBoolean && this.selectSort=='Email'" class="icofont icofont-caret-up"></i>
-              <i *ngIf="!this.typeOrderBoolean && this.selectSort=='Email'" class="icofont icofont-caret-down"></i>
+              <i *ngIf="this.typeOrderBoolean==false && this.selectSort=='Email'" class="icofont icofont-caret-up"></i>
+              <i *ngIf="this.typeOrderBoolean && this.selectSort=='Email'" class="icofont icofont-caret-down"></i>
               Email</th>
             <th rowspan="2">Contact Number</th>
             <th rowspan="2">Status</th>
@@ -54,15 +54,15 @@
             <th rowspan="2">Assign Group</th>
             <th rowspan="2">Date Joined</th>
             <th rowspan="2">Ref Code</th>
-            <!-- <th rowspan="2">Action</th> -->
+            <th rowspan="2">Action</th>
           </tr>
           <tr>
-            <th style="padding: 5px">This month</th>
-            <th style="padding: 5px">Total</th>
+            <th style="padding: 5px; border-top: 0;">This month</th>
+            <th style="padding: 5px; border-top: 0;">Total</th>
           </tr>
           <tbody>
-            <tr *ngFor="let item of listMentor;let i = index" (click)="goToCoachInfo(item.Id)" class = "coach">
-              <td><input type="checkbox" (change)="changeOne()" (click)="$event.stopPropagation()" [(ngModel)]="item.checked" /></td>
+            <tr *ngFor="let item of listMentor;let i = index">
+              <td><input type="checkbox" (change)="changeOne()" [(ngModel)]="item.checked" /></td>
               <td>{{i+1}}</td>
               <td>{{item.FirstName}}</td>
               <td>{{item.SurName}}</td>
@@ -72,18 +72,18 @@
               <td>{{item.clientThisMonth}}</td>
               <td>{{item.TotalClient ? item.TotalClient : 0}}</td>
               <td>
-                <select class="table-select" (click)="$event.stopPropagation()">
+                <select class="table-select">
                   <option>Group A</option>
                   <option>Group B</option>
                   <option>Group C</option>
                 </select>
-                <button class="btn-custom btn-orange" (click)="$event.stopPropagation()">Assign</button>
+                <button class="btn-custom btn-orange">Assign</button>
               </td>
               <td>{{item.createdAt | date: 'dd/MM/yyyy'}}</td>
               <td>{{item.RefCode}}</td>
-              <!-- <td>
-                <button class="btn-custom btn-orange" (click)="$event.stopPropagation();sendOneEmail(item.Email)"><i class="fa fa-paper-plane"></i></button>
-              </td> -->
+              <td>
+                <button class="btn-custom btn-orange"><i class="fa fa-paper-plane"></i></button>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -93,10 +93,6 @@
     </app-card>
   </div>
 </div>
-<div class="email-compose" *ngIf="showSendMail">
-  <email-compose 
-  [listMail]="listMail" 
-  (closeSendMail) = "closeSendForm($event)" 
-  (deleteMail) = "deleteMail($event)"></email-compose>
+<div class="email-compose">
+  <email-compose></email-compose>
 </div>
-<toast #toast></toast>
