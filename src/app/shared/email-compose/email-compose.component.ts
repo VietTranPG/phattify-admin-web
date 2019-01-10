@@ -153,6 +153,5 @@ export class EmailComposeComponent implements OnInit {
       }
     }
     this.deleteMail.emit(val);
-    console.log(this.listMail);
   }
 }

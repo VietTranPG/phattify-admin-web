@@ -51,7 +51,7 @@ const MENUITEMS = [
       {
         state: 'coach-management',
         short_label: 'C',
-        name: 'coach Managerment',
+        name: 'Coach Managerment',
         type: 'link',
         icon: 'feather icon-menu'
       }
