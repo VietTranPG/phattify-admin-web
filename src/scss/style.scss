@@ -63,3 +63,34 @@ File: style.css
 @import '~ngx-bar-rating/themes/br-square-theme';
 
 @import '~angular-tree-component/dist/angular-tree-component.css';
+
+button {
+	@extend .btn-round;
+	@extend .hor-grd;
+	&.btn {
+		padding: 5px 19px;
+		text-transform: capitalize;
+		&.btn-primary {
+			@extend .btn-grd-primary;
+		}
+		&.btn-danger {
+			@extend .btn-grd-danger;
+		}
+		&.btn-success {
+			@extend .btn-grd-success;
+		}
+		&.btn-info {
+			@extend .btn-grd-info;
+		}
+		&.btn-warning {
+			@extend .btn-grd-warning;
+		}
+		&.btn-inverse {
+			@extend .btn-grd-inverse;
+		}
+		&.btn-disabled {
+			@extend .btn-grd-disabled;
+		}
+	}
+
+}
