@@ -178,7 +178,7 @@
               <tr>
                 <td><label>Gender:</label></td>
                 <td>
-                  <select class="custom-select" formControlName="gender" >
+                  <select class="form-control custom-select" formControlName="gender" >
                     <option value="">Other</option>
                     <option *ngFor="let listGender of listGender" [value]="listGender.value">{{listGender.name}}</option>
                   </select>
