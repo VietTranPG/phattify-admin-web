@@ -67,7 +67,7 @@
         <div class="col-sm-12">
             <label>Health List</label>
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <div class="form-control--custom">
                       <ul class="list-group list-group-flush" *ngFor="let healthList of healthList; let i = index">
                         <li class="list-group-item disabled">{{healthList.Name}}</li>
@@ -81,7 +81,7 @@
         <div class="col-sm-12">
           <label>Status</label>
           <div class="row">
-            <div class="col-sm-9">
+            <div class="col-sm-6">
                 <input class="form-control" formControlName="Status" />
             </div>
             <div class="col-sm-3">
@@ -92,7 +92,7 @@
 
       </div>
       <div class="row row-custom row--flex-end">
-        <button type="button" class="btn btn-default ripple" (click)="blockMentor()">Block</button>
+        <button type="button" class="btn btn-default ripple" [disabled]="mentorIsBlocked" (click)="blockMentor()">Block</button>
         <button type="button" class="btn btn-danger ripple light" (click)="downGradeMentor()">Downgrade mentor</button>
       </div>
     </form>

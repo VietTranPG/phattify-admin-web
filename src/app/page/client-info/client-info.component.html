@@ -20,7 +20,7 @@
 
           <label>Email</label>
           <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6">
               <input class="form-control" formControlName="email" />
             </div>
           </div>
@@ -54,7 +54,7 @@
           </div>
           <label>Health List</label>
           <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6">
               <div class="form-control--custom">
                 <ul class="list-group list-group-flush" *ngFor="let healthList of healthList; let i = index">
                   <li class="list-group-item disabled">{{healthList.Name}}</li>
@@ -69,7 +69,7 @@
           </div>
           <label>Status</label>
           <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-6">
               <select formControlName="Status" class="form-control">
                 <option value="active">Active</option>
                 <option value="deactive">Inactivate</option>
@@ -83,7 +83,7 @@
           <label>Mentor</label>
 
           <div class="row" *ngIf="!clientInfo.MentorEmail">
-            <div class="col-md-9">
+            <div class="col-md-6">
               <ng-select class="select-custom" [options]="listMentor" formControlName="mentor" placeholder="select Mentor"></ng-select>
             </div>
             <div class="col-md-3">
@@ -91,7 +91,7 @@
             </div>
           </div>
           <div class="row" *ngIf="clientInfo.MentorEmail">
-            <div class="col-md-12">
+            <div class="col-md-6">
               <input class="form-control" formControlName="mentor" disabled />
             </div>
           </div>

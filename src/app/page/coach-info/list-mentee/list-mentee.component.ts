@@ -133,4 +133,18 @@ export class ListMenteeComponent implements OnInit {
       } 
     })
   }
+  resendCode(idClient) {
+    let data = {
+      IdClient: idClient,
+      IdMentor: this.idMentor
+    };
+    this._api.resendCode(data).then(res => {
+      console.log(res);
+      this.getListMentee(this.idMentor);
+      
+      
+    }).catch(err => {
+      console.log(err);
+    })
+  }
 }

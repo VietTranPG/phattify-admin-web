@@ -1,8 +1,8 @@
-<div class="row">
+<!-- <div class="row">
   <div class="col col-right">
-    <button class="btn btn-warning" (click)="modalAddMentee.show()">Add</button>
+   
   </div>
-</div>
+</div> -->
 <div class="row">
   <div class="col-sm-12">
     <app-card [classHeader]="true" [blockClass]="'table-border-style'" [cardOptionBlock]="true">
@@ -10,20 +10,20 @@
       <div class="table-responsive">
         <div class="headerTable">
           <div class="row">
-            <div class="col-md-2">
+            <div class="col-md-3">
               <input type="text" [(ngModel)]="searchInput" class="form-control" placeholder="Name or email">
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
               <!-- <select [(ngModel)]="type" class="form-control">
                 <option value="">All</option>
                 <option value="Mentee">Mentee</option>
                 <option value="Mentor">Mentor</option>
               </select> -->
-              <ng-select class="select-custom" [options]="listMentor" [(ngModel)]="mentor" placeholder="select Mentor">
+              <ng-select class="select-custom" [options]="listMentor" [(ngModel)]="mentor" placeholder="Select Mentor">
   
               </ng-select>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
               <select [(ngModel)]="status" class="form-control">
                 <option value="">All</option>
                 <option value="active">Active</option>
@@ -37,8 +37,8 @@
             <button type="button" class="btn btn-header" (click)="showAll()">Show All</button>
           </div>
         </div>
-        <button type="button" class="btn btn-danger margin-button">COMPOSE</button>
-
+        <button type="button" class="btn btn-danger margin-button" (click)="showSendMail = true">COMPOSE</button> 
+          <button class="btn btn-warning col-right" (click)="modalAddMentee.show()">Add</button>
         <table class="table table-framed table-wrap-text">
           <thead>
             <tr>
@@ -121,7 +121,11 @@
     </app-card>
   </div>
 </div>
-
+<div class="email-compose" *ngIf="showSendMail">
+  <email-compose [listMail]="listMail" 
+  (closeSendMail) = "closeSendForm($event)"
+  (deleteMail) = "deleteMail($event)"></email-compose>
+</div>
 <!-- modal static-->
 <!-- <button type="button" class="btn btn-default ripple" (click)="modalDefault.show()">Static</button> -->
 <app-modal-basic #modalDelete>
@@ -204,6 +208,26 @@
                   {{ "Email doesn't match" }}
                 </p>
               </tr>
+              <tr>
+                <td><label>Password:</label></td>
+                <td><input type="password" class="form-control" formControlName="password"></td>
+              </tr>
+              <tr>
+                <p class="error-text" *ngIf="addClientForm.controls.password.touched && !addClientForm.controls.password.valid">This
+                  field is required.</p>
+              </tr>
+              <tr>
+                <td><label>Confirm password:</label></td>
+                <td><input type="password" class="form-control" formControlName="confirmPassword"></td>
+              </tr>
+              <tr>
+                <p *ngIf="addClientForm.controls.confirmPassword.touched && !addClientForm.controls.confirmPassword.valid" class="error-text">
+                  {{ 'Confirm password is required' }}
+                </p>
+                <p *ngIf ="addClientForm.controls.confirmPassword.touched && addClientForm.errors?.mismatchedPassWord" class="error-text">
+                  {{ "Password doesn't match" }}
+                </p>
+              </tr>             
               <tr>
                 <td><label>Date of Birth:</label></td>
                 <td><input type="date" class="form-control" placeholder="2/2/1998" formControlName="dateOfBirth"></td>

@@ -40,7 +40,7 @@
           <td>{{listMentee.createdAt | date: 'dd/MM/yyyy'}}</td>
           <td>
             <button class="btn btn-danger btn-custom"> <i class="icofont icofont-bin"></i></button>
-            <button class="btn btn-warning btn-custom"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+            <button *ngIf="listMentee.Type =='Invite'" class="btn btn-warning btn-custom"><i class="fa fa-paper-plane-o" aria-hidden="true" (click)="resendCode(listMentee.Id)"></i></button>
           </td>
         </tr>
       </tbody>
