@@ -71,7 +71,7 @@ export class MentorDetailComponent implements OnInit {
         FirstName: this.mentorInfo.FirstName,
         Email: this.mentorInfo.Email,
         ContactNumber: this.mentorInfo.ContactNumber,
-        DateOfBirth: moment(this.mentorInfo.DateOfBirth).format('YYYY-MM-DD'),
+        DateOfBirth: moment(this.mentorInfo.DateOfBirth).format('DD-MM-YYYY'),
         CountryName: this.mentorInfo.CountryName,
         City: this.mentorInfo.City,
         Gender: this.mentorInfo.Gender,
