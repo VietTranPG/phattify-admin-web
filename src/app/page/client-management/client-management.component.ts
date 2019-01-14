@@ -163,13 +163,13 @@ export class ClientManagementComponent implements OnInit {
     this._api.deleteMentee(this.deleteFlag.Id).then((res: any) => {
       this._helper.toggleLoadng(false);
       if (res.status == STATUS.error) {
-        this.toast.addToast({ title: 'Message', msg: res.message, timeout: 5000, theme: 'material', position: 'bottom-right', type: 'error' });
+        this.toast.addToast({ title: 'Message', msg: res.message, timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
       } else {
         this.getListClient();
-        this.toast.addToast({ title: 'Message', msg: 'Delete Client Success', timeout: 5000, theme: 'material', position: 'bottom-right', type: 'success' });
+        this.toast.addToast({ title: 'Message', msg: 'Delete Client Success', timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
       }
     }).catch(err => {
-      this._helper.toggleLoadng(true);
+      this._helper.toggleLoadng(false);
     })
   }
 
