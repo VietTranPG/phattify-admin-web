@@ -29,6 +29,7 @@ export class ClientManagementComponent implements OnInit {
   listMentor: any = [];
   mentor: string = '';
   deleteFlag: any;
+  isMinimize:boolean;
   tbAll = false;
   @ViewChild('modalDelete')
   modalDelete: any;
@@ -247,5 +248,9 @@ export class ClientManagementComponent implements OnInit {
         this.listClient[i].checked = false;
       }
     }
+  }
+  showSendMailForm() {
+    this.showSendMail = true;
+    this.isMinimize =  !this.isMinimize ;
   }
 }
