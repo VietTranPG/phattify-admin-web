@@ -27,7 +27,7 @@
             <button type="button" class="btn btn-header" (click)="showAll()">Show All</button>
           </div>
         </div>
-        <button type="button" class="btn btn-danger margin-button" (click)="showSendMail = true">Compose</button>
+        <button type="button" class="btn btn-danger margin-button" (click)="showSendMailForm()">Compose</button>
 
         <table class="table table-framed table-wrap-text">
           <tr>
@@ -95,6 +95,7 @@
 <div class="email-compose" *ngIf="showSendMail">
   <email-compose
   [listMail]="listMail"
+  [isMinimize]="isMinimize"
   (closeSendMail) = "closeSendForm($event)"
   (deleteMail) = "deleteMail($event)"></email-compose>
 </div>

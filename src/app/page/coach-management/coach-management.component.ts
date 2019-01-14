@@ -1,4 +1,4 @@
-import { Component, OnInit,Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { ApiService } from '../../services/api-service/api.service';
 import { HelperService } from '../../services/helper-service/helper.service';
 import { STATUS } from '../../constants/config';
@@ -23,14 +23,15 @@ export class CoachManagementComponent implements OnInit {
   group = '';
   listMentee: any = [];
   loadingSelect: boolean = false;
-  showSendMail:boolean = false;
+  showSendMail: boolean = false;
+  isMinimize:boolean;
   @ViewChild('toast')
   toast: any;
   constructor(
-    private _api: ApiService, 
+    private _api: ApiService,
     private _helper: HelperService,
     private router: Router
-    ) {
+  ) {
 
   }
 
@@ -87,7 +88,7 @@ export class CoachManagementComponent implements OnInit {
       if (value !== undefined) {
         for (let index = 0; index < this.listMentor.length; index++) {
           this.listMentor[index].checked = value;
-          if(this.listMentor[index].checked == true){
+          if (this.listMentor[index].checked == true) {
             this.listMail.push(this.listMentor[index].Email)
           }
         }
@@ -98,18 +99,18 @@ export class CoachManagementComponent implements OnInit {
     let count = 0;
     if (this.listMentor) {
       for (let i = 0; i < this.listMentor.length; i++) {
-        if (this.listMentor[i].checked === true){
+        if (this.listMentor[i].checked === true) {
           count++;
-          if(this.listMail.indexOf(this.listMentor[i].Email)==-1){
+          if (this.listMail.indexOf(this.listMentor[i].Email) == -1) {
             this.listMail.push(this.listMentor[i].Email)
-          }    
+          }
         } else {
-          if(this.listMail.indexOf(this.listMentor[i].Email) !=-1){
-            this.listMail.splice(this.listMail.indexOf(this.listMentor[i].Email),1);
+          if (this.listMail.indexOf(this.listMentor[i].Email) != -1) {
+            this.listMail.splice(this.listMail.indexOf(this.listMentor[i].Email), 1);
           }
         }
       }
-      this.selectAll = (count === this.listMentor.length || count === this.limit)  ? true : false;
+      this.selectAll = (count === this.listMentor.length || count === this.limit) ? true : false;
     }
 
   }
@@ -122,32 +123,36 @@ export class CoachManagementComponent implements OnInit {
       this.loadingSelect = false;
     })
   }
-  goToCoachInfo(id){
-    this.router.navigate(['mentor-info',id]);
+  goToCoachInfo(id) {
+    this.router.navigate(['mentor-info', id]);
   }
-  closeSendForm(val?){
+  closeSendForm(val?) {
     this.showSendMail = false;
-    if(val === "Successfully"){
+    if (val === "Successfully") {
       this.toast.addToast({ title: 'Message', msg: val, timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
     }
     this.listMail = [];
-    for(let i = 0; i<this.listMentor.length;i++){
+    for (let i = 0; i < this.listMentor.length; i++) {
       this.listMentor[i].checked = false;
     }
     this.selectAll = false;
   }
-  deleteMail(val){
-    this.listMail.splice(this.listMail.indexOf(val),0);
-    for(let i = 0;i<this.listMentor.length;i++){
-      if(this.listMentor[i].Email == val){
+  deleteMail(val) {
+    this.listMail.splice(this.listMail.indexOf(val), 0);
+    for (let i = 0; i < this.listMentor.length; i++) {
+      if (this.listMentor[i].Email == val) {
         this.listMentor[i].checked = false;
       }
     }
   }
-  sendOneEmail(email){ 
+  sendOneEmail(email) {
     this.listMentor.find(x => x.Email === email).checked = true;
     this.listMail = [];
     this.showSendMail = true;
     this.listMail.push(email);
+  }
+  showSendMailForm() {
+    this.showSendMail = true;
+    this.isMinimize =  !this.isMinimize ;
   }
 }

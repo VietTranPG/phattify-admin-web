@@ -13,7 +13,7 @@ export class EmailComposeComponent implements OnInit {
   public editorContent;
   sendMailForm: any;
   fileName: any;
-  isMinimize: boolean = false;
+  @Input() isMinimize:boolean;
   content: any;
   file: any;
   tempEmail: string;
@@ -35,6 +35,8 @@ export class EmailComposeComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
+    this.isMinimize = false;
+    
   }
   initForm() {
     this.sendMailForm = this.formBuilder.group({
@@ -61,10 +63,12 @@ export class EmailComposeComponent implements OnInit {
   onContentChanged({ quill, html, text }) {
     console.log('quill content is changed!', html);
     this.content = html;
-
   }
   minimize() {
-
+    this.isMinimize = !this.isMinimize;
+  }
+  ngOnChanges(){
+    this.isMinimize = false;
   }
   changeListener($event): void {
     let file = $event.target.files[0];

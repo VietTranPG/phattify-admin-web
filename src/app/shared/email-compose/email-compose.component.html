@@ -2,10 +2,10 @@
   <div class="card card-email-compose" [class.card-email-hide]="isMinimize">
     <!-- Email-card start -->
     <div class="card-block email-card">
-      <div class="row row--email-header" (click)="isMinimize = !isMinimize">
+      <div class="row row--email-header" (click)="minimize()">
         <span class="email-title" >New message</span>
         <span class="email-action">
-          <i [class]="isMinimize ? 'fa fa-arrows-alt' : 'fa fa-minus'" (click)=" $event.stopPropagation(); isMinimize = !isMinimize"></i>
+          <i [class]="isMinimize ? 'fa fa-arrows-alt' : 'fa fa-minus'" (click)=" $event.stopPropagation(); minimize()"></i>
           <i class="fa fa-close" (click)="closeForm('close')"></i>
         </span>
       </div>
