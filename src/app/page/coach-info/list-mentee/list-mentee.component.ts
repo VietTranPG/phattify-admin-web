@@ -40,6 +40,7 @@ export class ListMenteeComponent implements OnInit {
     }
   ]
   typeOrderBoolean: boolean;
+  deleteFlag:any;
   constructor(
      private router: ActivatedRoute,
     private _api: ApiService,
