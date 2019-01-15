@@ -71,7 +71,7 @@ export class MentorDetailComponent implements OnInit {
         FirstName: this.mentorInfo.FirstName,
         Email: this.mentorInfo.Email,
         ContactNumber: this.mentorInfo.ContactNumber,
-        DateOfBirth: moment(this.mentorInfo.DateOfBirth).format('YYYY-MM-DD'),
+        DateOfBirth: moment(this.mentorInfo.DateOfBirth).format('DD-MM-YYYY'),
         CountryName: this.mentorInfo.CountryName,
         City: this.mentorInfo.City,
         Gender: this.mentorInfo.Gender,
@@ -87,7 +87,7 @@ export class MentorDetailComponent implements OnInit {
       if (res.status == STATUS.error){ 
         this.toast.addToast({ title: 'Message', msg: res.message, timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
       } else { 
-        this.toast.addToast({ title: 'Message', msg: res.message, timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
+        this.toast.addToast({ title: 'Message', msg: "Successfully", timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
         setTimeout(()=>{ 
           this._router.navigate(['/coach-management']);
         })     

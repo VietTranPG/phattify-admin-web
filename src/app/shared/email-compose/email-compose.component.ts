@@ -13,11 +13,13 @@ export class EmailComposeComponent implements OnInit {
   public editorContent;
   sendMailForm: any;
   fileName: any;
-  isMinimize: boolean = false;
+  @Input() isMinimize:boolean;
   content: any;
   file: any;
   tempEmail: string;
   checkmail: boolean = false;
+  listMailCc:any = [];
+  tempEmailcc:any;
   @Output() closeSendMail: EventEmitter<any> = new EventEmitter();
   @Input() listMail: any = [];
   @Output() deleteMail: EventEmitter<any> = new EventEmitter();
@@ -33,6 +35,8 @@ export class EmailComposeComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
+    this.isMinimize = false;
+    
   }
   initForm() {
     this.sendMailForm = this.formBuilder.group({
@@ -59,10 +63,12 @@ export class EmailComposeComponent implements OnInit {
   onContentChanged({ quill, html, text }) {
     console.log('quill content is changed!', html);
     this.content = html;
-
   }
   minimize() {
-
+    this.isMinimize = !this.isMinimize;
+  }
+  ngOnChanges(){
+    this.isMinimize = false;
   }
   changeListener($event): void {
     let file = $event.target.files[0];
@@ -89,6 +95,7 @@ export class EmailComposeComponent implements OnInit {
     let req =
     {
       "email": this.listMail.length > 0 ? this.listMail : [],
+      "cc":this.listMailCc>0 ? this.listMailCc : [],
       "subject": this.sendMailForm.value.subject,
       "content": this.content,
       "attachments": this.file ? [{
@@ -102,35 +109,39 @@ export class EmailComposeComponent implements OnInit {
       req.email.push(this.tempEmail);
     }
     if (this.content) {
-      if (req.email.length > 0) {
-        if (this.ValidateEmail(this.sendMailForm.value.email) || this.sendMailForm.value.email === "") {
-          this._api.sendMail(req).then((res: any) => {
-            if (res.status == STATUS.success) {
-              this.closeForm("Successfully");
+      if(this.ValidateEmail(this.sendMailForm.value.emailCc) || this.sendMailForm.value.emailCc === ""){ 
+        if (req.email.length > 0) {
+          if (this.ValidateEmail(this.sendMailForm.value.email) || this.sendMailForm.value.email === "") {
+            this._api.sendMail(req).then((res: any) => {
+              if (res.status == STATUS.success) {
+                this.closeForm("Successfully");
+              }
+            })
+          } else {
+            if (!this.ValidateEmail(this.sendMailForm.value.email) && this.sendMailForm.value.email !== "" ) {
+              let mess = `The "${this.sendMailForm.value.email}" address cannot be recognized in the "To" field. Make sure all addresses are formatted correctly.`
+              alert(mess);
             }
-          })
-        } else {
-          if (!this.ValidateEmail(this.sendMailForm.value.email) && this.sendMailForm.value.email !== "" ) {
-            let mess = `The "${this.sendMailForm.value.email}" address cannot be recognized in the "To" field. Make sure all addresses are formatted correctly.`
-            alert(mess);
           }
-        }
+        } else {
+          if(this.ValidateEmail(this.sendMailForm.value.email)){
+            this._api.sendMail(req).then((res: any) => {
+              if (res.status == STATUS.success) {
+                this.closeForm("Successfully");
+              }
+            })
+          } else { 
+            let mess = `The "${this.sendMailForm.value.email}" address cannot be recognized in the "To" field. Make sure all addresses are formatted correctly.`
+            alert(mess);   
+          }
+        }    
       } else {
-        if(this.ValidateEmail(this.sendMailForm.value.email)){
-          this._api.sendMail(req).then((res: any) => {
-            if (res.status == STATUS.success) {
-              this.closeForm("Successfully");
-            }
-          })
-        } else { 
-          let mess = `The "${this.sendMailForm.value.email}" address cannot be recognized in the "To" field. Make sure all addresses are formatted correctly.`
-          alert(mess);   
-        }
+        let mess = `The "${this.sendMailForm.value.emailCc}" address cannot be recognized in the "To" field. Make sure all addresses are formatted correctly.`
+        alert(mess);   
       }
     } else { 
       alert("Content is required");
     }
-
   }
   ValidateEmail(str: string) {
     const filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
@@ -154,6 +165,24 @@ export class EmailComposeComponent implements OnInit {
     }
     if (this.ValidateEmail(event.target.value)) {
       this.tempEmail = event.target.value;
+      this.checkmail = true;
+    }
+  }
+  sendMailCcToChip(event){
+    if (event.keyCode == 32) {
+      if (this.ValidateEmail(event.target.value)) {
+        this.tempEmailcc = event.target.value;
+        this.listMailCc.push(this.tempEmailcc);
+        this.sendMailForm.patchValue({
+          emailCc: ''
+        })
+        this.checkmail = true;
+      } else {
+        this.checkmail = false;
+      }
+    }
+    if (this.ValidateEmail(event.target.value)) {
+      this.tempEmailcc = event.target.value;
       this.checkmail = true;
     }
   }

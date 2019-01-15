@@ -37,7 +37,7 @@
             <button type="button" class="btn btn-header" (click)="showAll()">Show All</button>
           </div>
         </div>
-        <button type="button" class="btn btn-danger margin-button" (click)="showSendMail = true">COMPOSE</button> 
+        <button type="button" class="btn btn-danger margin-button" (click)="showSendMailForm()">Compose</button> 
           <button class="btn btn-warning col-right" (click)="modalAddMentee.show()">Add</button>
         <table class="table table-framed table-wrap-text">
           <thead>
@@ -124,6 +124,7 @@
 <div class="email-compose" *ngIf="showSendMail">
   <email-compose [listMail]="listMail" 
   (closeSendMail) = "closeSendForm($event)"
+  [isMinimize]="isMinimize"
   (deleteMail) = "deleteMail($event)"></email-compose>
 </div>
 <!-- modal static-->
@@ -178,7 +179,7 @@
               <tr>
                 <td><label>Gender:</label></td>
                 <td>
-                  <select class="custom-select" formControlName="gender" >
+                  <select class="form-control custom-select" formControlName="gender" >
                     <option value="">Other</option>
                     <option *ngFor="let listGender of listGender" [value]="listGender.value">{{listGender.name}}</option>
                   </select>

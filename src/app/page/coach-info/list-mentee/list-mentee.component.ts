@@ -26,6 +26,9 @@ export class ListMenteeComponent implements OnInit {
   selectAll: any;
   @ViewChild('toast')
   toast: any;
+  @ViewChild('modalDelete')
+  modalDelete:any;
+  idMenteeDelete:any;
   listGender: any = [
     {
       name: 'Male',
@@ -100,8 +103,6 @@ export class ListMenteeComponent implements OnInit {
     this.getListMentee(this.idMentor);
   }
   changeAll(value) {
-    console.log(value);
-
     if (this.listMentee) {
       if (value !== undefined) {
         for (let index = 0; index < this.listMentee.length; index++) {
@@ -130,6 +131,7 @@ export class ListMenteeComponent implements OnInit {
         this.toast.addToast({ title: 'Message', msg: "Successfully", timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
         this.addClientForm.reset();
         this.modalAddMentee.hide();
+        this.getListMentee(this.idMentor);
       } 
     })
   }
@@ -139,12 +141,32 @@ export class ListMenteeComponent implements OnInit {
       IdMentor: this.idMentor
     };
     this._api.resendCode(data).then(res => {
-      console.log(res);
       this.getListMentee(this.idMentor);
-      
-      
     }).catch(err => {
       console.log(err);
     })
+  }
+  delete(id){
+    this.idMenteeDelete = id;
+    this.modalDelete.show();
+  }
+  deleteMentee(){ 
+    this.modalDelete.hide();
+    this._helper.toggleLoadng(true);
+    this._api.deleteMentee(this.idMenteeDelete).then((res: any) => {
+      this._helper.toggleLoadng(false);
+      if (res.status == STATUS.error) {
+        this.toast.addToast({ title: 'Message', msg: res.message, timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
+      } else {
+        
+        this.toast.addToast({ title: 'Message', msg: 'Delete Client Success', timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
+        this.getListMentee(this.idMentor);
+      }
+    }).catch(err => {
+      this._helper.toggleLoadng(false);
+    })
+  }
+  goToClientInfo(id) {
+    this._router.navigate(['client-info',id]);
   }
 }
