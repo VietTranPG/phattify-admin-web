@@ -140,7 +140,7 @@
         </div>
       </div>
       <div class="row row--flex-end">
-        <button class="btn btn-success" type="submit" [disabled]="!clientInfoForm.valid">Save</button>
+        <button class="btn btn-success" type="submit" [disabled]="!clientInfoForm.valid" (click)="editClientInfo()">Save</button>
         <button class="btn btn-danger" (click)='confirmDelete("delete")'>Delete</button>
       </div>
     </form>
