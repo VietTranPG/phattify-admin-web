@@ -259,10 +259,25 @@ export class ClientManagementComponent implements OnInit {
   }
   showAddClient(){ 
     this._api.getCountries().subscribe(res => { 
-      this.countries = res['data'].sort();
+      let resultCountry = res['data'];
+      this.countries = this.sortBy(resultCountry,'Name', false);
       console.log(this.countries);
-      
       this.modalAddMentee.show();
     })
+  }
+  sortBy(list: any[], property: string, reverse: boolean) {
+    if (!reverse) {
+      return list.sort(function (a, b) {
+        if (a[property] < b[property]) return -1;
+        if (a[property] > b[property]) return 1;
+        return 0;
+      })
+    } else {
+      return list.sort(function (a, b) {
+        if (a[property] < b[property]) return 1;
+        if (a[property] > b[property]) return -1;
+        return 0;
+      })
+    }
   }
 }
