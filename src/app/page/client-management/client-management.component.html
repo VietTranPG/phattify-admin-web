@@ -38,7 +38,7 @@
           </div>
         </div>
         <button type="button" class="btn btn-danger margin-button" (click)="showSendMailForm()">Compose</button>
-        <button class="btn btn-warning col-right" (click)="modalAddMentee.show()">Add</button>
+        <button class="btn btn-warning col-right" (click)="showAddClient()">Add</button>
         <table class="table table-framed table-wrap-text">
           <thead>
             <tr>
@@ -251,6 +251,19 @@
                 <td><label>Contact number:</label></td>
                 <td><input type="number" class="form-control" placeholder="123456789" formControlName="contactNumber"></td>
               </tr>
+              <tr>
+                  <td><label>Country:</label></td>
+                  <td>
+                    <select class="form-control custom-select" formControlName="countryId">
+                      <option value="">Country</option>
+                      <option *ngFor="let countries of countries" [value]="countries.Id">{{countries.Name}}</option>
+                    </select>
+                  </td>
+              </tr>
+              <tr>
+                  <p class="error-text" *ngIf="addClientForm.controls.countryId?.invalid && addClientForm.controls.countryId?.touched">This
+                    field is required.</p>
+                </tr>   
               <tr>
                 <td><label>Notes:</label></td>
                 <td><input type="text" class="form-control" placeholder="abc" formControlName="note"></td>

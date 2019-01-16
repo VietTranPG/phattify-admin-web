@@ -40,6 +40,7 @@ export class ClientManagementComponent implements OnInit {
   addClientForm:any;
   showSendMail:boolean = false;
   listMail = [];
+  countries = [];
   listGender: any = [
     {
       name: 'Male',
@@ -61,6 +62,7 @@ export class ClientManagementComponent implements OnInit {
     this.getListClient();
     this.getListMentor();
     this.InitFormAddClient();
+   
     // this.listMentor = [
     //   { value: '0', label: 'Alabama' },
     //   { value: '1', label: 'Wyoming' },
@@ -80,7 +82,8 @@ export class ClientManagementComponent implements OnInit {
       confirmPassword: ['',Validators.required],
       dateOfBirth: ['', Validators.required],
       contactNumber: [''],
-      note: ['']
+      note: [''],
+      countryId: ['',Validators.required]
     },{ validator: 
       [
         ValidateExtendService.matchingEmail('email', 'confirmEmail'),
@@ -219,6 +222,8 @@ export class ClientManagementComponent implements OnInit {
   addNewMentee(){ 
     let data = this.addClientForm.value;
     this._api.adminAddClient(data).then((res:any) => {
+      console.log(data);
+      
       if(res.status == 'error'){ 
         this.toast.addToast({ title: 'Message', msg: res.message, timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
       } else { 
@@ -251,5 +256,13 @@ export class ClientManagementComponent implements OnInit {
   showSendMailForm() {
     this.showSendMail = true;
     this.isMinimize =  !this.isMinimize ;
+  }
+  showAddClient(){ 
+    this._api.getCountries().subscribe(res => { 
+      this.countries = res['data'].sort();
+      console.log(this.countries);
+      
+      this.modalAddMentee.show();
+    })
   }
 }

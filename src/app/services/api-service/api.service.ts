@@ -184,4 +184,8 @@ export class ApiService {
       })
     })  
   }
+  getCountries(){
+    let url = SERVER_URL + 'country';
+    return this.http.get(url);
+  }
 }
