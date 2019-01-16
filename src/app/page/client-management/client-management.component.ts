@@ -107,7 +107,6 @@ export class ClientManagementComponent implements OnInit {
     this._api.management(data).then(res => {
       this.listClient = res['data']['clients']
       this.totalItem = res['data']['totalItem'];
-
     }).catch(err => {
       console.log(err);
     })
