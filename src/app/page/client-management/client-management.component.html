@@ -249,7 +249,7 @@
               </tr>
               <tr>
                 <td><label>Contact number:</label></td>
-                <td><input type="number" class="form-control" placeholder="123456789" formControlName="contactNumber"></td>
+                <td><input type="text" class="form-control" placeholder="123456789" formControlName="contactNumber"></td>
               </tr>
               <tr>
                   <td><label>Country:</label></td>
@@ -272,7 +272,10 @@
           </div>
           <div class="app-modal-footer">
             <button type="button" class="btn btn-default ripple" (click)="modalAddMentee.hide()">Close</button>
-            <button type="button" class="btn btn-danger ripple light" (click)="addNewMentee()">Confirm</button>
+            <button type="button" 
+            class="btn btn-danger ripple light" 
+            (click)="addNewMentee()" 
+            [disabled]="addClientForm.invalid || addClientForm.hasError('mismatchedPassWord')">Confirm</button>
           </div>
         </div>
 

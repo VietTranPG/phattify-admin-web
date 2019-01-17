@@ -130,19 +130,3 @@ export class MentorDetailComponent implements OnInit {
     })
   }
 }
-// export function confirmValidate(control: AbstractControl) {
-//   if (control && control.value !== null) {
-//     const confirmPassword = control.value;
-//     const pass = control.root.get('password');
-//     if (pass) {
-//       const password = pass.value;
-
-//       if (password !== confirmPassword) {
-//         return {
-//           isError: true,
-//         };
-//       }
-//     }
-//   }
-//   return null;
-// }

@@ -85,7 +85,7 @@ export class ClientInfoComponent implements OnInit {
     this.changePasswordForm = this.formBuilder.group({
       password: ['', Validators.required],
       confirmPassword: ['', [Validators.required]]
-    }, { Validators: ValidateExtendService.matchingPassword('password', 'confirmPassword') });
+    }, {validator: ValidateExtendService.matchingPassword('password','confirmPassword')});
   }
   fillDataClientInfo() {
     if (this.clientInfo) {
@@ -135,10 +135,6 @@ export class ClientInfoComponent implements OnInit {
     });
   }
   showModalChangePassword() {
-    this.changePasswordForm = this.formBuilder.group({
-      password: ['', Validators.required],
-      confirmPassword: ['', [Validators.required]]
-    }, { Validators: ValidateExtendService.matchingPassword('password', 'confirmPassword') });
     this.modalChangePassword.show();
   }
   changePassword() {
@@ -298,20 +294,3 @@ export class ClientInfoComponent implements OnInit {
     });
   }
 }
-
-// export function confirmValidate(control: AbstractControl) {
-//   if (control && control.value !== null) {
-//     const confirmPassword = control.value;
-//     const pass = control.root.get('password');
-//     if (pass) {
-//       const password = pass.value;
-
-//       if (password !== confirmPassword) {
-//         return {
-//           isError: true,
-//         };
-//       }
-//     }
-//   }
-//   return null;
-// }

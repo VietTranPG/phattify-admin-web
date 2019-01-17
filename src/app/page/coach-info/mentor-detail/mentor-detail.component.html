@@ -122,8 +122,14 @@
           <div class="col-md-6">
             <label>Confirm new password: </label>
             <input type="password" formControlName="confirmPassword">
-            <p class="error-text" *ngIf="changePasswordForm.controls.confirmPassword?.invalid && changePasswordForm.controls.password?.touched">This
-              Passwords do not match.</p>
+            <p *ngIf="changePasswordForm.controls.confirmPassword.touched && !changePasswordForm.controls.confirmPassword.valid"
+              class="error-text">
+              {{ 'Confirm password is required' }}
+            </p>
+            <p *ngIf="changePasswordForm.controls.confirmPassword.touched && changePasswordForm.hasError('mismatchedPassWord')"
+            class="error-text">
+              {{ "Password doesn't match" }}
+            </p>
           </div>
         </div>
       </form>
@@ -131,7 +137,7 @@
   </div>
   <div class="app-modal-footer">
     <button type="button" class="btn btn-default ripple" (click)="modalChangePassword.hide()">Close</button>
-    <button type="button" class="btn btn-danger ripple light" (click)="changePassword()" [disabled]='changePasswordForm.invalid'>Confirm</button>
+    <button type="button" class="btn btn-danger ripple light" (click)="changePassword()" [disabled]="changePasswordForm.invalid || changePasswordForm.hasError('mismatchedPassWord')">Confirm</button>
   </div>
 </app-modal-basic>
 <toast #toast></toast>
