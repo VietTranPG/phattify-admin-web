@@ -83,7 +83,6 @@ export class ClientInfoComponent implements OnInit {
     // });
   }
   initForm() {
-    const isUserActive = !this.clientInfo.RoundId ? true : false;
     this.clientInfoForm = this.formBuilder.group({
       FirstName: ['', Validators.required],
       SurName: ['', Validators.required],
@@ -96,10 +95,10 @@ export class ClientInfoComponent implements OnInit {
       CountryName: [''],
       CountryId: ['', Validators.required],
 
-      StartDate: [{ value: '', disabled: isUserActive }, Validators.required],
-      StartWeight: [{ value: '', disabled: isUserActive }, Validators.required],
+      StartDate: [{ value: '', disabled: true }, Validators.required],
+      StartWeight: [{ value: '', disabled: true }, Validators.required],
       CurrentWeight: [{ value: '', disabled: true }, Validators.required],
-      EndDate: [{ value: '', disabled: isUserActive }, Validators.required]
+      EndDate: [{ value: '', disabled: true }, Validators.required]
     }, { validator: ValidateExtendService.isFloat('StartWeight')});
     //
     this.changePasswordForm = this.formBuilder.group({
@@ -125,7 +124,7 @@ export class ClientInfoComponent implements OnInit {
         CountryId: this.clientInfo.CountryId,
         EndDate: moment(this.clientInfo.EndDate).format('YYYY-MM-DD')
       });
-      if (this.clientInfo.CountryId) {
+      if (this.clientInfo.RoundId) {
         this.clientInfoForm.get('StartDate').enable();
         this.clientInfoForm.get('StartWeight').enable();
         this.clientInfoForm.get('EndDate').enable();

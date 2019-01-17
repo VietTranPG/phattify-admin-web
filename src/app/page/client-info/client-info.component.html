@@ -99,7 +99,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6" *ngIf="clientInfo?.RoundId">
+        <div class="col-md-6" [hidden]="!clientInfo.RoundId">
           <div class="row row--center">
             <div class="title">Current Round information</div>
             <button class="btn btn-warning btn--form" (click)="confirmDelete('wipeData')">Wipe Data</button>
