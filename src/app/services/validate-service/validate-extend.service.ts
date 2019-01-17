@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AbstractControl, FormGroup } from "@angular/forms";
+import { AbstractControl, FormGroup, ValidatorFn } from "@angular/forms";
 @Injectable()
 export class ValidateExtendService {
 
@@ -31,17 +31,36 @@ export class ValidateExtendService {
 
             if (password.value !== confirmPassword.value) {
                 return {
-                    mismatchedPassWord: true
+                    mismatchedPassword: true
                 };
             }
         }
     }
-    static listEmail(email:string){
+    static listEmail(email: string) {
         const filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
         if (!filter.test(email)) {
-          return false;
+            return false;
         }
         return true;
+    }
+    static isFloat(objectKey: string) {
+        return (group: FormGroup): { [key: string]: any } => {
+            let object = group.controls[objectKey];
+            var floatRegex = /^-?\d+(?:[.,]\d*?)?$/;
+            let name = 'invalid' + objectKey;
+            if (object.value && object.value.length > 0) {
+                if (!floatRegex.test(object.value))
+                    return {
+                        [name]: true
+                    };
+                let objectValue = parseFloat(object.value);
+                if (isNaN(objectValue))
+                    return {
+                        [name]: true
+                    };
+            }
+        }
+
     }
 }
 // export function confirmEmail(control: AbstractControl) {

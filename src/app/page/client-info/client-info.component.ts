@@ -32,6 +32,7 @@ export class ClientInfoComponent implements OnInit {
   @ViewChild('modalAssign')
   modalAssign: any;
   mentorEmail: any;
+  countries: any;
   constructor(
     private router: ActivatedRoute,
     private _api: ApiService,
@@ -39,45 +40,70 @@ export class ClientInfoComponent implements OnInit {
     private _helper: HelperService,
     private _router: Router
   ) {
-    this.InitForm();
+    this.initForm();
   }
   ngOnInit() {
-    this.getClientInfo();
-    this.getListMentor();
+    this.router.params.subscribe((res: any) => {
+      this.idClient = res.id;
+      const getClientInfoPromise = this._api.getClientInfo(this.idClient);
+      const getListMentorPromise = this._api.getListMentor();
+      const getListCountry = this._api.getListCountry();
+      Promise.all([getClientInfoPromise, getListMentorPromise, getListCountry]).then((values: any) => {
+        //  process getClientInfo
+        this.clientInfo = values[0].data;
+        this.healthList = values[0].data.Health;
+        console.log(this.clientInfo);
+        this.checkResendCode = values[0].data.Status !== 'active' ? false : true;
+        this.wipeData = values[0].data.RoundId ? true : false;
+        this.fillDataClientInfo();
+        // process getListMentor
+        this.listMentor = values[1].data;
+
+        // process get List Country
+        this.countries = values[2].data;
+      });
+    });
   }
   getClientInfo() {
-    this.router.params.subscribe(res => {
-      this.idClient = res.id
-      this._api.getClientInfo(this.idClient).then(data => {
-        this.clientInfo = data['data'];
-        this.healthList = data['data']['Health'];
-        console.log(this.clientInfo);
-        this.checkResendCode = data['data']['Status'] !== 'active' ? false : true;
-        this.wipeData = data['data']['RoundId'] ? true : false;
-        this.fillDataClientInfo();
-      })
-    })
+    this._api.getClientInfo(this.idClient);
+    // .then((data: any) => {
+    //   // this.clientInfo = data['data'];
+    //   // this.healthList = data['data']['Health'];
+    //   // console.log(this.clientInfo);
+    //   // this.checkResendCode = data['data']['Status'] !== 'active' ? false : true;
+    //   // this.wipeData = data['data']['RoundId'] ? true : false;
+
+    //   this.clientInfo = data.data;
+    //   this.healthList = data.data.Health;
+    //   console.log(this.clientInfo);
+    //   this.checkResendCode = data.data.Status !== 'active' ? false : true;
+    //   this.wipeData = data.data.RoundId ? true : false;
+
+    //   this.fillDataClientInfo();
+    // });
   }
-  InitForm() {
+  initForm() {
     this.clientInfoForm = this.formBuilder.group({
       FirstName: ['', Validators.required],
       SurName: ['', Validators.required],
       email: [{ value: '', disabled: true }],
-      DateOfBirth: [{ value: '', disabled: true }],
+      DateOfBirth: ['', Validators.required],
       City: [{ value: '', disabled: true }],
       Status: [{ value: '', disabled: true }],
       mentor: [''],
-      Gender: [{ value: '', disabled: true }],
-      StartDate: [{ value: '', disabled: true }],
-      StartWeight: [{ value: '', disabled: true }],
+      Gender: ['', Validators.required],
+      StartDate: ['', Validators.required],
+      StartWeight: ['', Validators.required],
       CurrentWeight: [{ value: '', disabled: true }],
-      CountryName: [{ value: '', disabled: true }],
-      EndDate: [{ value: '', disabled: true }]
-    })
+      CountryName: ['', Validators.required],
+      EndDate: [{ value: '', disabled: true }],
+      CountryId: ['', Validators.required]
+    }, { validator: ValidateExtendService.isFloat('StartWeight')});
+    //
     this.changePasswordForm = this.formBuilder.group({
       password: ['', Validators.required],
-      confirmPassword: ['', [Validators.required]]
-    },{Validators : ValidateExtendService.matchingPassword('password','confirmPassword')})
+      confirmPassword: ''
+    }, { validator: ValidateExtendService.matchingPassword('password', 'confirmPassword') });
   }
   fillDataClientInfo() {
     if (this.clientInfo) {
@@ -94,16 +120,19 @@ export class ClientInfoComponent implements OnInit {
         StartWeight: this.clientInfo.StartWeight,
         CurrentWeight: this.clientInfo.CurrentWeight,
         CountryName: this.clientInfo.CountryName,
+        CountryId: this.clientInfo.CountryId,
         EndDate: moment(this.clientInfo.EndDate).format('YYYY-MM-DD')
-      })
+      });
+      console.log(this.clientInfoForm.value, 'this.clientInfoForm');
     }
   }
   getListMentor() {
-    this._api.getListMentor().then(res => {
-      this.listMentor = res['data'];
-    }).catch(err => {
+    this._api.getListMentor();
+    // .then(res => {
+    //   this.listMentor = res['data'];
+    // }).catch(err => {
 
-    })
+    // });
   }
   resendCode() {
     const apiResendCode = {
@@ -112,39 +141,51 @@ export class ClientInfoComponent implements OnInit {
     };
     this._api.resendCode(apiResendCode).then(res => {
       if (res['status'] === STATUS.error) {
-        this.toast.addToast({ title: 'Message', msg: 'Can not resend code', timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
+        this.toast.addToast({
+          title: 'Message', msg: 'Can not resend code', timeout: 5000, theme: 'material', position: 'top-right', type: 'error'
+        });
       } else {
-        this.toast.addToast({ title: 'Message', msg: 'Successfully', timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
+        this.toast.addToast({
+          title: 'Message', msg: 'Successfully', timeout: 5000, theme: 'material', position: 'top-right', type: 'success'
+        });
       }
     }).catch(err => {
       console.log(err);
-    })
+    });
   }
   showModalChangePassword() {
-    this.changePasswordForm = this.formBuilder.group({
-      password: ['', Validators.required],
-      confirmPassword: ['', [Validators.required]]
-    },{Validators : ValidateExtendService.matchingPassword('password','confirmPassword')})
+    // this.changePasswordForm = this.formBuilder.group({
+    //   password: ['', Validators.required],
+    //   confirmPassword: ['']
+    // }, { Validators: ValidateExtendService.matchingPassword('password', 'confirmPassword') });
     this.modalChangePassword.show();
   }
   changePassword() {
     this.modalChangePassword.hide();
-    let data = {
-      "password": this.changePasswordForm.value.password
-    }
+    const data = {
+      'password': this.changePasswordForm.value.password
+    };
     this._helper.toggleLoadng(true);
     this._api.changePassword(data, this.idClient).then(res => {
       this._helper.toggleLoadng(false);
       if (res['status'] === STATUS.error) {
         this.changePasswordForm.reset();
-        this.toast.addToast({ title: 'Message', msg: 'Can not change password', timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
+        this.toast.addToast({
+          title: 'Message',
+          msg: 'Can not change password', timeout: 5000, theme: 'material', position: 'top-right', type: 'error'
+        });
       } else {
         this.changePasswordForm.reset();
-        this.toast.addToast({ title: 'Message', msg: 'Change password success', timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
+        this.toast.addToast({
+          title: 'Message',
+          msg: 'Change password success',
+          timeout: 5000, theme: 'material',
+          position: 'top-right', type: 'success'
+        });
       }
     }).catch(err => {
-      console.log(err)
-    })
+      console.log(err);
+    });
   }
   confirmDelete(type) {
     if (type === 'wipeData' && this.wipeData) {
@@ -156,7 +197,10 @@ export class ClientInfoComponent implements OnInit {
       this.checkShowWipeData = false;
       this.modalDelete.show();
     } else if (!this.wipeData) {
-      this.toast.addToast({ title: 'Message', msg: 'Delete round error, do not have round is running', timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
+      this.toast.addToast({
+        title: 'Message',
+        msg: 'Delete round error, do not have round is running', timeout: 5000, theme: 'material', position: 'top-right', type: 'error'
+      });
     }
   }
   hideDelete() {
@@ -170,18 +214,17 @@ export class ClientInfoComponent implements OnInit {
     this._api.deleteMentee(this.clientInfo.Id).then((res: any) => {
       this.checkShowDelete = false;
       this._helper.toggleLoadng(false);
-      if (res.status == STATUS.error) {
+      if (res.status === STATUS.error) {
         this.toast.addToast({ title: 'Message', msg: res.message, timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
       } else {
-
         this.toast.addToast({ title: 'Message', msg: 'Delete Client Success', timeout: 2000, theme: 'material', position: 'top-right', type: 'success' });
         setTimeout(() => {
-          this._router.navigate(['/client-management'])
-        }, 2000)
+          this._router.navigate(['/client-management']);
+        }, 2000);
       }
     }).catch(err => {
       this._helper.toggleLoadng(true);
-    })
+    });
   }
   deleteRound() {
     this.modalDelete.hide();
@@ -190,27 +233,27 @@ export class ClientInfoComponent implements OnInit {
       this._api.deleteRound(this.clientInfo.RoundId).then((res: any) => {
         this.checkShowWipeData = false;
         this._helper.toggleLoadng(false);
-        if (res.status == STATUS.error) {
+        if (res.status === STATUS.error) {
           this.toast.addToast({ title: 'Message', msg: 'Delete round error', timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
         } else {
           this.toast.addToast({ title: 'Message', msg: 'Successfully', timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
           this.getClientInfo();
         }
       }, err => {
-        console.log(err)
+        console.log(err);
         this._helper.toggleLoadng(false);
-      })
+      });
     }
   }
   assignMentor() {
-    let data = {
+    const data = {
       'MentorId': this.clientInfoForm.value.mentor,
       'MenteeId': this.idClient
-    }
+    };
     this._helper.toggleLoadng(true);
     this._api.assignMentor(data).then((res: any) => {
       this._helper.toggleLoadng(false);
-      if (res.status == STATUS.error || res.data == 'not ok') {
+      if (res.status === STATUS.error || res.data === 'not ok') {
         this.modalAssign.hide();
         this.toast.addToast({ title: 'Message', msg: 'Assign Mentor error', timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
       } else {
@@ -222,15 +265,56 @@ export class ClientInfoComponent implements OnInit {
       console.log(err);
       this.modalAssign.hide();
       this._helper.toggleLoadng(false);
-    })
+    });
   }
   showModalAssign() {
-    if(this.clientInfoForm.value.mentor){ 
-      this.mentorEmail = this.listMentor.find(x => x.value === this.clientInfoForm.value.mentor)
+    if (this.clientInfoForm.value.mentor) {
+      this.mentorEmail = this.listMentor.find(x => x.value === this.clientInfoForm.value.mentor);
       this.modalAssign.show();
-    } else { 
+    } else {
       this.toast.addToast({ title: 'Message', msg: 'You must select email', timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
     }
+  }
+
+  editClientInfo() {
+    //
+    if (!this.clientInfoForm.valid) {
+      return false;
+    }
+    const clientInfoForm = this.clientInfoForm.value;
+    const data = {
+      firstName: clientInfoForm.FirstName,
+      surName: clientInfoForm.SurName,
+      gender: clientInfoForm.Gender,
+      dateOfBirth: clientInfoForm.DateOfBirth,
+      countryId: clientInfoForm.CountryId,
+      menteeId: this.clientInfo.Id,
+      startWeight: 0,
+      startDate: '',
+      RoundId: '',
+    };
+    if (this.clientInfo.RoundId) {
+      data.startWeight = clientInfoForm.StartWeight;
+      data.startDate = moment.utc(clientInfoForm.StartDate).format('YYYY-MM-DD');
+      data.RoundId = this.clientInfo.RoundId;
+    }
+    // call api save info
+    this._api.adminUpdateClient(data).then((res: any) => {
+      if (res.status === 'error') {
+        this.toast.addToast({
+          title: 'Message', msg: res.message,
+          timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
+      } else {
+        this.toast.addToast({
+          title: 'Message', msg: 'Successfully', timeout: 5000,
+          theme: 'material', position: 'top-right', type: 'success'
+        });
+      }
+    }).catch(err => {
+      this.toast.addToast({
+        title: 'Message', msg: err.message,
+        timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
+    });
   }
 }
 

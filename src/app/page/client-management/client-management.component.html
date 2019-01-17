@@ -20,7 +20,7 @@
                 <option value="Mentor">Mentor</option>
               </select> -->
               <ng-select class="select-custom" [options]="listMentor" [(ngModel)]="mentor" placeholder="Select Mentor">
-  
+
               </ng-select>
             </div>
             <div class="col-md-3">
@@ -37,8 +37,8 @@
             <button type="button" class="btn btn-header" (click)="showAll()">Show All</button>
           </div>
         </div>
-        <button type="button" class="btn btn-danger margin-button" (click)="showSendMailForm()">Compose</button> 
-          <button class="btn btn-warning col-right" (click)="modalAddMentee.show()">Add</button>
+        <button type="button" class="btn btn-danger margin-button" (click)="showSendMailForm()">Compose</button>
+        <button class="btn btn-warning col-right" (click)="showAddClient()">Add</button>
         <table class="table table-framed table-wrap-text">
           <thead>
             <tr>
@@ -65,25 +65,34 @@
                 <i *ngIf="this.typeOrderBoolean==false && this.selectSort=='Type'" class="icofont icofont-caret-up"></i>
                 <i *ngIf="this.typeOrderBoolean && this.selectSort=='Type'" class="icofont icofont-caret-down"></i>
                 Type</th>
-              <th>Status</th>
-              <th>Assigned Mentor</th>
+              <th (click)="sortTable('Status')">
+                <i *ngIf="this.typeOrderBoolean==false && this.selectSort=='Status'" class="icofont icofont-caret-up"></i>
+                <i *ngIf="this.typeOrderBoolean && this.selectSort=='Status'" class="icofont icofont-caret-down"></i>
+                Status</th>
+              <th (click)="sortTable('MentorEmail')">
+                <i *ngIf="this.typeOrderBoolean==false && this.selectSort=='MentorEmail'" class="icofont icofont-caret-up"></i>
+                <i *ngIf="this.typeOrderBoolean && this.selectSort=='MentorEmail'" class="icofont icofont-caret-down"></i>
+                Assigned Mentor</th>
               <th>Invited Code</th>
-              <th>Date Joined</th>
+              <th (click)="sortTable('createdAt')">
+                  <i *ngIf="this.typeOrderBoolean==false && this.selectSort=='createdAt'" class="icofont icofont-caret-up"></i>
+                  <i *ngIf="this.typeOrderBoolean && this.selectSort=='createdAt'" class="icofont icofont-caret-down"></i>
+                Date Joined</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let client of listClient; let i = index" (click)="goToClientInfo(client.Id)" class="client">
+            <tr *ngFor="let client of listClient; let i = index" class="client">
               <td>
-                <input type="checkbox" (click)="$event.stopPropagation()" (change)="changeOne()" [(ngModel)]="client.checked">
+                <input type="checkbox" (change)="changeOne()" [(ngModel)]="client.checked">
               </td>
-              <td>
+              <td (click)="goToClientInfo(client.Id)" class="cursor">
                 {{i+1}}
               </td>
-              <td>
+              <td class="cursor" (click)="goToClientInfo(client.Id)">
                 {{client.FirstName}}
               </td>
-              <td>
+              <td class="cursor" (click)="goToClientInfo(client.Id)">
                 {{client.SurName}}
               </td>
               <td>
@@ -107,8 +116,9 @@
                 {{client.createdAt | dateFormat}}
               </td>
               <td>
-                <button class="btn btn-danger btn-custom" (click)="$event.stopPropagation();confirmDelete(client)" > <i class="icofont icofont-bin"></i></button>
-                <button *ngIf="client.Type=='Invite'" class="btn btn-warning btn-custom" (click)="$event.stopPropagation();resendCode(client.Id)"><i
+                <button class="btn btn-danger btn-custom" (click)="confirmDelete(client)"> <i
+                    class="icofont icofont-bin"></i></button>
+                <button *ngIf="client.Type=='Invite'" class="btn btn-warning btn-custom" (click)="resendCode(client.Id)"><i
                     class="fa fa-paper-plane-o" aria-hidden="true"></i>
                 </button>
               </td>
@@ -122,10 +132,7 @@
   </div>
 </div>
 <div class="email-compose" *ngIf="showSendMail">
-  <email-compose [listMail]="listMail" 
-  (closeSendMail) = "closeSendForm($event)"
-  [isMinimize]="isMinimize"
-  (deleteMail) = "deleteMail($event)"></email-compose>
+  <email-compose [listMail]="listMail" (closeSendMail)="closeSendForm($event)" [isMinimize]="isMinimize" (deleteMail)="deleteMail($event)"></email-compose>
 </div>
 <!-- modal static-->
 <!-- <button type="button" class="btn btn-default ripple" (click)="modalDefault.show()">Static</button> -->
@@ -179,7 +186,7 @@
               <tr>
                 <td><label>Gender:</label></td>
                 <td>
-                  <select class="form-control custom-select" formControlName="gender" >
+                  <select class="form-control custom-select" formControlName="gender">
                     <option value="">Other</option>
                     <option *ngFor="let listGender of listGender" [value]="listGender.value">{{listGender.name}}</option>
                   </select>
@@ -202,10 +209,11 @@
                 <td><input type="email" class="form-control" placeholder="abc@gmail.com" formControlName="confirmEmail"></td>
               </tr>
               <tr>
-                <p *ngIf="addClientForm.controls.confirmEmail.touched && !addClientForm.controls.confirmEmail.valid" class="error-text">
+                <p *ngIf="addClientForm.controls.confirmEmail.touched && !addClientForm.controls.confirmEmail.valid"
+                  class="error-text">
                   {{ 'Confirm email is required' }}
                 </p>
-                <p *ngIf ="addClientForm.controls.confirmEmail.touched && addClientForm.errors?.mismatchedEmail" class="error-text">
+                <p *ngIf="addClientForm.controls.confirmEmail.touched && addClientForm.errors?.mismatchedEmail" class="error-text">
                   {{ "Email doesn't match" }}
                 </p>
               </tr>
@@ -222,25 +230,40 @@
                 <td><input type="password" class="form-control" formControlName="confirmPassword"></td>
               </tr>
               <tr>
-                <p *ngIf="addClientForm.controls.confirmPassword.touched && !addClientForm.controls.confirmPassword.valid" class="error-text">
+                <p *ngIf="addClientForm.controls.confirmPassword.touched && !addClientForm.controls.confirmPassword.valid"
+                  class="error-text">
                   {{ 'Confirm password is required' }}
                 </p>
-                <p *ngIf ="addClientForm.controls.confirmPassword.touched && addClientForm.errors?.mismatchedPassWord" class="error-text">
+                <p *ngIf="addClientForm.controls.confirmPassword.touched && addClientForm.errors?.mismatchedPassWord"
+                  class="error-text">
                   {{ "Password doesn't match" }}
                 </p>
-              </tr>             
+              </tr>
               <tr>
                 <td><label>Date of Birth:</label></td>
                 <td><input type="date" class="form-control" placeholder="2/2/1998" formControlName="dateOfBirth"></td>
               </tr>
               <tr>
                 <p class="error-text" *ngIf="addClientForm.controls.dateOfBirth?.invalid && addClientForm.controls.dateOfBirth?.touched">This
-                    field is required.</p>
-                </tr>
+                  field is required.</p>
+              </tr>
               <tr>
                 <td><label>Contact number:</label></td>
                 <td><input type="number" class="form-control" placeholder="123456789" formControlName="contactNumber"></td>
               </tr>
+              <tr>
+                  <td><label>Country:</label></td>
+                  <td>
+                    <select class="form-control custom-select" formControlName="countryId">
+                      <option value="">Country</option>
+                      <option *ngFor="let countries of countries" [value]="countries.Id">{{countries.Name}}</option>
+                    </select>
+                  </td>
+              </tr>
+              <tr>
+                  <p class="error-text" *ngIf="addClientForm.controls.countryId?.invalid && addClientForm.controls.countryId?.touched">This
+                    field is required.</p>
+                </tr>   
               <tr>
                 <td><label>Notes:</label></td>
                 <td><input type="text" class="form-control" placeholder="abc" formControlName="note"></td>

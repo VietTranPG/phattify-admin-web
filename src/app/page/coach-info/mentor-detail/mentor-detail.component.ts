@@ -90,7 +90,7 @@ export class MentorDetailComponent implements OnInit {
         this.toast.addToast({ title: 'Message', msg: "Successfully", timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
         setTimeout(()=>{ 
           this._router.navigate(['/coach-management']);
-        })     
+        },2000)     
       }
     }, err => {
       this._helper.toggleLoadng(false);

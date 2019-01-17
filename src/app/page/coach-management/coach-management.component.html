@@ -48,35 +48,47 @@
               <i *ngIf="!this.typeOrderBoolean && this.selectSort=='Email'" class="icofont icofont-caret-down"></i>
               Email</th>
             <th rowspan="2">Contact Number</th>
-            <th rowspan="2">Status</th>
+            <th rowspan="2" (click)="sortTable('Status')">
+                <i *ngIf="this.typeOrderBoolean && this.selectSort=='Status'" class="icofont icofont-caret-up"></i>
+                <i *ngIf="!this.typeOrderBoolean && this.selectSort=='Status'" class="icofont icofont-caret-down"></i>
+              Status</th>
             <th colspan="2" style="padding: 5px">Number of client</th>
             <th rowspan="2">Assign Group</th>
-            <th rowspan="2">Date Joined</th>
+            <th rowspan="2" (click)="sortTable('createdAt')">
+                <i *ngIf="this.typeOrderBoolean && this.selectSort=='createdAt'" class="icofont icofont-caret-up"></i>
+                <i *ngIf="!this.typeOrderBoolean && this.selectSort=='createdAt'" class="icofont icofont-caret-down"></i>
+              Date Joined</th>
             <th rowspan="2">Ref Code</th>
             <!-- <th rowspan="2">Action</th> -->
           </tr>
           <tr>
-            <th style="padding: 5px; border-top: 0;">This month</th>
-            <th style="padding: 5px; border-top: 0;">Total</th>
+            <th style="padding: 5px; border-top: 0;" (click)="sortTable('clientThisMonth')">
+                <i *ngIf="this.typeOrderBoolean && this.selectSort=='clientThisMonth'" class="icofont icofont-caret-up"></i>
+                <i *ngIf="!this.typeOrderBoolean && this.selectSort=='clientThisMonth'" class="icofont icofont-caret-down"></i>
+              This month</th>
+            <th style="padding: 5px; border-top: 0;" (click)="sortTable('TotalClient')">
+                <i *ngIf="this.typeOrderBoolean && this.selectSort=='TotalClient'" class="icofont icofont-caret-up"></i>
+                <i *ngIf="!this.typeOrderBoolean && this.selectSort=='TotalClient'" class="icofont icofont-caret-down"></i>
+              Total</th>
           </tr>
           <tbody>
-            <tr *ngFor="let item of listMentor;let i = index" (click)="goToCoachInfo(item.Id)" class = "coach">
-              <td><input type="checkbox" (change)="changeOne()" (click)="$event.stopPropagation()" [(ngModel)]="item.checked" /></td>
-              <td>{{i+1}}</td>
-              <td>{{item.FirstName}}</td>
-              <td>{{item.SurName}}</td>
+            <tr *ngFor="let item of listMentor;let i = index" class = "coach">
+              <td><input type="checkbox" (change)="changeOne()" [(ngModel)]="item.checked" /></td>
+              <td (click)="goToCoachInfo(item.Id)" class="cursor">{{i+1}}</td>
+              <td (click)="goToCoachInfo(item.Id)" class="cursor">{{item.FirstName}}</td>
+              <td (click)="goToCoachInfo(item.Id)" class="cursor">{{item.SurName}}</td>
               <td>{{item.Email}}</td>
               <td>{{item.ContactNumber}}</td>
               <td>{{item.Status}}</td>
               <td>{{item.clientThisMonth}}</td>
               <td>{{item.TotalClient ? item.TotalClient : 0}}</td>
               <td>
-                <select class="table-select" (click)="$event.stopPropagation()">
+                <select class="table-select">
                   <option>Group A</option>
                   <option>Group B</option>
                   <option>Group C</option>
                 </select>
-                <button class="btn-custom btn-orange" (click)="$event.stopPropagation()">Assign</button>
+                <button class="btn-custom btn-orange">Assign</button>
               </td>
               <td>{{item.createdAt | date: 'dd/MM/yyyy'}}</td>
               <td>{{item.RefCode}}</td>
