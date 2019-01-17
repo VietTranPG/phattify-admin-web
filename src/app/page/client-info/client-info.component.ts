@@ -83,6 +83,7 @@ export class ClientInfoComponent implements OnInit {
     // });
   }
   initForm() {
+    const isUserActive = !this.clientInfo.RoundId ? true : false;
     this.clientInfoForm = this.formBuilder.group({
       FirstName: ['', Validators.required],
       SurName: ['', Validators.required],
@@ -92,12 +93,13 @@ export class ClientInfoComponent implements OnInit {
       Status: [{ value: '', disabled: true }],
       mentor: [''],
       Gender: ['', Validators.required],
-      StartDate: ['', Validators.required],
-      StartWeight: ['', Validators.required],
-      CurrentWeight: [{ value: '', disabled: true }],
-      CountryName: ['', Validators.required],
-      EndDate: [{ value: '', disabled: true }],
-      CountryId: ['', Validators.required]
+      CountryName: [''],
+      CountryId: ['', Validators.required],
+
+      StartDate: [{ value: '', disabled: isUserActive }, Validators.required],
+      StartWeight: [{ value: '', disabled: isUserActive }, Validators.required],
+      CurrentWeight: [{ value: '', disabled: true }, Validators.required],
+      EndDate: [{ value: '', disabled: isUserActive }, Validators.required]
     }, { validator: ValidateExtendService.isFloat('StartWeight')});
     //
     this.changePasswordForm = this.formBuilder.group({
@@ -123,7 +125,11 @@ export class ClientInfoComponent implements OnInit {
         CountryId: this.clientInfo.CountryId,
         EndDate: moment(this.clientInfo.EndDate).format('YYYY-MM-DD')
       });
-      console.log(this.clientInfoForm.value, 'this.clientInfoForm');
+      if (this.clientInfo.CountryId) {
+        this.clientInfoForm.get('StartDate').enable();
+        this.clientInfoForm.get('StartWeight').enable();
+        this.clientInfoForm.get('EndDate').enable();
+      }
     }
   }
   getListMentor() {

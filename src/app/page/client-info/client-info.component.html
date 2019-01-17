@@ -99,7 +99,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6" *ngIf="clientInfo?.RoundId">
           <div class="row row--center">
             <div class="title">Current Round information</div>
             <button class="btn btn-warning btn--form" (click)="confirmDelete('wipeData')">Wipe Data</button>
@@ -148,7 +148,8 @@
         </div>
       </div>
       <div class="row row--flex-end">
-        <button class="btn btn-success" type="submit" [disabled]="!clientInfoForm.valid" (click)="editClientInfo()">Save</button>
+        <!-- <button class="btn btn-success" type="submit" [disabled]="!clientInfoForm.valid" (click)="editClientInfo()">Save</button> -->
+        <button class="btn btn-success" type="submit" (click)="editClientInfo()">Save</button>
         <button class="btn btn-danger" (click)='confirmDelete("delete")'>Delete</button>
       </div>
     </form>
