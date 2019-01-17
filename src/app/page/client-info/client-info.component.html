@@ -8,13 +8,13 @@
           <div class="row">
             <div class="col-md-6">
               <input class="form-control" placeholder="First Name" formControlName="FirstName" />
-              <p class="error-text" *ngIf="clientInfoForm.controls.FirstName.touched && !clientInfoForm.controls.FirstName.valid">This
-                field is required.</p>
+              <p class="error-text" *ngIf="!clientInfoForm.controls.FirstName.valid">This
+                field is required</p>
             </div>
             <div class="col-md-6">
               <input class="form-control" placeholder="Last Name" formControlName="SurName" />
-              <p class="error-text" *ngIf="clientInfoForm.controls.SurName.touched && !clientInfoForm.controls.SurName.valid">This
-                field is required.</p>
+              <p class="error-text" *ngIf="!clientInfoForm.controls.SurName.valid">This
+                field is required</p>
             </div>
           </div>
 
@@ -34,18 +34,21 @@
               <select class="form-control" formControlName="Gender">
                 <option [ngValue]="false">Male</option>
                 <option [ngValue]="true">Female</option>
-                <option [ngValue]="null">Other</option>
               </select>
             </div>
             <div class="col-md-6">
               <label>Date of Birth</label>
               <input class="form-control" type="date" formControlName="DateOfBirth" />
+              <p class="error-text" *ngIf="!clientInfoForm.controls.DateOfBirth.valid">This
+                field is required</p>
             </div>
           </div>
           <div class="row">
             <div class="col-md-6">
               <label>Country</label>
-              <input class="form-control" type="text" formControlName="CountryName" />
+              <select class="form-control" type="text" formControlName="CountryId">
+                <option *ngFor="let country of countries" value="{{country?.Id}}">{{country?.Name}}</option>
+              </select>
             </div>
             <div class="col-md-6">
               <label>City/Town</label>
@@ -110,6 +113,8 @@
               <div class="row">
                 <div class="col-md-12">
                   <input class="form-control" type="date" formControlName="StartDate" />
+                  <p class="error-text" *ngIf="!clientInfoForm.controls.StartDate.valid">This
+                    field is required</p>
                 </div>
               </div>
             </div>
@@ -128,6 +133,9 @@
               <div class="row">
                 <div class="col-md-12">
                   <input class="form-control" type="text" placeholder="0" formControlName="StartWeight" />
+                  <p class="error-text" *ngIf="!clientInfoForm.controls.StartWeight.valid">This
+                    field is required</p>
+                  <p class="error-text" *ngIf="clientInfoForm.controls.StartWeight.valid && clientInfoForm.errors?.invalidStartWeight">This field is invalid</p>
                 </div>
               </div>
             </div>
@@ -164,22 +172,16 @@
           <div class="col-md-6">
             <label>New password: </label>
             <input type="password" formControlName="password">
-            <p class="error-text" *ngIf="changePasswordForm.controls.password?.invalid && changePasswordForm.controls.password?.touched">This
-              field is required.</p>
+            <p class="error-text" [hidden]="!changePasswordForm.controls.password.touched || changePasswordForm.controls.password.valid">New password is required</p>
           </div>
         </div>
         <div class="row">
           <div class="col-md-6">
             <label>Confirm new password: </label>
             <input type="password" formControlName="confirmPassword">
-            <p *ngIf="changePasswordForm.controls.confirmPassword.touched && !changePasswordForm.controls.confirmPassword.valid"
-              class="error-text">
-              {{ 'Confirm password is required' }}
-            </p>
-            <p *ngIf="changePasswordForm.controls.confirmPassword.touched && changePasswordForm.hasError('mismatchedPassWord')"
-            class="error-text">
-              {{ "Password doesn't match" }}
-            </p>
+              <p *ngIf="changePasswordForm.controls.confirmPassword.valid && changePasswordForm.errors?.mismatchedPassword" class="error-text">
+                  Passwords don't match
+                </p>
           </div>
         </div>
       </form>

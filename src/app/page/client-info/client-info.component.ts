@@ -32,6 +32,7 @@ export class ClientInfoComponent implements OnInit {
   @ViewChild('modalAssign')
   modalAssign: any;
   mentorEmail: any;
+  countries: any;
   constructor(
     private router: ActivatedRoute,
     private _api: ApiService,
@@ -42,50 +43,67 @@ export class ClientInfoComponent implements OnInit {
     this.initForm();
   }
   ngOnInit() {
-    this.getClientInfo();
-    this.getListMentor();
-  }
-  getClientInfo() {
     this.router.params.subscribe((res: any) => {
       this.idClient = res.id;
-      this._api.getClientInfo(this.idClient).then((data: any) => {
-        // this.clientInfo = data['data'];
-        // this.healthList = data['data']['Health'];
-        // console.log(this.clientInfo);
-        // this.checkResendCode = data['data']['Status'] !== 'active' ? false : true;
-        // this.wipeData = data['data']['RoundId'] ? true : false;
-
-        this.clientInfo = data.data;
-        this.healthList = data.data.Health;
+      const getClientInfoPromise = this._api.getClientInfo(this.idClient);
+      const getListMentorPromise = this._api.getListMentor();
+      const getListCountry = this._api.getListCountry();
+      Promise.all([getClientInfoPromise, getListMentorPromise, getListCountry]).then((values: any) => {
+        //  process getClientInfo
+        this.clientInfo = values[0].data;
+        this.healthList = values[0].data.Health;
         console.log(this.clientInfo);
-        this.checkResendCode = data.data.Status !== 'active' ? false : true;
-        this.wipeData = data.data.RoundId ? true : false;
-
+        this.checkResendCode = values[0].data.Status !== 'active' ? false : true;
+        this.wipeData = values[0].data.RoundId ? true : false;
         this.fillDataClientInfo();
+        // process getListMentor
+        this.listMentor = values[1].data;
+
+        // process get List Country
+        this.countries = values[2].data;
       });
     });
+  }
+  getClientInfo() {
+    this._api.getClientInfo(this.idClient);
+    // .then((data: any) => {
+    //   // this.clientInfo = data['data'];
+    //   // this.healthList = data['data']['Health'];
+    //   // console.log(this.clientInfo);
+    //   // this.checkResendCode = data['data']['Status'] !== 'active' ? false : true;
+    //   // this.wipeData = data['data']['RoundId'] ? true : false;
+
+    //   this.clientInfo = data.data;
+    //   this.healthList = data.data.Health;
+    //   console.log(this.clientInfo);
+    //   this.checkResendCode = data.data.Status !== 'active' ? false : true;
+    //   this.wipeData = data.data.RoundId ? true : false;
+
+    //   this.fillDataClientInfo();
+    // });
   }
   initForm() {
     this.clientInfoForm = this.formBuilder.group({
       FirstName: ['', Validators.required],
       SurName: ['', Validators.required],
       email: [{ value: '', disabled: true }],
-      DateOfBirth: [{ value: ''}],
+      DateOfBirth: ['', Validators.required],
       City: [{ value: '', disabled: true }],
       Status: [{ value: '', disabled: true }],
       mentor: [''],
-      Gender: [{ value: ''}],
-      StartDate: [{ value: '' }],
-      StartWeight: [{ value: '' }],
+      Gender: ['', Validators.required],
+      StartDate: ['', Validators.required],
+      StartWeight: ['', Validators.required],
       CurrentWeight: [{ value: '', disabled: true }],
-      CountryName: [{ value: '', disabled: true }],
+      CountryName: ['', Validators.required],
       EndDate: [{ value: '', disabled: true }],
-      CountryId: [{ value: ''}]
-    });
+      CountryId: ['', Validators.required]
+    }, { validator: ValidateExtendService.isFloat('StartWeight')});
+    //
     this.changePasswordForm = this.formBuilder.group({
       password: ['', Validators.required],
-      confirmPassword: ['', [Validators.required]]
-    }, {validator: ValidateExtendService.matchingPassword('password','confirmPassword')});
+      confirmPassword: ''
+    }, { validator: ValidateExtendService.matchingPassword('password', 'confirmPassword') });
   }
   fillDataClientInfo() {
     if (this.clientInfo) {
@@ -109,11 +127,12 @@ export class ClientInfoComponent implements OnInit {
     }
   }
   getListMentor() {
-    this._api.getListMentor().then(res => {
-      this.listMentor = res['data'];
-    }).catch(err => {
+    this._api.getListMentor();
+    // .then(res => {
+    //   this.listMentor = res['data'];
+    // }).catch(err => {
 
-    });
+    // });
   }
   resendCode() {
     const apiResendCode = {
@@ -135,6 +154,10 @@ export class ClientInfoComponent implements OnInit {
     });
   }
   showModalChangePassword() {
+    // this.changePasswordForm = this.formBuilder.group({
+    //   password: ['', Validators.required],
+    //   confirmPassword: ['']
+    // }, { Validators: ValidateExtendService.matchingPassword('password', 'confirmPassword') });
     this.modalChangePassword.show();
   }
   changePassword() {

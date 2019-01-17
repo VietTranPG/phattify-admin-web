@@ -4,6 +4,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder } from '@angular/forms';
+import { Ng2CacheModule, CacheStoragesEnum } from 'ng2-cache';
+import { TextMaskModule } from 'angular2-text-mask';
 
 // Modules
 import { SharedModule } from './shared/shared.module';
@@ -44,10 +46,12 @@ import { AppComponent } from './app.component';
     SharedModule,
     HomeModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    Ng2CacheModule,
+    TextMaskModule
   ],
   declarations: [
-    AppComponent    
+    AppComponent
   ],
   providers: [
     ConfigService,
