@@ -1,11 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { SERVER_URL } from '../../constants/config';
-
+import { SERVER_URL, CACHE_SERVICE } from '../../constants/config';
+import { CacheService, CacheStoragesEnum } from 'ng2-cache';
 @Injectable()
 export class ApiService {
   url = SERVER_URL;
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private _cacheService: CacheService) {
+    _cacheService.useStorage(CacheStoragesEnum.LOCAL_STORAGE);
+  }
 
   login(req) {
     const urlLogin = this.url + '/admin';
@@ -54,6 +56,21 @@ export class ApiService {
     const url = this.url + '/managementclient';
     return new Promise((resolve, reject) => {
       this.http.get(url).subscribe(res => {
+        resolve(res);
+      }, err => {
+        reject(err);
+      });
+    });
+  }
+  getListCountry() {
+    const url = this.url + '/country';
+    return new Promise((resolve, reject) => {
+      const getCountries = this._cacheService.get(url);
+      if (getCountries) {
+        return resolve(getCountries);
+      }
+      this.http.get(url).subscribe(res => {
+        this._cacheService.set(url, res, { maxAge: CACHE_SERVICE.GetCountries, tag: 'getCountries' });
         resolve(res);
       }, err => {
         reject(err);

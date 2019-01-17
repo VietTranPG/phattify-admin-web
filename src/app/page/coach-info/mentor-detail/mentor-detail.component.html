@@ -38,7 +38,6 @@
             <select class="form-control" formControlName="Gender">
               <option [ngValue]="false">Male</option>
               <option [ngValue]="true">Female</option>
-              <option [ngValue]="null">Other</option>
             </select>
           </div>
         </div>
@@ -114,7 +113,7 @@
           <div class="col-md-6">
             <label>New password: </label>
             <input type="password" formControlName="password">
-            <p class="error-text" *ngIf="changePasswordForm.controls.password?.invalid && changePasswordForm.controls.password?.touched">This
+            <p class="error-text" *ngIf="changePasswordForm.controls.password?.invalid">This
               field is required.</p>
           </div>
         </div>
@@ -122,8 +121,9 @@
           <div class="col-md-6">
             <label>Confirm new password: </label>
             <input type="password" formControlName="confirmPassword">
-            <p class="error-text" *ngIf="changePasswordForm.controls.confirmPassword?.invalid && changePasswordForm.controls.password?.touched">This
-              Passwords do not match.</p>
+              <p *ngIf="changePasswordForm.controls.confirmPassword.valid && changePasswordForm.errors?.mismatchedPassword" class="error-text">
+                  Passwords don't match
+                </p>
           </div>
         </div>
       </form>
