@@ -130,7 +130,8 @@
             </span>
           </div>
           <div class="col-md-9">
-            <span *ngIf="addClientForm.controls.confirmEmail.touched && addClientForm.errors?.mismatchedEmail && addClientForm.controls.confirmEmail.valid " class="error-text">
+            <span *ngIf="addClientForm.controls.confirmEmail.touched && addClientForm.errors?.mismatchedEmail && addClientForm.controls.confirmEmail.valid "
+              class="error-text">
               {{ "Email doesn't match" }}
             </span>
           </div>
@@ -152,7 +153,7 @@
               <input type="password" class="form-control" formControlName="confirmPassword">
             </div>
           </div>
-          <p *ngIf="addClientForm.controls.confirmPassword.valid && addClientForm.errors?.mimdatchedPassword" class="error-text">
+          <p *ngIf="addClientForm.controls.confirmPassword.valid && addClientForm.errors?.mismatchedPassword" class="error-text">
             Passwords don't match
           </p>
           <p *ngIf="addClientForm.controls.confirmPassword.touched && !addClientForm.controls.confirmPassword.valid"
@@ -175,12 +176,12 @@
           <label class="col-md-3 col-form-label">Contact number:</label>
           <div class="col-md-9">
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="123456789" formControlName="contactNumber">
+              <input type="Telephone" class="form-control" placeholder="123456789" formControlName="contactNumber">
             </div>
           </div>
         </div>
         <div class="row">
-          <label class="col-md-3 col-form-label">Date of Birth:</label>
+          <label class="col-md-3 col-form-label">Country:</label>
           <div class="col-md-9">
             <div class="input-group">
               <select class="form-control custom-select" formControlName="countryId">
@@ -202,7 +203,7 @@
         </div>
         <div class="app-modal-footer">
           <button type="button" class="btn btn-default ripple" (click)="modalAddMentee.hide()">Close</button>
-          <button type="button" class="btn btn-danger ripple light" (click)="addNewMentee()" [disabled]="addClientForm.invalid || addClientForm.hasError('mimdatchedPassWord')">Confirm</button>
+          <button type="button" class="btn btn-danger ripple light" (click)="addNewMentee()">Confirm</button>
         </div>
       </form>
     </div>

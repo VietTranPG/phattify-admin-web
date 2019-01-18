@@ -222,6 +222,10 @@ export class ClientManagementComponent implements OnInit {
     this.router.navigate(['client-info', id]);
   }
   addNewMentee() {
+    this.markFormGroupTouched(this.addClientForm);
+    if (this.addClientForm.invalid) {
+      return;
+    }
     let data = {
       firstName: this.addClientForm.value.firstName,
       surName: this.addClientForm.value.surName,
@@ -239,7 +243,7 @@ export class ClientManagementComponent implements OnInit {
       if (res.status == 'error') {
         this.toast.addToast({
           title: 'Message',
-          msg: "Error",
+          msg: res.message,
           timeout: 5000,
           theme: 'material',
           position: 'top-right',
@@ -309,5 +313,14 @@ export class ClientManagementComponent implements OnInit {
     if (event.keyCode == 13) {
       this.getListClient()
     }
+  }
+  markFormGroupTouched(formGroup) {
+    (<any>Object).values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+
+      if (control.controls) {
+        this.markFormGroupTouched(control);
+      }
+    });
   }
 }

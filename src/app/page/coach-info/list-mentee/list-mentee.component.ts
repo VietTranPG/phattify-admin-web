@@ -133,6 +133,10 @@ export class ListMenteeComponent implements OnInit {
     }
   }
   addNewMentee() {
+    this.markFormGroupTouched(this.addClientForm);
+    if (this.addClientForm.invalid) {
+      return;
+    }
     let data = {
       firstName: this.addClientForm.value.firstName,
       surName: this.addClientForm.value.surName,
@@ -220,7 +224,6 @@ export class ListMenteeComponent implements OnInit {
     this._api.getCountries().subscribe(res => {
       let resultCountry = res['data'];
       this.countries = this.sortBy(resultCountry, 'Name', false);
-      console.log(this.countries);
       this.modalAddMentee.show();
     })
   }
@@ -239,4 +242,14 @@ export class ListMenteeComponent implements OnInit {
       })
     }
   }
+  markFormGroupTouched(formGroup) {
+    (<any>Object).values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+
+      if (control.controls) {
+        this.markFormGroupTouched(control);
+      }
+    });
+  }
 }
+
