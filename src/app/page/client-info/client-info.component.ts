@@ -102,7 +102,7 @@ export class ClientInfoComponent implements OnInit {
     //
     this.changePasswordForm = this.formBuilder.group({
       password: ['', Validators.required],
-      confirmPassword: ''
+      confirmPassword: ['', Validators.required]
     }, { validator: ValidateExtendService.matchingPassword('password', 'confirmPassword') });
   }
   fillDataClientInfo() {

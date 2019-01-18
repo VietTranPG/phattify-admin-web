@@ -113,7 +113,7 @@
           <div class="col-md-6">
             <label>New password: </label>
             <input type="password" formControlName="password">
-            <p class="error-text" *ngIf="changePasswordForm.controls.password?.invalid">This
+            <p class="error-text" *ngIf="changePasswordForm.controls.password?.invalid && changePasswordForm.controls.password.touched">This
               field is required.</p>
           </div>
         </div>
@@ -124,6 +124,10 @@
               <p *ngIf="changePasswordForm.controls.confirmPassword.valid && changePasswordForm.errors?.mismatchedPassword" class="error-text">
                   Passwords don't match
                 </p>
+                <p *ngIf="changePasswordForm.controls.confirmPassword.touched && !changePasswordForm.controls.confirmPassword.valid"
+                class="error-text">
+                Confirm password is required
+              </p>
           </div>
         </div>
       </form>
