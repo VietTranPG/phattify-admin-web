@@ -189,19 +189,32 @@ export class ListMenteeComponent implements OnInit {
     this.modalDelete.show();
   }
   deleteMentee() {
+    // this.modalDelete.hide();
+    // this._helper.toggleLoadng(true);
+    // this._api.deleteMentee(this.idMenteeDelete).then((res: any) => {
+    //   this._helper.toggleLoadng(false);
+    //   if (res.status == STATUS.error) {
+    //     this.toast.addToast({ title: 'Message', msg: res.message, timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
+    //   } else {
+
+    //     this.toast.addToast({ title: 'Message', msg: 'Delete Client Success', timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
+    //     this.getListMentee(this.idMentor);
+    //   }
+    // }).catch(err => {
+    //   this._helper.toggleLoadng(false);
+    // })
     this.modalDelete.hide();
     this._helper.toggleLoadng(true);
-    this._api.deleteMentee(this.idMenteeDelete).then((res: any) => {
+    this._api.deleteMenteeFromMentor( this.idMentor,this.idMenteeDelete).subscribe((res: any) => {
       this._helper.toggleLoadng(false);
-      if (res.status == STATUS.error) {
+      if (res.status === STATUS.error) {
         this.toast.addToast({ title: 'Message', msg: res.message, timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
       } else {
-
-        this.toast.addToast({ title: 'Message', msg: 'Delete Client Success', timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
+        this.toast.addToast({ title: 'Message', msg: 'Delete Client Success', timeout: 2000, theme: 'material', position: 'top-right', type: 'success' });
         this.getListMentee(this.idMentor);
       }
-    }).catch(err => {
-      this._helper.toggleLoadng(false);
+    }, err => {
+      this._helper.toggleLoadng(true);
     })
   }
   goToClientInfo(id) {
