@@ -21,7 +21,9 @@ export class MentorDetailComponent implements OnInit {
   toast: any;
   @ViewChild('modalChangePassword')
   modalChangePassword: any;
-  mentorIsBlocked:boolean;
+  mentorIsBlocked: boolean;
+  @ViewChild('modalDelete')
+  modalDelete: any;
   constructor(
     private router: ActivatedRoute,
     private _api: ApiService,
@@ -59,8 +61,9 @@ export class MentorDetailComponent implements OnInit {
       this._api.getMentorInfo(this.idMentor).then(data => {
         this.mentorInfo = data['data'];
         this.healthList = data['data']['Health'];
-
-        this.mentorIsBlocked = this.mentorInfo.BlockedAt ? true :false;
+        console.log(this.mentorInfo);
+        
+        this.mentorIsBlocked = this.mentorInfo.BlockedAt ? true : false;
         this.fillDataMentorInfo();
       })
     })
@@ -76,7 +79,7 @@ export class MentorDetailComponent implements OnInit {
         City: this.mentorInfo.City,
         Gender: this.mentorInfo.Gender,
         SurName: this.mentorInfo.SurName,
-        Status: this.mentorInfo.Status
+        Status: this.mentorInfo.BlockedAt ?'Blocked': this.mentorInfo.Status
       })
     }
   }
@@ -84,13 +87,27 @@ export class MentorDetailComponent implements OnInit {
     this._helper.toggleLoadng(true);
     this._api.downGradeMentor(this.idMentor).then((res: any) => {
       this._helper.toggleLoadng(false);
-      if (res.status == STATUS.error){ 
-        this.toast.addToast({ title: 'Message', msg: res.message, timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
-      } else { 
-        this.toast.addToast({ title: 'Message', msg: "Successfully", timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
-        setTimeout(()=>{ 
+      if (res.status == STATUS.error) {
+        this.toast.addToast({
+          title: 'Message',
+          msg: res.message,
+          timeout: 5000,
+          theme: 'material',
+          position: 'top-right',
+          type: 'error'
+        });
+      } else {
+        this.toast.addToast({
+          title: 'Message',
+          msg: "Successfully",
+          timeout: 5000,
+          theme: 'material',
+          position: 'top-right',
+          type: 'success'
+        });
+        setTimeout(() => {
           this._router.navigate(['/coach-management']);
-        },2000)     
+        }, 2000)
       }
     }, err => {
       this._helper.toggleLoadng(false);
@@ -98,19 +115,34 @@ export class MentorDetailComponent implements OnInit {
   }
   blockMentor() {
     this._helper.toggleLoadng(true);
-    this._api.blockMentor(this.idMentor).then((res:any) => {
+    this._api.blockMentor(this.idMentor).then((res: any) => {
       this._helper.toggleLoadng(false);
-      if (res.status == STATUS.error){ 
-        this.toast.addToast({ title: 'Message', msg: 'Error', timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
-      } else { 
-        this.toast.addToast({ title: 'Message', msg: 'Successfully', timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });  
+      if (res.status == STATUS.error) {
+        this.toast.addToast({
+          title: 'Message',
+          msg: 'Error',
+          timeout: 5000,
+          theme: 'material',
+          position: 'top-right',
+          type: 'error'
+        });
+      } else {
+        this.toast.addToast({
+          title: 'Message',
+          msg: 'The mentor has been blocked and cannot sign in the app anymore',
+          timeout: 5000,
+          theme: 'material',
+          position: 'top-right',
+          type: 'success'
+        });
         this.mentorIsBlocked = true;
+        this.modalDelete.hide();
       }
     }, err => {
       this._helper.toggleLoadng(false);
     })
   }
-  changePassword(){ 
+  changePassword() {
     this.modalChangePassword.hide();
     let data = {
       "password": this.changePasswordForm.value.password
@@ -120,29 +152,27 @@ export class MentorDetailComponent implements OnInit {
       this._helper.toggleLoadng(false);
       if (res['status'] === STATUS.error) {
         this.changePasswordForm.reset();
-        this.toast.addToast({ title: 'Message', msg: 'Can not change password', timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
+        this.toast.addToast({
+          title: 'Message',
+          msg: 'Can not change password',
+          timeout: 5000,
+          theme: 'material',
+          position: 'top-right',
+          type: 'error'
+        });
       } else {
         this.changePasswordForm.reset();
-        this.toast.addToast({ title: 'Message', msg: 'Change password success', timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
+        this.toast.addToast({
+          title: 'Message',
+          msg: 'Change password success',
+          timeout: 5000,
+          theme: 'material',
+          position: 'top-right',
+          type: 'success'
+        });
       }
     }).catch(err => {
       console.log(err)
     })
   }
 }
-// export function confirmValidate(control: AbstractControl) {
-//   if (control && control.value !== null) {
-//     const confirmPassword = control.value;
-//     const pass = control.root.get('password');
-//     if (pass) {
-//       const password = pass.value;
-
-//       if (password !== confirmPassword) {
-//         return {
-//           isError: true,
-//         };
-//       }
-//     }
-//   }
-//   return null;
-// }
