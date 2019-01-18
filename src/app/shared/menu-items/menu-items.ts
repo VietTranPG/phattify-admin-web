@@ -44,14 +44,14 @@ const MENUITEMS = [
       {
         state: 'client-management',
         short_label: 'N',
-        name: 'Client management',
+        name: 'Client Management',
         type: 'link',
         icon: 'feather icon-menu'
       },
       {
         state: 'coach-management',
         short_label: 'C',
-        name: 'Coach management',
+        name: 'Coach Management',
         type: 'link',
         icon: 'feather icon-menu'
       }

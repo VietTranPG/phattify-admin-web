@@ -133,7 +133,11 @@
           </div>
           <div class="app-modal-footer">
             <button type="button" class="btn btn-default ripple" (click)="modalAddMentee.hide()">Close</button>
-            <button type="button" class="btn btn-danger ripple light" (click)="addNewMentee()">Confirm</button>
+            <button type="button" 
+            class="btn btn-danger ripple light"
+            (click)="addNewMentee()"
+            [disabled]="addClientForm.invalid || addClientForm.hasError('mismatchedPassWord')"
+            >Confirm</button>
           </div>
         </div>
 
