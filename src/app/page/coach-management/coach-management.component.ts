@@ -72,7 +72,7 @@ export class CoachManagementComponent implements OnInit {
       limit: this.limit,
       orderType: this.typeOrder,
       mentee: this.mentee,
-      orderby: this.selectSort,
+      orderBy: this.selectSort,
       checked: false
     };
     this._api.getAllMentor(data).then(res => {
