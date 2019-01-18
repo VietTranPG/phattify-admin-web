@@ -61,7 +61,8 @@ export class MentorDetailComponent implements OnInit {
       this._api.getMentorInfo(this.idMentor).then(data => {
         this.mentorInfo = data['data'];
         this.healthList = data['data']['Health'];
-
+        console.log(this.mentorInfo);
+        
         this.mentorIsBlocked = this.mentorInfo.BlockedAt ? true : false;
         this.fillDataMentorInfo();
       })
@@ -78,7 +79,7 @@ export class MentorDetailComponent implements OnInit {
         City: this.mentorInfo.City,
         Gender: this.mentorInfo.Gender,
         SurName: this.mentorInfo.SurName,
-        Status: this.mentorInfo.Status
+        Status: this.mentorInfo.BlockedAt ?'Blocked': this.mentorInfo.Status
       })
     }
   }
