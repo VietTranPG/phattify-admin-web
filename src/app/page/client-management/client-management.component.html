@@ -279,7 +279,7 @@
           </div>
         </div>
         <div class="row">
-          <label class="col-md-3 col-form-label">Date of Birth:</label>
+          <label class="col-md-3 col-form-label">Country:</label>
           <div class="col-md-9">
             <div class="input-group">
               <select class="form-control custom-select" formControlName="countryId">
@@ -301,7 +301,7 @@
         </div>
         <div class="app-modal-footer">
           <button type="button" class="btn btn-default ripple" (click)="modalAddMentee.hide()">Close</button>
-          <button type="button" class="btn btn-danger ripple light" (click)="addNewMentee()" [disabled]="addClientForm.invalid || addClientForm.hasError('mismatchedPassWord')">Confirm</button>
+          <button type="button" class="btn btn-danger ripple light" (click)="addNewMentee()">Confirm</button>
         </div>
       </form>
     </div>
