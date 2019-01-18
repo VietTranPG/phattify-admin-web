@@ -66,3 +66,7 @@ table.table-wrap-text {
     margin: 0 5px;
   }
 }
+.form-add-client { 
+  overflow-y: auto;
+  max-height: 600px;
+}

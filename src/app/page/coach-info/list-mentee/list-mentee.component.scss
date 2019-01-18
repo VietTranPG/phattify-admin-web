@@ -30,3 +30,7 @@
 .client{
   cursor: pointer;
 }
+.form-add-client { 
+  overflow-y: auto;
+  max-height: 600px;
+}

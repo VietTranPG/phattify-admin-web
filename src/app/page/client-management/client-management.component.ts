@@ -225,9 +225,23 @@ export class ClientManagementComponent implements OnInit {
       console.log(data);
       
       if(res.status == 'error'){ 
-        this.toast.addToast({ title: 'Message', msg: res.message, timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
+        this.toast.addToast({ 
+          title: 'Message', 
+          msg: "Error", 
+          timeout: 5000, 
+          theme: 'material', 
+          position: 'top-right', 
+          type: 'error' 
+        });
       } else { 
-        this.toast.addToast({ title: 'Message', msg: "Successfully", timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
+        this.toast.addToast({ 
+          title: 'Message', 
+          msg: "Successfully", 
+          timeout: 5000, 
+          theme: 'material', 
+          position: 'top-right', 
+          type: 'success' 
+        });
         this.addClientForm.reset();
         this.modalAddMentee.hide();
         this.getListClient();
@@ -278,6 +292,11 @@ export class ClientManagementComponent implements OnInit {
         if (a[property] > b[property]) return -1;
         return 0;
       })
+    }
+  }
+  keyDownFunction(event) {
+    if(event.keyCode == 13) {
+      this.getListClient()
     }
   }
 }
