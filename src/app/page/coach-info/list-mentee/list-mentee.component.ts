@@ -29,6 +29,7 @@ export class ListMenteeComponent implements OnInit {
   @ViewChild('modalDelete')
   modalDelete:any;
   idMenteeDelete:any;
+  countries = [];
   listGender: any = [
     {
       name: 'Male',
@@ -62,10 +63,17 @@ export class ListMenteeComponent implements OnInit {
       gender: ['', Validators.required],
       email: ['', [Validators.required,Validators.email]],
       confirmEmail: ['', [Validators.required]],
+      password: ['',Validators.required],
+      confirmPassword: ['',Validators.required],
       dateOfBirth: ['', Validators.required],
       contactNumber: [''],
-      note: ['']
-    },{ validator: ValidateExtendService.matchingEmail('email', 'confirmEmail') })
+      note: [''],
+      countryId: ['',Validators.required]
+    },{ validator: 
+      [
+        ValidateExtendService.matchingEmail('email', 'confirmEmail'),
+        ValidateExtendService.matchingPassword('password','confirmPassword')
+    ] })
   }
   onChangePage(event) {
     this.selectAll = false;
@@ -168,5 +176,28 @@ export class ListMenteeComponent implements OnInit {
   }
   goToClientInfo(id) {
     this._router.navigate(['client-info',id]);
+  }
+  showAddClient(){ 
+    this._api.getCountries().subscribe(res => { 
+      let resultCountry = res['data'];
+      this.countries = this.sortBy(resultCountry,'Name', false);
+      console.log(this.countries);
+      this.modalAddMentee.show();
+    })
+  }
+  sortBy(list: any[], property: string, reverse: boolean) {
+    if (!reverse) {
+      return list.sort(function (a, b) {
+        if (a[property] < b[property]) return -1;
+        if (a[property] > b[property]) return 1;
+        return 0;
+      })
+    } else {
+      return list.sort(function (a, b) {
+        if (a[property] < b[property]) return 1;
+        if (a[property] > b[property]) return -1;
+        return 0;
+      })
+    }
   }
 }
