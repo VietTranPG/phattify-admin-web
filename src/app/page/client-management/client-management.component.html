@@ -229,7 +229,7 @@
                 </span>
             </div>
             <div class="col-sm-8 col-lg-10">
-                <span *ngIf="addClientForm.controls.confirmEmail.touched && addClientForm.errors?.mismatchedEmail" class="error-text">
+                <span *ngIf="addClientForm.controls.confirmEmail.touched && addClientForm.errors?.mismatchedEmail && addClientForm.controls.confirmEmail.valid " class="error-text">
                     {{ "Email doesn't match" }}
                   </span>
               </div>
