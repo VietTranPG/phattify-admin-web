@@ -88,16 +88,17 @@ export class ClientInfoComponent implements OnInit {
       SurName: ['', Validators.required],
       email: [{ value: '', disabled: true }],
       DateOfBirth: ['', Validators.required],
-      City: [{ value: '', disabled: true }],
+      City: [{ value: ''}],
       Status: [{ value: '', disabled: true }],
       mentor: [''],
       Gender: ['', Validators.required],
-      StartDate: ['', Validators.required],
-      StartWeight: ['', Validators.required],
-      CurrentWeight: [{ value: '', disabled: true }],
-      CountryName: ['', Validators.required],
-      EndDate: [{ value: '', disabled: true }],
-      CountryId: ['', Validators.required]
+      CountryName: [''],
+      CountryId: ['', Validators.required],
+
+      StartDate: [{ value: '', disabled: true }, Validators.required],
+      StartWeight: [{ value: '', disabled: true }, Validators.required],
+      CurrentWeight: [{ value: '', disabled: true }, Validators.required],
+      EndDate: [{ value: '', disabled: true }, Validators.required]
     }, { validator: ValidateExtendService.isFloat('StartWeight')});
     //
     this.changePasswordForm = this.formBuilder.group({
@@ -123,7 +124,11 @@ export class ClientInfoComponent implements OnInit {
         CountryId: this.clientInfo.CountryId,
         EndDate: moment(this.clientInfo.EndDate).format('YYYY-MM-DD')
       });
-      console.log(this.clientInfoForm.value, 'this.clientInfoForm');
+      if (this.clientInfo.RoundId) {
+        this.clientInfoForm.get('StartDate').enable();
+        this.clientInfoForm.get('StartWeight').enable();
+        this.clientInfoForm.get('EndDate').enable();
+      }
     }
   }
   getListMentor() {
@@ -289,6 +294,7 @@ export class ClientInfoComponent implements OnInit {
       dateOfBirth: clientInfoForm.DateOfBirth,
       countryId: clientInfoForm.CountryId,
       menteeId: this.clientInfo.Id,
+      city: clientInfoForm.City,
       startWeight: 0,
       startDate: '',
       RoundId: '',
