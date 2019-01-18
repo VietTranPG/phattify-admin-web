@@ -35,6 +35,8 @@
                 <option [ngValue]="false">Male</option>
                 <option [ngValue]="true">Female</option>
               </select>
+              <p class="error-text" *ngIf="!clientInfoForm.controls.Gender.valid">This
+                field is required</p>
             </div>
             <div class="col-md-6">
               <label>Date of Birth</label>
