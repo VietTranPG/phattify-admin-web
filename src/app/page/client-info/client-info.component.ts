@@ -33,6 +33,7 @@ export class ClientInfoComponent implements OnInit {
   modalAssign: any;
   mentorEmail: any;
   countries: any;
+  checkDeleteFromMentor: any;
   constructor(
     private router: ActivatedRoute,
     private _api: ApiService,
@@ -88,7 +89,7 @@ export class ClientInfoComponent implements OnInit {
       SurName: ['', Validators.required],
       email: [{ value: '', disabled: true }],
       DateOfBirth: ['', Validators.required],
-      City: [{ value: ''}],
+      City: [{ value: '' }],
       Status: [{ value: '', disabled: true }],
       mentor: [''],
       Gender: ['', Validators.required],
@@ -99,7 +100,7 @@ export class ClientInfoComponent implements OnInit {
       StartWeight: [{ value: '', disabled: true }, Validators.required],
       CurrentWeight: [{ value: '', disabled: true }, Validators.required],
       EndDate: [{ value: '', disabled: true }, Validators.required]
-    }, { validator: ValidateExtendService.isFloat('StartWeight')});
+    }, { validator: ValidateExtendService.isFloat('StartWeight') });
     //
     this.changePasswordForm = this.formBuilder.group({
       password: ['', Validators.required],
@@ -193,12 +194,19 @@ export class ClientInfoComponent implements OnInit {
     });
   }
   confirmDelete(type) {
-    if (type === 'wipeData' && this.wipeData) {    
+    if (type === 'wipeData' && this.wipeData) {
       this.checkShowDelete = false;
       this.checkShowWipeData = true;
+      this.checkDeleteFromMentor = false;
       this.modalDelete.show();
     } else if (type === 'delete') {
       this.checkShowDelete = true;
+      this.checkShowWipeData = false;
+      this.checkDeleteFromMentor = false;
+      this.modalDelete.show();
+    } else if (type == 'deleteFromMentor') {
+      this.checkDeleteFromMentor = true;
+      this.checkShowDelete = false;
       this.checkShowWipeData = false;
       this.modalDelete.show();
     } else if (!this.wipeData) {
