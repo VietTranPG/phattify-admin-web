@@ -8,24 +8,24 @@
           <div class="row">
             <div class="col-md-6">
               <input class="form-control" placeholder="First Name" formControlName="FirstName" />
-              <p class="error-text" *ngIf="clientInfoForm.controls.FirstName.touched && !clientInfoForm.controls.FirstName.valid">This
-                field is required.</p>
+              <p class="error-text" *ngIf="!clientInfoForm.controls.FirstName.valid">This
+                field is required</p>
             </div>
             <div class="col-md-6">
               <input class="form-control" placeholder="Last Name" formControlName="SurName" />
-              <p class="error-text" *ngIf="clientInfoForm.controls.SurName.touched && !clientInfoForm.controls.SurName.valid">This
-                field is required.</p>
+              <p class="error-text" *ngIf="!clientInfoForm.controls.SurName.valid">This
+                field is required</p>
             </div>
           </div>
 
           <label>Email</label>
           <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6">
               <input class="form-control" formControlName="email" />
             </div>
           </div>
           <div class="row">
-            <div class="col-md-12"><button class="btn btn-warning btn--form" (click)="showModalChangePassword()">Change
+            <div class="col-md-12"><button class="btn btn-warning btn--form" (click)="this.modalChangePassword.show()">Change
                 password</button></div>
           </div>
           <div class="row">
@@ -34,18 +34,23 @@
               <select class="form-control" formControlName="Gender">
                 <option [ngValue]="false">Male</option>
                 <option [ngValue]="true">Female</option>
-                <option [ngValue]="null">Other</option>
               </select>
+              <p class="error-text" *ngIf="!clientInfoForm.controls.Gender.valid">This
+                field is required</p>
             </div>
             <div class="col-md-6">
               <label>Date of Birth</label>
               <input class="form-control" type="date" formControlName="DateOfBirth" />
+              <p class="error-text" *ngIf="!clientInfoForm.controls.DateOfBirth.valid">This
+                field is required</p>
             </div>
           </div>
           <div class="row">
             <div class="col-md-6">
               <label>Country</label>
-              <input class="form-control" type="text" formControlName="CountryName" />
+              <select class="form-control" type="text" formControlName="CountryId">
+                <option *ngFor="let country of countries" value="{{country?.Id}}">{{country?.Name}}</option>
+              </select>
             </div>
             <div class="col-md-6">
               <label>City/Town</label>
@@ -54,26 +59,24 @@
           </div>
           <label>Health List</label>
           <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6">
               <div class="form-control--custom">
-                <!-- <tr *ngFor="let healthList of healthList; let i = index">
-                  <td>{{healthList.Name}}</td>
-                </tr> -->
                 <ul class="list-group list-group-flush" *ngFor="let healthList of healthList; let i = index">
                   <li class="list-group-item disabled">{{healthList.Name}}</li>
                 </ul>
                 <ul class="list-group list-group-flush">
-                  <li class="list-group-item disabled" *ngIf="clientInfo.OtherIllnesses">OtherIllnesses: {{clientInfo.OtherIllnesses}}</li>
+                  <li class="list-group-item disabled" *ngIf="clientInfo.OtherIllnesses">OtherIllnesses:
+                    {{clientInfo.OtherIllnesses}}</li>
                   <li class="list-group-item disabled" *ngIf="clientInfo.Allergies">Allergies: {{clientInfo.Allergies}}</li>
-                  <li class="list-group-item disabled" *ngIf="clientInfo.HealthMedication">HealthMedication: {{clientInfo.HealthMedication}}</li>
+                  <li class="list-group-item disabled" *ngIf="clientInfo.HealthMedication">HealthMedication:
+                    {{clientInfo.HealthMedication}}</li>
                 </ul>
               </div>
-              
             </div>
           </div>
           <label>Status</label>
           <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-6">
               <select formControlName="Status" class="form-control">
                 <option value="active">Active</option>
                 <option value="deactive">Inactivate</option>
@@ -81,13 +84,14 @@
               </select>
             </div>
             <div class="col-md-3">
-              <button [class]="checkResendCode?'btn btn-secondary btn--form':'btn btn-warning btn--form'" [disabled]="checkResendCode" (click)="resendCode()">Resend</button>
+              <button [class]="checkResendCode?'btn btn-secondary btn--form':'btn btn-warning btn--form'" [disabled]="checkResendCode"
+                (click)="resendCode()">Resend</button>
             </div>
           </div>
           <label>Mentor</label>
 
           <div class="row" *ngIf="!clientInfo.MentorEmail">
-            <div class="col-md-9">
+            <div class="col-md-6">
               <ng-select class="select-custom" [options]="listMentor" formControlName="mentor" placeholder="select Mentor"></ng-select>
             </div>
             <div class="col-md-3">
@@ -95,12 +99,12 @@
             </div>
           </div>
           <div class="row" *ngIf="clientInfo.MentorEmail">
-            <div class="col-md-12">
+            <div class="col-md-6">
               <input class="form-control" formControlName="mentor" disabled />
             </div>
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6" [hidden]="!clientInfo.RoundId">
           <div class="row row--center">
             <div class="title">Current Round information</div>
             <button class="btn btn-warning btn--form" (click)="confirmDelete('wipeData')">Wipe Data</button>
@@ -111,6 +115,8 @@
               <div class="row">
                 <div class="col-md-12">
                   <input class="form-control" type="date" formControlName="StartDate" />
+                  <p class="error-text" *ngIf="!clientInfoForm.controls.StartDate.valid">This
+                    field is required</p>
                 </div>
               </div>
             </div>
@@ -129,6 +135,9 @@
               <div class="row">
                 <div class="col-md-12">
                   <input class="form-control" type="text" placeholder="0" formControlName="StartWeight" />
+                  <p class="error-text" *ngIf="!clientInfoForm.controls.StartWeight.valid">This
+                    field is required</p>
+                  <p class="error-text" *ngIf="clientInfoForm.controls.StartWeight.valid && clientInfoForm.errors?.invalidStartWeight">This field is invalid</p>
                 </div>
               </div>
             </div>
@@ -144,8 +153,10 @@
         </div>
       </div>
       <div class="row row--flex-end">
-        <button class="btn btn-success" type="submit" [disabled]="!clientInfoForm.valid">Save</button>
+        <!-- <button class="btn btn-success" type="submit" [disabled]="!clientInfoForm.valid" (click)="editClientInfo()">Save</button> -->
+        <button class="btn btn-success" type="submit" (click)="editClientInfo()">Save</button>
         <button class="btn btn-danger" (click)='confirmDelete("delete")'>Delete</button>
+        <button class="btn btn-danger" (click)='confirmDelete("deleteFromMentor")' *ngIf="this.clientInfo?.MentorId">Delete Connect With Mentor</button>
       </div>
     </form>
   </div>
@@ -154,7 +165,7 @@
 <app-modal-basic #modalChangePassword>
   <div class="app-modal-header">
     <h4 class="modal-title">Change password</h4>
-    <button type="button" class="btn btn-warning btn--form" (click)="modalChangePassword.hide()">
+    <button type="button" class="close basic-close" (click)="modalChangePassword.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -165,7 +176,7 @@
           <div class="col-md-6">
             <label>New password: </label>
             <input type="password" formControlName="password">
-            <p class="error-text" *ngIf="changePasswordForm.controls.password?.invalid && changePasswordForm.controls.password?.touched">This
+            <p class="error-text" *ngIf="changePasswordForm.controls.password.touched && !changePasswordForm.controls.password.valid">This
               field is required.</p>
           </div>
         </div>
@@ -173,8 +184,13 @@
           <div class="col-md-6">
             <label>Confirm new password: </label>
             <input type="password" formControlName="confirmPassword">
-            <p class="error-text" *ngIf="changePasswordForm.controls.confirmPassword?.invalid && changePasswordForm.controls.password?.touched">This
-              Passwords do not match.</p>
+            <p *ngIf="changePasswordForm.controls.confirmPassword.valid && changePasswordForm.errors?.mismatchedPassword" class="error-text">
+              Passwords don't match
+            </p>
+            <p *ngIf="changePasswordForm.controls.confirmPassword.touched && !changePasswordForm.controls.confirmPassword.valid"
+            class="error-text">
+            Confirm password is required
+          </p>
           </div>
         </div>
       </form>
@@ -182,7 +198,7 @@
   </div>
   <div class="app-modal-footer">
     <button type="button" class="btn btn-default ripple" (click)="modalChangePassword.hide()">Close</button>
-    <button type="button" class="btn btn-danger ripple light" (click)="changePassword()" [disabled]='changePasswordForm.invalid'>Confirm</button>
+    <button type="button" class="btn btn-danger ripple light" (click)="changePassword()" [disabled]="changePasswordForm.invalid || changePasswordForm.hasError('mismatchedPassWord')">Confirm</button>
   </div>
 </app-modal-basic>
 <toast #toast></toast>

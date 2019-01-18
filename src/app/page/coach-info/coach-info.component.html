@@ -1,0 +1,22 @@
+<div class="card card--coach-management">
+  <div class="row">
+    <div class="col">
+      <div class=" col-flex">
+        <div [class]="showCoachDetail?'col-detail col-active':'col-detail'" (click)="showCoachDetail = true">
+          <h5>Mentor detail</h5>
+        </div>
+        <div [class]="!showCoachDetail?'col-detail col-active':'col-detail'" (click)="showCoachDetail = false">
+          <h5>Client list</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12" *ngIf="showCoachDetail">
+      <app-mentor-detail></app-mentor-detail>
+    </div>
+    <div class="col-md-12" *ngIf="!showCoachDetail">
+      <app-list-mentee></app-list-mentee>
+    </div>
+  </div>
+</div>

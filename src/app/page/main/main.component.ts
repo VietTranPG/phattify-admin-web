@@ -127,7 +127,7 @@ export class MainComponent implements OnInit {
   public dropDownIcon: string;
   public subItemIcon: string;
 
-  public configOpenRightBar: string;
+  public configOpenRightBar: any;
   public displayBoxLayout: string;
   public isVerticalLayoutChecked: boolean;
   public isSidebarChecked: boolean;
@@ -430,9 +430,9 @@ export class MainComponent implements OnInit {
     }
   }
 
-  toggleRightbar() {
-    this.configOpenRightBar = this.configOpenRightBar === 'open' ? '' : 'open';
-  }
+  // toggleRightbar() {
+  //   this.configOpenRightBar = this.configOpenRightBar === 'open' ? '' : 'open';
+  // }
 
   setNavBarTheme(theme: string) {
     if (theme === 'themelight1') {

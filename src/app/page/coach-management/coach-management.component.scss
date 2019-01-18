@@ -1,0 +1,47 @@
+table {
+  font-size: 13px;
+  th {
+    text-align: center;
+  }
+  td {
+    text-align: center;
+    .table-select, .btn-custom {
+      height: 30px;
+      display: inline-block;
+    }
+    .btn-custom {
+      border-radius: 3px;
+      &.btn-orange {
+        background: #ffba57;
+        border: 1px solid #ffba57;
+        color: #FFF;
+      }
+    }
+  }
+}
+
+.margin-button {
+  margin-left: 5px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+
+.form-control {
+  height: 32px;
+  margin-left: 4px;
+  border: 1px solid #cccccc;
+}
+
+.col-md-2 {
+  display: flex;
+  align-items: center;
+}
+.coach .cursor {
+  cursor: pointer;
+}
+.email-compose {
+  max-width: 600px;
+  position: fixed;
+  right: 5px;
+  bottom: 0;
+}

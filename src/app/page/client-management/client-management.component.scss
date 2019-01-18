@@ -1,13 +1,16 @@
 input {
   height: 31px;
 }
-.client{
+.client .cursor{
   cursor: pointer;
 }
 .form-control {
   height: 32px;
   margin-left: 4px;
   border: 1px solid #cccccc;
+  &:hover {
+    border: 1px solid #cccccc;
+  }
 }
 
 .col-md-2 {
@@ -37,4 +40,33 @@ table.table-wrap-text {
   td {
     white-space: normal;
   }
+}
+.error-text{
+  color: red ;
+}
+.email-compose {
+  max-width: 600px;
+  position: fixed;
+  right: 5px;
+  bottom: 0;
+}
+.col-right{
+  margin-top: 5px;
+  margin-bottom: 10px;
+  float: right;
+}
+
+.app-modal-footer {
+  width: 100%;
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+  button {
+    min-width: 100px;
+    margin: 0 5px;
+  }
+}
+.form-add-client { 
+  overflow-y: auto;
+  max-height: 600px;
 }
