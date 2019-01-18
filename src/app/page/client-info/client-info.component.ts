@@ -98,7 +98,7 @@ export class ClientInfoComponent implements OnInit {
       CountryName: ['', Validators.required],
       EndDate: [{ value: '', disabled: true }],
       CountryId: ['', Validators.required]
-    }, { validator: ValidateExtendService.isFloat('StartWeight')});
+    }, { validator: ValidateExtendService.isFloat('StartWeight') });
     //
     this.changePasswordForm = this.formBuilder.group({
       password: ['', Validators.required],
@@ -188,7 +188,7 @@ export class ClientInfoComponent implements OnInit {
     });
   }
   confirmDelete(type) {
-    if (type === 'wipeData' && this.wipeData) {
+    if (type === 'wipeData' && this.wipeData) {    
       this.checkShowDelete = false;
       this.checkShowWipeData = true;
       this.modalDelete.show();
@@ -225,6 +225,22 @@ export class ClientInfoComponent implements OnInit {
     }).catch(err => {
       this._helper.toggleLoadng(true);
     });
+  }
+  deleteFromMentor() {
+    this.modalDelete.hide();
+    this._helper.toggleLoadng(true);
+    this._api.deleteMenteeFromMentor(this.clientInfo.MentorId, this.clientInfo.Id).subscribe((res: any) => {
+      this.checkShowDelete = false;
+      this._helper.toggleLoadng(false);
+      if (res.status === STATUS.error) {
+        this.toast.addToast({ title: 'Message', msg: res.message, timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
+      } else {
+        this.toast.addToast({ title: 'Message', msg: 'Delete Client Success', timeout: 2000, theme: 'material', position: 'top-right', type: 'success' });
+        this._router.navigate(['/coach-management']);
+      }
+    }, err => {
+      this._helper.toggleLoadng(true);
+    })
   }
   deleteRound() {
     this.modalDelete.hide();
@@ -303,7 +319,8 @@ export class ClientInfoComponent implements OnInit {
       if (res.status === 'error') {
         this.toast.addToast({
           title: 'Message', msg: res.message,
-          timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
+          timeout: 5000, theme: 'material', position: 'top-right', type: 'error'
+        });
       } else {
         this.toast.addToast({
           title: 'Message', msg: 'Successfully', timeout: 5000,
@@ -313,7 +330,8 @@ export class ClientInfoComponent implements OnInit {
     }).catch(err => {
       this.toast.addToast({
         title: 'Message', msg: err.message,
-        timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
+        timeout: 5000, theme: 'material', position: 'top-right', type: 'error'
+      });
     });
   }
 }

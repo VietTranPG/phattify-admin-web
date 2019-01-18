@@ -141,7 +141,7 @@ export class ApiService {
     const url = SERVER_URL + 'managementmentor?search=' + q;
     return this.http.get(url);
   }
-  getMentorInfo(id){
+  getMentorInfo(id) {
     const url = this.url + 'mentor-info?Id=' + id;
     return new Promise((resolve, reject) => {
       this.http.get(url).subscribe(res => {
@@ -151,7 +151,7 @@ export class ApiService {
       });
     });
   }
-  downGradeMentor(id){
+  downGradeMentor(id) {
     const url = this.url + 'mentor-info?Id=' + id;
     return new Promise((resolve, reject) => {
       this.http.delete(url).subscribe(res => {
@@ -161,7 +161,7 @@ export class ApiService {
       });
     });
   }
-  blockMentor(id){
+  blockMentor(id) {
     const url = this.url + 'mentor-info?Id=' + id;
     return new Promise((resolve, reject) => {
       this.http.patch(url, id).subscribe(res => {
@@ -171,7 +171,7 @@ export class ApiService {
       });
     });
   }
-  addNewMentee(req){
+  addNewMentee(req) {
     const url = SERVER_URL + 'mentor-info';
     return new Promise((resolve, reject) => {
       this.http.post(url, req).subscribe(res => {
@@ -181,7 +181,7 @@ export class ApiService {
       });
     });
   }
-  sendMail(req){
+  sendMail(req) {
     const url = SERVER_URL + 'admin-email-compose';
     return new Promise((resolve, reject) => {
       this.http.post(url, req).subscribe(res => {
@@ -191,7 +191,7 @@ export class ApiService {
       });
     });
   }
-  adminAddClient(req){
+  adminAddClient(req) {
     const url = SERVER_URL + 'admin-addclient';
     return new Promise((resolve, reject) => {
       this.http.post(url, req).subscribe(res => {
@@ -212,8 +212,16 @@ export class ApiService {
       });
     });
   }
-  getCountries(){
+  getCountries() {
     const url = SERVER_URL + 'country';
     return this.http.get(url);
+  }
+  deleteMenteeFromMentor(idMentor, idClient) {
+    const url = SERVER_URL + 'mentor-info';
+    let req = {
+      idUser: idMentor,
+      idClient: idClient
+    }
+    return this.http.put(url, req);
   }
 }

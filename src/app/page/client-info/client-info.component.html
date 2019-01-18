@@ -153,6 +153,7 @@
       <div class="row row--flex-end">
         <button class="btn btn-success" type="submit" [disabled]="!clientInfoForm.valid" (click)="editClientInfo()">Save</button>
         <button class="btn btn-danger" (click)='confirmDelete("delete")'>Delete</button>
+        <button class="btn btn-danger" (click)='confirmDelete("deleteFromMentor")' *ngIf="this.clientInfo?.MentorId">Delete Connect With Mentor</button>
       </div>
     </form>
   </div>
