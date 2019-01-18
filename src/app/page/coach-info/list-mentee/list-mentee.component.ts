@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../../services/api-service/api.service';
 import { FormBuilder, Validators } from '@angular/forms';
@@ -12,11 +12,11 @@ import { ValidateExtendService } from '../../../services/validate-service/valida
 })
 export class ListMenteeComponent implements OnInit {
   @ViewChild('modalAddMentee')
-  modalAddMentee:any;
-  addClientForm:any;
-  listMentee:any;
-  changePasswordForm:any;
-  idMentor:any;
+  modalAddMentee: any;
+  addClientForm: any;
+  listMentee: any;
+  changePasswordForm: any;
+  idMentor: any;
   limit: number = 20;
   status: string = '';
   selectSort: any = '';
@@ -27,8 +27,8 @@ export class ListMenteeComponent implements OnInit {
   @ViewChild('toast')
   toast: any;
   @ViewChild('modalDelete')
-  modalDelete:any;
-  idMenteeDelete:any;
+  modalDelete: any;
+  idMenteeDelete: any;
   countries = [];
   listGender: any = [
     {
@@ -41,9 +41,9 @@ export class ListMenteeComponent implements OnInit {
     }
   ]
   typeOrderBoolean: boolean;
-  deleteFlag:any;
+  deleteFlag: any;
   constructor(
-     private router: ActivatedRoute,
+    private router: ActivatedRoute,
     private _api: ApiService,
     private formBuilder: FormBuilder,
     private _helper: HelperService,
@@ -52,35 +52,37 @@ export class ListMenteeComponent implements OnInit {
 
   ngOnInit() {
     this.InitFormAddClient();
-    this.router.params.subscribe(res => { 
+    this.router.params.subscribe(res => {
       this.idMentor = res.id;
       this.getListMentee(res.id);
     })
   }
-  InitFormAddClient(){ 
-    this.addClientForm = this.formBuilder.group({ 
+  InitFormAddClient() {
+    this.addClientForm = this.formBuilder.group({
       firstName: ['', Validators.required],
       surName: ['', Validators.required],
-      gender: ['', Validators.required],
-      email: ['', [Validators.required,Validators.email]],
+      gender: ['male', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       confirmEmail: ['', [Validators.required]],
-      password: ['',Validators.required],
-      confirmPassword: ['',Validators.required],
+      password: ['', Validators.required],
+      confirmPassword: ['', Validators.required],
       dateOfBirth: ['', Validators.required],
       contactNumber: [''],
       note: [''],
-      countryId: ['',Validators.required]
-    },{ validator: 
-      [
-        ValidateExtendService.matchingEmail('email', 'confirmEmail'),
-        ValidateExtendService.matchingPassword('password','confirmPassword')
-    ] })
+      countryId: ['', Validators.required]
+    }, {
+        validator:
+          [
+            ValidateExtendService.matchingEmail('email', 'confirmEmail'),
+            ValidateExtendService.matchingPassword('password', 'confirmPassword')
+          ]
+      })
   }
   onChangePage(event) {
     this.selectAll = false;
     this.getListMentee(this.idMentor);
   }
-  getListMentee(id){ 
+  getListMentee(id) {
     let data = {
       page: this.page,
       limit: this.limit,
@@ -90,11 +92,11 @@ export class ListMenteeComponent implements OnInit {
       mentor: id,
       checked: false
     }
-    this._api.management(data).then(res => { 
+    this._api.management(data).then(res => {
       this.listMentee = res['data']['clients'];
-      this.totalItem = res['data']['totalItem']; 
+      this.totalItem = res['data']['totalItem'];
       console.log(this.listMentee);
-      
+
     })
   }
   sortTable(data) {
@@ -130,18 +132,41 @@ export class ListMenteeComponent implements OnInit {
       this.selectAll = (count === this.listMentee.length || count === this.limit) ? true : false;
     }
   }
-  addNewMentee(){ 
-    let data = this.addClientForm.value;
+  addNewMentee() {
+    let data = {
+      firstName: this.addClientForm.value.firstName,
+      surName: this.addClientForm.value.surName,
+      gender: this.addClientForm.value.gender == 'male' ? GENDER.Male : GENDER.Female,
+      email: this.addClientForm.value.email,
+      dateOfBirth: this.addClientForm.value.dateOfBirth,
+      contactNumber: this.addClientForm.value.contactNumber,
+      note: this.addClientForm.value.note,
+      password: this.addClientForm.value.password
+    }
     data['userId'] = this.idMentor;
-    this._api.addNewMentee(data).then((res:any) => {
-      if(res.status == 'error'){ 
-        this.toast.addToast({ title: 'Message', msg: res.message, timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
-      } else { 
-        this.toast.addToast({ title: 'Message', msg: "Successfully", timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
+    this._api.addNewMentee(data).then((res: any) => {
+      if (res.status == 'error') {
+        this.toast.addToast({
+          title: 'Message',
+          msg: res.message,
+          timeout: 5000,
+          theme: 'material',
+          position: 'top-right',
+          type: 'error'
+        });
+      } else {
+        this.toast.addToast({
+          title: 'Message',
+          msg: "Successfully",
+          timeout: 5000,
+          theme: 'material',
+          position: 'top-right',
+          type: 'success'
+        });
         this.addClientForm.reset();
         this.modalAddMentee.hide();
         this.getListMentee(this.idMentor);
-      } 
+      }
     })
   }
   resendCode(idClient) {
@@ -155,33 +180,46 @@ export class ListMenteeComponent implements OnInit {
       console.log(err);
     })
   }
-  delete(id){
+  delete(id) {
     this.idMenteeDelete = id;
     this.modalDelete.show();
   }
-  deleteMentee(){ 
+  deleteMentee() {
+    // this.modalDelete.hide();
+    // this._helper.toggleLoadng(true);
+    // this._api.deleteMentee(this.idMenteeDelete).then((res: any) => {
+    //   this._helper.toggleLoadng(false);
+    //   if (res.status == STATUS.error) {
+    //     this.toast.addToast({ title: 'Message', msg: res.message, timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
+    //   } else {
+
+    //     this.toast.addToast({ title: 'Message', msg: 'Delete Client Success', timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
+    //     this.getListMentee(this.idMentor);
+    //   }
+    // }).catch(err => {
+    //   this._helper.toggleLoadng(false);
+    // })
     this.modalDelete.hide();
     this._helper.toggleLoadng(true);
-    this._api.deleteMentee(this.idMenteeDelete).then((res: any) => {
+    this._api.deleteMenteeFromMentor( this.idMentor,this.idMenteeDelete).subscribe((res: any) => {
       this._helper.toggleLoadng(false);
-      if (res.status == STATUS.error) {
+      if (res.status === STATUS.error) {
         this.toast.addToast({ title: 'Message', msg: res.message, timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
       } else {
-        
-        this.toast.addToast({ title: 'Message', msg: 'Delete Client Success', timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
+        this.toast.addToast({ title: 'Message', msg: 'Delete Client Success', timeout: 2000, theme: 'material', position: 'top-right', type: 'success' });
         this.getListMentee(this.idMentor);
       }
-    }).catch(err => {
-      this._helper.toggleLoadng(false);
+    }, err => {
+      this._helper.toggleLoadng(true);
     })
   }
   goToClientInfo(id) {
-    this._router.navigate(['client-info',id]);
+    this._router.navigate(['client-info', id]);
   }
-  showAddClient(){ 
-    this._api.getCountries().subscribe(res => { 
+  showAddClient() {
+    this._api.getCountries().subscribe(res => {
       let resultCountry = res['data'];
-      this.countries = this.sortBy(resultCountry,'Name', false);
+      this.countries = this.sortBy(resultCountry, 'Name', false);
       console.log(this.countries);
       this.modalAddMentee.show();
     })
