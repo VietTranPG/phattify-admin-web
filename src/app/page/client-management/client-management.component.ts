@@ -29,16 +29,16 @@ export class ClientManagementComponent implements OnInit {
   listMentor: any = [];
   mentor: string = '';
   deleteFlag: any;
-  isMinimize:boolean;
+  isMinimize: boolean;
   tbAll = false;
   @ViewChild('modalDelete')
   modalDelete: any;
   @ViewChild('toast')
   toast: any;
   @ViewChild('modalAddMentee')
-  modalAddMentee:any;
-  addClientForm:any;
-  showSendMail:boolean = false;
+  modalAddMentee: any;
+  addClientForm: any;
+  showSendMail: boolean = false;
   listMail = [];
   countries = [];
   listGender: any = [
@@ -62,7 +62,7 @@ export class ClientManagementComponent implements OnInit {
     this.getListClient();
     this.getListMentor();
     this.InitFormAddClient();
-   
+
     // this.listMentor = [
     //   { value: '0', label: 'Alabama' },
     //   { value: '1', label: 'Wyoming' },
@@ -71,24 +71,26 @@ export class ClientManagementComponent implements OnInit {
     //   { value: '4', label: 'John Doe' }
     // ];
   }
-  InitFormAddClient(){ 
-    this.addClientForm = this.formBuilder.group({ 
+  InitFormAddClient() {
+    this.addClientForm = this.formBuilder.group({
       firstName: ['', Validators.required],
       surName: ['', Validators.required],
-      gender: ['', Validators.required],
-      email: ['', [Validators.required,Validators.email]],
+      gender: ['male', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       confirmEmail: ['', [Validators.required]],
-      password: ['',Validators.required],
-      confirmPassword: ['',Validators.required],
+      password: ['', Validators.required],
+      confirmPassword: ['', Validators.required],
       dateOfBirth: ['', Validators.required],
       contactNumber: [''],
       note: [''],
-      countryId: ['',Validators.required]
-    },{ validator: 
-      [
-        ValidateExtendService.matchingEmail('email', 'confirmEmail'),
-        ValidateExtendService.matchingPassword('password','confirmPassword')
-    ] })
+      countryId: ['', Validators.required]
+    }, {
+      validator:
+        [
+          ValidateExtendService.matchingEmail('email', 'confirmEmail'),
+          ValidateExtendService.matchingPassword('password', 'confirmPassword')
+        ]
+      })
   }
   onChangePage(event) {
     this.selectAll = false;
@@ -106,7 +108,7 @@ export class ClientManagementComponent implements OnInit {
       mentor: this.mentor,
       checked: false
     };
-    
+
     this._api.management(data).then(res => {
       this.listClient = res['data']['clients']
       this.totalItem = res['data']['totalItem'];
@@ -182,7 +184,7 @@ export class ClientManagementComponent implements OnInit {
       if (value !== undefined) {
         for (let index = 0; index < this.listClient.length; index++) {
           this.listClient[index].checked = value;
-          if(this.listClient[index].checked == true){
+          if (this.listClient[index].checked == true) {
             this.listMail.push(this.listClient[index].Email)
           }
         }
@@ -202,80 +204,89 @@ export class ClientManagementComponent implements OnInit {
     let count = 0;
     if (this.listClient) {
       for (let i = 0; i < this.listClient.length; i++) {
-        if (this.listClient[i].checked === true){
+        if (this.listClient[i].checked === true) {
           count++;
-          if(this.listMail.indexOf(this.listClient[i].Email)==-1){
+          if (this.listMail.indexOf(this.listClient[i].Email) == -1) {
             this.listMail.push(this.listClient[i].Email)
-          }    
+          }
         } else {
-          if(this.listMail.indexOf(this.listClient[i].Email) !=-1){
-            this.listMail.splice(this.listMail.indexOf(this.listClient[i].Email),1);
+          if (this.listMail.indexOf(this.listClient[i].Email) != -1) {
+            this.listMail.splice(this.listMail.indexOf(this.listClient[i].Email), 1);
           }
         }
       }
-      this.selectAll = (count === this.listMentor.length || count === this.limit)  ? true : false;
+      this.selectAll = (count === this.listMentor.length || count === this.limit) ? true : false;
     }
   }
   goToClientInfo(id) {
-    this.router.navigate(['client-info',id]);
+    this.router.navigate(['client-info', id]);
   }
-  addNewMentee(){ 
-    let data = this.addClientForm.value;
-    this._api.adminAddClient(data).then((res:any) => {
+  addNewMentee() {
+    let data = {
+      firstName: this.addClientForm.value.firstName,
+      surName: this.addClientForm.value.surName,
+      gender: this.addClientForm.value.gender == 'male' ? GENDER.Male : GENDER.Female,
+      email: this.addClientForm.value.email,
+      dateOfBirth: this.addClientForm.value.dateOfBirth,
+      contactNumber: this.addClientForm.value.contactNumber,
+      note: this.addClientForm.value.note,
+      password:this.addClientForm.value.password
+    }
+    this._api.adminAddClient(data).then((res: any) => {
+      console.log(res);
       console.log(data);
-      
-      if(res.status == 'error'){ 
-        this.toast.addToast({ 
-          title: 'Message', 
-          msg: "Error", 
-          timeout: 5000, 
-          theme: 'material', 
-          position: 'top-right', 
-          type: 'error' 
+
+      if (res.status == 'error') {
+        this.toast.addToast({
+          title: 'Message',
+          msg: "Error",
+          timeout: 5000,
+          theme: 'material',
+          position: 'top-right',
+          type: 'error'
         });
-      } else { 
-        this.toast.addToast({ 
-          title: 'Message', 
-          msg: "Successfully", 
-          timeout: 5000, 
-          theme: 'material', 
-          position: 'top-right', 
-          type: 'success' 
+      } else {
+        this.toast.addToast({
+          title: 'Message',
+          msg: "Successfully",
+          timeout: 5000,
+          theme: 'material',
+          position: 'top-right',
+          type: 'success'
         });
         this.addClientForm.reset();
         this.modalAddMentee.hide();
         this.getListClient();
-      } 
+      }
     })
   }
-  closeSendForm(val?){
+  closeSendForm(val?) {
     this.showSendMail = false;
-    if(val === "Successfully"){
+    if (val === "Successfully") {
       this.toast.addToast({ title: 'Message', msg: val, timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
     }
     this.listMail = [];
-    for(let i = 0; i<this.listClient.length;i++){
+    for (let i = 0; i < this.listClient.length; i++) {
       this.listClient[i].checked = false;
     }
     this.selectAll = false;
   }
-  deleteMail(val){
-    this.listMail.splice(this.listMail.indexOf(val),0);
-    for(let i = 0;i<this.listClient.length;i++){
-      if(this.listClient[i].Email == val){
+  deleteMail(val) {
+    this.listMail.splice(this.listMail.indexOf(val), 0);
+    for (let i = 0; i < this.listClient.length; i++) {
+      if (this.listClient[i].Email == val) {
         this.listClient[i].checked = false;
       }
     }
   }
   showSendMailForm() {
     this.showSendMail = true;
-    this.isMinimize =  !this.isMinimize ;
+    this.isMinimize = !this.isMinimize;
   }
-  showAddClient(){ 
-    this._api.getCountries().subscribe(res => { 
+  showAddClient() {
+    this._api.getCountries().subscribe(res => {
       let resultCountry = res['data'];
-      this.countries = this.sortBy(resultCountry,'Name', false);
-      console.log(this.countries);
+      this.countries = this.sortBy(resultCountry, 'Name', false);
       this.modalAddMentee.show();
     })
   }
@@ -295,7 +306,7 @@ export class ClientManagementComponent implements OnInit {
     }
   }
   keyDownFunction(event) {
-    if(event.keyCode == 13) {
+    if (event.keyCode == 13) {
       this.getListClient()
     }
   }
