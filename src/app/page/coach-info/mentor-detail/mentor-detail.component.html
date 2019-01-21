@@ -64,16 +64,16 @@
       </div>
       <div class="row">
         <div class="col-sm-12">
-            <label>Health List</label>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-control--custom">
-                      <ul class="list-group list-group-flush" *ngFor="let healthList of healthList; let i = index">
-                        <li class="list-group-item disabled">{{healthList.Name}}</li>
-                      </ul>
-                    </div>             
-                  </div>
+          <label>Health List</label>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-control--custom">
+                <ul class="list-group list-group-flush" *ngFor="let healthList of healthList; let i = index">
+                  <li class="list-group-item disabled">{{healthList.Name}}</li>
+                </ul>
+              </div>
             </div>
+          </div>
         </div>
       </div>
       <div class="row">
@@ -81,7 +81,7 @@
           <label>Status</label>
           <div class="row">
             <div class="col-sm-6">
-                <input class="form-control" formControlName="Status" />
+              <input class="form-control" formControlName="Status" />
             </div>
             <div class="col-sm-3">
               <button class="btn btn-secondary btn--form">Resend</button>
@@ -110,24 +110,29 @@
     <div class="container">
       <form class="form" [formGroup]="changePasswordForm">
         <div class="row">
-          <div class="col-md-6">
-            <label>New password: </label>
-            <input type="password" formControlName="password">
-            <p class="error-text" *ngIf="changePasswordForm.controls.password?.invalid && changePasswordForm.controls.password.touched">This
+          <label class="col-md-4 col-form-label">New password: </label>
+          <div class="col-md-8">
+            <div class="input-group">
+              <input type="password" formControlName="password" class="form-control">
+            </div>
+            <p class="error-text" *ngIf="changePasswordForm.controls.password.touched && !changePasswordForm.controls.password.valid">This
               field is required.</p>
           </div>
         </div>
         <div class="row">
-          <div class="col-md-6">
-            <label>Confirm new password: </label>
-            <input type="password" formControlName="confirmPassword">
-              <p *ngIf="changePasswordForm.controls.confirmPassword.valid && changePasswordForm.errors?.mismatchedPassword" class="error-text">
-                  Passwords don't match
-                </p>
-                <p *ngIf="changePasswordForm.controls.confirmPassword.touched && !changePasswordForm.controls.confirmPassword.valid"
-                class="error-text">
-                Confirm password is required
-              </p>
+          <label class="col-md-4 col-form-label">Confirm new password: </label>
+          <div class="col-md-8">
+            <div class="input-group">
+              <input type="password" class="form-control" formControlName="confirmPassword">
+            </div>
+            <p *ngIf="changePasswordForm.controls.confirmPassword.valid && changePasswordForm.errors?.mismatchedPassword"
+              class="error-text">
+              Passwords don't match
+            </p>
+            <p *ngIf="changePasswordForm.controls.confirmPassword.touched && !changePasswordForm.controls.confirmPassword.valid"
+              class="error-text">
+              Confirm password is required
+            </p>
           </div>
         </div>
       </form>
