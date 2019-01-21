@@ -24,6 +24,8 @@ export class MentorDetailComponent implements OnInit {
   mentorIsBlocked: boolean;
   @ViewChild('modalDelete')
   modalDelete: any;
+  @ViewChild('modalDownGrade')
+  modalDownGrade: any;
   constructor(
     private router: ActivatedRoute,
     private _api: ApiService,
@@ -84,6 +86,7 @@ export class MentorDetailComponent implements OnInit {
     }
   }
   downGradeMentor() {
+    this.modalDownGrade.hide();
     this._helper.toggleLoadng(true);
     this._api.downGradeMentor(this.idMentor).then((res: any) => {
       this._helper.toggleLoadng(false);
@@ -99,7 +102,7 @@ export class MentorDetailComponent implements OnInit {
       } else {
         this.toast.addToast({
           title: 'Message',
-          msg: "Successfully",
+          msg: "The mentor has been downgraded to be a mentee",
           timeout: 5000,
           theme: 'material',
           position: 'top-right',
