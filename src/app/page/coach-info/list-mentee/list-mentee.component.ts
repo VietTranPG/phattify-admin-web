@@ -30,6 +30,7 @@ export class ListMenteeComponent implements OnInit {
   modalDelete: any;
   idMenteeDelete: any;
   countries = [];
+  public mask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
   listGender: any = [
     {
       name: 'Male',
@@ -143,8 +144,7 @@ export class ListMenteeComponent implements OnInit {
       dateOfBirth: this.addClientForm.value.dateOfBirth,
       contactNumber: this.addClientForm.value.contactNumber,
       note: this.addClientForm.value.note,
-      password:this.addClientForm.value.password,
-      countryId: this.addClientForm.value.countryId
+      password:this.addClientForm.value.password
     }
     data['userId'] = this.idMentor;
     this._api.addNewMentee(data).then((res: any) => {
@@ -222,11 +222,12 @@ export class ListMenteeComponent implements OnInit {
     this._router.navigate(['client-info', id]);
   }
   showAddClient() {
-    this._api.getCountries().subscribe(res => {
-      let resultCountry = res['data'];
-      this.countries = this.sortBy(resultCountry, 'Name', false);
-      this.modalAddMentee.show();
-    })
+    // this._api.getCountries().subscribe(res => {
+    //   let resultCountry = res['data'];
+    //   this.countries = this.sortBy(resultCountry, 'Name', false);
+    //   this.modalAddMentee.show();
+    // })
+    this.modalAddMentee.show();
   }
   sortBy(list: any[], property: string, reverse: boolean) {
     if (!reverse) {

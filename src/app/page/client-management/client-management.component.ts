@@ -51,6 +51,7 @@ export class ClientManagementComponent implements OnInit {
       value: GENDER.Female
     }
   ]
+  public mask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
   constructor(
     private _api: ApiService,
     private _helper: HelperService,
