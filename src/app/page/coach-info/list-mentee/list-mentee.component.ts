@@ -90,7 +90,8 @@ export class ListMenteeComponent implements OnInit {
       orderBy: this.selectSort,
       orderType: this.typeOrder,
       mentor: id,
-      checked: false
+      checked: false,
+      showMentor:1
     }
     this._api.management(data).then(res => {
       this.listMentee = res['data']['clients'];
