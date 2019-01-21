@@ -63,7 +63,7 @@
 <app-modal-basic #modalAddMentee>
   <div class="app-modal-header">
     <h4 class="modal-title">Add client</h4>
-    <button type="button" class="close basic-close" (click)="modalAddMentee.hide()">
+    <button type="button" class="close basic-close" (click)="closeFormAddMentee()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -108,7 +108,7 @@
               <div class="radio radiofill radio-primary radio-inline">
                 <label>
                   <input type="radio" value="female" formControlName="gender">
-                  <i class="helper"></i>FeMale
+                  <i class="helper"></i>Female
                 </label>
               </div>
             </div>
@@ -196,7 +196,7 @@
           <label class="col-md-3 col-form-label">Contact number:</label>
           <div class="col-md-9">
             <div class="input-group">
-              <input type="text" class="form-control" [textMask]="{mask: mask}" placeholder="123456789" formControlName="contactNumber">
+              <input type="text" class="form-control" [textMask]="{mask: mask,guide:false}" placeholder="123456789" formControlName="contactNumber">
             </div>
           </div>
         </div>
@@ -210,7 +210,7 @@
           </div>
         </div>
         <div class="app-modal-footer">
-          <button type="button" class="btn btn-default ripple" (click)="modalAddMentee.hide()">Close</button>
+          <button type="button" class="btn btn-default ripple" (click)="closeFormAddMentee()">Close</button>
           <button type="button" class="btn btn-danger ripple light" (click)="addNewMentee()">Confirm</button>
         </div>
       </form>

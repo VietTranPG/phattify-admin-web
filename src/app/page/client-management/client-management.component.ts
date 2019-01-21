@@ -51,7 +51,7 @@ export class ClientManagementComponent implements OnInit {
       value: GENDER.Female
     }
   ]
-  public mask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
+  public mask = [/\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/];
   constructor(
     private _api: ApiService,
     private _helper: HelperService,
@@ -76,7 +76,7 @@ export class ClientManagementComponent implements OnInit {
     this.addClientForm = this.formBuilder.group({
       firstName: ['', Validators.required],
       surName: ['', Validators.required],
-      gender: ['male', Validators.required],
+      gender: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       confirmEmail: ['', [Validators.required]],
       password: ['', Validators.required],
@@ -293,6 +293,9 @@ export class ClientManagementComponent implements OnInit {
     this._api.getCountries().subscribe(res => {
       let resultCountry = res['data'];
       this.countries = this.sortBy(resultCountry, 'Name', false);
+      this.addClientForm.patchValue({ 
+        gender: 'male'
+      })
       this.modalAddMentee.show();
     })
   }
@@ -324,5 +327,9 @@ export class ClientManagementComponent implements OnInit {
         this.markFormGroupTouched(control);
       }
     });
+  }
+  closeFormAddMentee(){ 
+    this.addClientForm.reset();
+    this.modalAddMentee.hide();
   }
 }

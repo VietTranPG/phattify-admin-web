@@ -30,7 +30,7 @@ export class ListMenteeComponent implements OnInit {
   modalDelete: any;
   idMenteeDelete: any;
   countries = [];
-  public mask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
+  public mask = [/\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/];
   listGender: any = [
     {
       name: 'Male',
@@ -62,7 +62,7 @@ export class ListMenteeComponent implements OnInit {
     this.addClientForm = this.formBuilder.group({
       firstName: ['', Validators.required],
       surName: ['', Validators.required],
-      gender: ['male', Validators.required],
+      gender: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       confirmEmail: ['', [Validators.required]],
       password: ['', Validators.required],
@@ -70,7 +70,6 @@ export class ListMenteeComponent implements OnInit {
       dateOfBirth: ['', Validators.required],
       contactNumber: [''],
       note: [''],
-      countryId: ['', Validators.required]
     }, {
         validator:
           [
@@ -96,8 +95,6 @@ export class ListMenteeComponent implements OnInit {
     this._api.management(data).then(res => {
       this.listMentee = res['data']['clients'];
       this.totalItem = res['data']['totalItem'];
-      console.log(this.listMentee);
-
     })
   }
   sortTable(data) {
@@ -148,8 +145,6 @@ export class ListMenteeComponent implements OnInit {
     }
     data['userId'] = this.idMentor;
     this._api.addNewMentee(data).then((res: any) => {
-      console.log(data);
-      
       if (res.status == 'error') {
         this.toast.addToast({
           title: 'Message',
@@ -190,20 +185,6 @@ export class ListMenteeComponent implements OnInit {
     this.modalDelete.show();
   }
   deleteMentee() {
-    // this.modalDelete.hide();
-    // this._helper.toggleLoadng(true);
-    // this._api.deleteMentee(this.idMenteeDelete).then((res: any) => {
-    //   this._helper.toggleLoadng(false);
-    //   if (res.status == STATUS.error) {
-    //     this.toast.addToast({ title: 'Message', msg: res.message, timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
-    //   } else {
-
-    //     this.toast.addToast({ title: 'Message', msg: 'Delete Client Success', timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
-    //     this.getListMentee(this.idMentor);
-    //   }
-    // }).catch(err => {
-    //   this._helper.toggleLoadng(false);
-    // })
     this.modalDelete.hide();
     this._helper.toggleLoadng(true);
     this._api.deleteMenteeFromMentor( this.idMentor,this.idMenteeDelete).subscribe((res: any) => {
@@ -213,6 +194,7 @@ export class ListMenteeComponent implements OnInit {
       } else {
         this.toast.addToast({ title: 'Message', msg: 'Delete Client Success', timeout: 2000, theme: 'material', position: 'top-right', type: 'success' });
         this.getListMentee(this.idMentor);
+
       }
     }, err => {
       this._helper.toggleLoadng(true);
@@ -222,6 +204,9 @@ export class ListMenteeComponent implements OnInit {
     this._router.navigate(['client-info', id]);
   }
   showAddClient() {
+    this.addClientForm.patchValue({ 
+      gender: 'male'
+    })
     // this._api.getCountries().subscribe(res => {
     //   let resultCountry = res['data'];
     //   this.countries = this.sortBy(resultCountry, 'Name', false);
@@ -252,6 +237,10 @@ export class ListMenteeComponent implements OnInit {
         this.markFormGroupTouched(control);
       }
     });
+  }
+  closeFormAddMentee(){ 
+    this.addClientForm.reset();
+    this.modalAddMentee.hide();
   }
 }
 
