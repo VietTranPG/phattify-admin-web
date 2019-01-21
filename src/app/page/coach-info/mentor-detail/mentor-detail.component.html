@@ -92,7 +92,7 @@
       </div>
       <div class="row row-custom row--flex-end">
         <button type="button" class="btn btn-default ripple" [disabled]="mentorIsBlocked" (click)="modalDelete.show()">Block</button>
-        <button type="button" class="btn btn-danger ripple light" (click)="downGradeMentor()">Downgrade mentor</button>
+        <button type="button" class="btn btn-danger ripple light" (click)="modalDownGrade.show()">Downgrade mentor</button>
       </div>
     </form>
 
@@ -147,11 +147,26 @@
     </button>
   </div>
   <div class="app-modal-body">
-    <p>Are you sure to block this mentor??</p>
+    <p>Are you sure to block this mentor?</p>
   </div>
   <div class="app-modal-footer">
     <button type="button" class="btn btn-danger ripple light" (click)="blockMentor()">Yes</button>
     <button type="button" class="btn btn-default ripple" (click)="modalDelete.hide()">No</button>
+  </div>
+</app-modal-basic>
+<app-modal-basic #modalDownGrade>
+  <div class="app-modal-header">
+    <h4 class="modal-title">Confirm</h4>
+    <button type="button" class="close basic-close" (click)="modalDownGrade.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="app-modal-body">
+    <p>Are you sure to downgrade this mentor?</p>
+  </div>
+  <div class="app-modal-footer">
+    <button type="button" class="btn btn-danger ripple light" (click)="downGradeMentor()">Yes</button>
+    <button type="button" class="btn btn-default ripple" (click)="modalDownGrade.hide()">No</button>
   </div>
 </app-modal-basic>
 <toast #toast></toast>

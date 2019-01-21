@@ -109,8 +109,6 @@ export class ListMenteeComponent implements OnInit {
       this.typeOrder = "asc";
       this.typeOrderBoolean = false;
     }
-    console.log(this.selectSort, this.typeOrderBoolean, this.typeOrder);
-
     this.getListMentee(this.idMentor);
   }
   changeAll(value) {

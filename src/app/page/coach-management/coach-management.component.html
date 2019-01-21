@@ -36,39 +36,39 @@
             </th>
             <th rowspan="2">#</th>
             <th rowspan="2" (click)="sortTable('FirstName')">
-              <i *ngIf="this.typeOrderBoolean && this.selectSort=='FirstName'" class="icofont icofont-caret-up"></i>
-              <i *ngIf="!this.typeOrderBoolean && this.selectSort=='FirstName'" class="icofont icofont-caret-down"></i>
+              <i *ngIf="!this.typeOrderBoolean && this.selectSort=='FirstName'" class="icofont icofont-caret-up"></i>
+              <i *ngIf="this.typeOrderBoolean && this.selectSort=='FirstName'" class="icofont icofont-caret-down"></i>
               First Name</th>
             <th rowspan="2" (click)="sortTable('SurName')">
-              <i *ngIf="this.typeOrderBoolean && this.selectSort=='SurName'" class="icofont icofont-caret-up"></i>
-              <i *ngIf="!this.typeOrderBoolean && this.selectSort=='SurName'" class="icofont icofont-caret-down"></i>
+              <i *ngIf="!this.typeOrderBoolean && this.selectSort=='SurName'" class="icofont icofont-caret-up"></i>
+              <i *ngIf="this.typeOrderBoolean && this.selectSort=='SurName'" class="icofont icofont-caret-down"></i>
               Last Name</th>
             <th rowspan="2" (click)="sortTable('Email')">
-              <i *ngIf="this.typeOrderBoolean && this.selectSort=='Email'" class="icofont icofont-caret-up"></i>
-              <i *ngIf="!this.typeOrderBoolean && this.selectSort=='Email'" class="icofont icofont-caret-down"></i>
+              <i *ngIf="!this.typeOrderBoolean && this.selectSort=='Email'" class="icofont icofont-caret-up"></i>
+              <i *ngIf="this.typeOrderBoolean && this.selectSort=='Email'" class="icofont icofont-caret-down"></i>
               Email</th>
             <th rowspan="2">Contact Number</th>
             <th rowspan="2" (click)="sortTable('Status')">
-                <i *ngIf="this.typeOrderBoolean && this.selectSort=='Status'" class="icofont icofont-caret-up"></i>
-                <i *ngIf="!this.typeOrderBoolean && this.selectSort=='Status'" class="icofont icofont-caret-down"></i>
+                <i *ngIf="!this.typeOrderBoolean && this.selectSort=='Status'" class="icofont icofont-caret-up"></i>
+                <i *ngIf="this.typeOrderBoolean && this.selectSort=='Status'" class="icofont icofont-caret-down"></i>
               Status</th>
             <th colspan="2" style="padding: 5px">Number of client</th>
             <th rowspan="2">Assign Group</th>
             <th rowspan="2" (click)="sortTable('createdAt')">
-                <i *ngIf="this.typeOrderBoolean && this.selectSort=='createdAt'" class="icofont icofont-caret-up"></i>
-                <i *ngIf="!this.typeOrderBoolean && this.selectSort=='createdAt'" class="icofont icofont-caret-down"></i>
+                <i *ngIf="!this.typeOrderBoolean && this.selectSort=='createdAt'" class="icofont icofont-caret-up"></i>
+                <i *ngIf="this.typeOrderBoolean && this.selectSort=='createdAt'" class="icofont icofont-caret-down"></i>
               Date Joined</th>
             <th rowspan="2">Ref Code</th>
             <!-- <th rowspan="2">Action</th> -->
           </tr>
           <tr>
             <th style="padding: 5px; border-top: 0;" (click)="sortTable('NumberOfClient')">
-                <i *ngIf="this.typeOrderBoolean && this.selectSort=='NumberOfClient'" class="icofont icofont-caret-up"></i>
-                <i *ngIf="!this.typeOrderBoolean && this.selectSort=='NumberOfClient'" class="icofont icofont-caret-down"></i>
+                <i *ngIf="!this.typeOrderBoolean && this.selectSort=='NumberOfClient'" class="icofont icofont-caret-up"></i>
+                <i *ngIf="this.typeOrderBoolean && this.selectSort=='NumberOfClient'" class="icofont icofont-caret-down"></i>
               This month</th>
             <th style="padding: 5px; border-top: 0;" (click)="sortTable('TotalClient')">
-                <i *ngIf="this.typeOrderBoolean && this.selectSort=='TotalClient'" class="icofont icofont-caret-up"></i>
-                <i *ngIf="!this.typeOrderBoolean && this.selectSort=='TotalClient'" class="icofont icofont-caret-down"></i>
+                <i *ngIf="!this.typeOrderBoolean && this.selectSort=='TotalClient'" class="icofont icofont-caret-up"></i>
+                <i *ngIf="this.typeOrderBoolean && this.selectSort=='TotalClient'" class="icofont icofont-caret-down"></i>
               Total</th>
           </tr>
           <tbody>
