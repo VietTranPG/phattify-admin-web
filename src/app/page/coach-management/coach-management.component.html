@@ -62,9 +62,9 @@
             <!-- <th rowspan="2">Action</th> -->
           </tr>
           <tr>
-            <th style="padding: 5px; border-top: 0;" (click)="sortTable('clientThisMonth')">
-                <i *ngIf="this.typeOrderBoolean && this.selectSort=='clientThisMonth'" class="icofont icofont-caret-up"></i>
-                <i *ngIf="!this.typeOrderBoolean && this.selectSort=='clientThisMonth'" class="icofont icofont-caret-down"></i>
+            <th style="padding: 5px; border-top: 0;" (click)="sortTable('NumberOfClient')">
+                <i *ngIf="this.typeOrderBoolean && this.selectSort=='NumberOfClient'" class="icofont icofont-caret-up"></i>
+                <i *ngIf="!this.typeOrderBoolean && this.selectSort=='NumberOfClient'" class="icofont icofont-caret-down"></i>
               This month</th>
             <th style="padding: 5px; border-top: 0;" (click)="sortTable('TotalClient')">
                 <i *ngIf="this.typeOrderBoolean && this.selectSort=='TotalClient'" class="icofont icofont-caret-up"></i>
@@ -79,8 +79,8 @@
               <td (click)="goToCoachInfo(item.Id)" class="cursor">{{item.SurName}}</td>
               <td>{{item.Email}}</td>
               <td>{{item.ContactNumber}}</td>
-              <td>{{item.Status}}</td>
-              <td>{{item.clientThisMonth}}</td>
+              <td>{{item.BlockedAt?'blocked':item.Status}}</td>
+              <td>{{item.clientThisMonth ?item.clientThisMonth : 0}}</td>
               <td>{{item.TotalClient ? item.TotalClient : 0}}</td>
               <td>
                 <select class="table-select">

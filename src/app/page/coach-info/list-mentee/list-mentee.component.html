@@ -29,20 +29,26 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let listMentee of listMentee;let i = index" (click)="goToClientInfo(listMentee.Id)" class="client">
-          <td><input type="checkbox" [(ngModel)]="listMentee.checked" (change)="changeOne()" (click)="$event.stopPropagation();" /></td>
-          <td>{{i+1}}</td>
-          <td>{{listMentee.FirstName}}</td>
-          <td>{{listMentee.SurName}}</td>
-          <td>{{listMentee.Email}}</td>
-          <td>{{listMentee.Status === 'deactive'? 'inactivate':listMentee.Status}}</td>
-          <td>{{listMentee.VerifyCode}}</td>
-          <td>{{listMentee.createdAt | date: 'dd/MM/yyyy'}}</td>
+        <tr *ngFor="let mentee of listMentee;let i = index" class="client">
+          <td><input type="checkbox" [(ngModel)]="listMentee.checked" (change)="changeOne()"/></td>
+          <td (click)="goToClientInfo(mentee.Id)" class="cursor">
+            {{i+1}}
+          </td>
+          <td class="cursor" (click)="goToClientInfo(mentee.Id)">
+            {{mentee.FirstName}}
+          </td>
+          <td class="cursor" (click)="goToClientInfo(mentee.Id)">
+            {{mentee.SurName}}
+          </td>
+          <td>{{mentee.Email}}</td>
+          <td>{{mentee.Status === 'deactive'? 'inactivate':listMentee.Status}}</td>
+          <td>{{mentee.VerifyCode}}</td>
+          <td>{{mentee.createdAt | date: 'dd/MM/yyyy'}}</td>
           <td>
-            <button class="btn btn-danger btn-custom" (click)="$event.stopPropagation();delete(listMentee.Id)"> <i
+            <button class="btn btn-danger btn-custom" (click)="delete(mentee.Id)"> <i
                 class="icofont icofont-bin"></i></button>
-            <button *ngIf="listMentee.Type =='Invite'" class="btn btn-warning btn-custom"><i class="fa fa-paper-plane-o"
-                aria-hidden="true" (click)="$event.stopPropagation();resendCode(listMentee.Id)"></i></button>
+            <button *ngIf="mentee.Type =='Invite'" class="btn btn-warning btn-custom"><i class="fa fa-paper-plane-o"
+                aria-hidden="true" (click)="resendCode(mentee.Id)"></i></button>
           </td>
         </tr>
       </tbody>
@@ -69,23 +75,26 @@
               <input type="text" class="form-control" formControlName="firstName" placeholder="First name">
             </div>
           </div>
-          <p class="error-text" *ngIf="addClientForm.controls.firstName.touched && !addClientForm.controls.firstName.valid">This
-            field is required.</p>
+          <div class="col-md-9">
+            <p class="error-text" *ngIf="addClientForm.controls.firstName.touched && !addClientForm.controls.firstName.valid">This
+              field is required.</p>
+          </div>
         </div>
-
         <div class="row">
-          <label class="col-md-3 col-form-label">Sur name:</label>
+          <label class="col-md-3 col-form-label">Surname:</label>
           <div class="col-md-9">
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="Sur name" formControlName="surName">
+              <input type="text" class="form-control" placeholder="Surname" formControlName="surName">
             </div>
           </div>
-          <p class="error-text" *ngIf="addClientForm.controls.surName.touched && !addClientForm.controls.surName.valid">This
-            field is required.</p>
+          <div class="col-md-9">
+            <p class="error-text" *ngIf="addClientForm.controls.surName.touched && !addClientForm.controls.surName.valid">This
+              field is required.</p>
+          </div>
         </div>
 
         <div class="form-group row">
-          <label class="col-md-3">Gender:</label>
+          <label class="col-md-3 col-form-label">Gender:</label>
           <div class="col-md-9">
             <div class="form-radio">
               <div class="radio radiofill radio-primary radio-inline">
@@ -112,9 +121,11 @@
               <input type="text" class="form-control" placeholder="abc@gmail.com" formControlName="email">
             </div>
           </div>
-          <p class="error-text" *ngIf="addClientForm.hasError('email', 'email') && addClientForm.get('email').touched">
-            Email is invalid.
-          </p>
+          <div class="col-md-9">
+            <p class="error-text" *ngIf="addClientForm.hasError('email', 'email') && addClientForm.get('email').touched">
+              Email is invalid.
+            </p>
+          </div>
         </div>
         <div class="row">
           <label class="col-md-3 col-form-label">Confirm email:</label>
@@ -124,16 +135,15 @@
             </div>
           </div>
           <div class="col-md-9">
-            <span *ngIf="addClientForm.controls.confirmEmail.touched && !addClientForm.controls.confirmEmail.valid"
-              class="error-text">
+            <p *ngIf="addClientForm.controls.confirmEmail.touched && !addClientForm.controls.confirmEmail.valid" class="error-text">
               {{ 'Confirm email is required' }}
-            </span>
+            </p>
           </div>
-          <div class="col-md-9">
-            <span *ngIf="addClientForm.controls.confirmEmail.touched && addClientForm.errors?.mismatchedEmail && addClientForm.controls.confirmEmail.valid "
+          <div class="col-sm-8 col-lg-10">
+            <p *ngIf="addClientForm.controls.confirmEmail.touched && addClientForm.errors?.mismatchedEmail && addClientForm.controls.confirmEmail.valid "
               class="error-text">
               {{ "Email doesn't match" }}
-            </span>
+            </p>
           </div>
         </div>
         <div class="row">
@@ -143,8 +153,10 @@
               <input type="password" class="form-control" formControlName="password">
             </div>
           </div>
-          <p class="error-text" *ngIf="addClientForm.controls.password.touched && !addClientForm.controls.password.valid">This
-            field is required.</p>
+          <div class="col-md-9">
+            <p class="error-text" *ngIf="addClientForm.controls.password.touched && !addClientForm.controls.password.valid">This
+              field is required.</p>
+          </div>
         </div>
         <div class="row">
           <label class="col-md-3 col-form-label">Confirm password:</label>
@@ -153,13 +165,17 @@
               <input type="password" class="form-control" formControlName="confirmPassword">
             </div>
           </div>
-          <p *ngIf="addClientForm.controls.confirmPassword.valid && addClientForm.errors?.mismatchedPassword" class="error-text">
-            Passwords don't match
-          </p>
-          <p *ngIf="addClientForm.controls.confirmPassword.touched && !addClientForm.controls.confirmPassword.valid"
+          <div class="col-md-9">
+            <p *ngIf="addClientForm.controls.confirmPassword.valid && addClientForm.errors?.mismatchedPassword" class="error-text">
+              Passwords don't match
+            </p>
+          </div>
+          <div class="col-md-9">
+            <p *ngIf="addClientForm.controls.confirmPassword.touched && !addClientForm.controls.confirmPassword.valid"
             class="error-text">
             Confirm password is required
           </p>
+          </div>
         </div>
 
         <div class="row">
@@ -169,14 +185,16 @@
               <input type="date" class="form-control" placeholder="2/2/1998" formControlName="dateOfBirth">
             </div>
           </div>
-          <p class="error-text" *ngIf="addClientForm.controls.dateOfBirth?.invalid && addClientForm.controls.dateOfBirth?.touched">This
-            field is required.</p>
+          <div class="col-md-9">
+            <p class="error-text" *ngIf="addClientForm.controls.dateOfBirth?.invalid && addClientForm.controls.dateOfBirth?.touched">This
+              field is required.</p>
+          </div>
         </div>
         <div class="row">
           <label class="col-md-3 col-form-label">Contact number:</label>
           <div class="col-md-9">
             <div class="input-group">
-              <input type="Telephone" class="form-control" placeholder="123456789" formControlName="contactNumber">
+              <input type="number" class="form-control" placeholder="123456789" formControlName="contactNumber">
             </div>
           </div>
         </div>
@@ -190,8 +208,10 @@
               </select>
             </div>
           </div>
-          <p class="error-text" *ngIf="addClientForm.controls.countryId?.invalid && addClientForm.controls.countryId?.touched">This
-            field is required.</p>
+          <div class="col-md-9">
+            <p class="error-text" *ngIf="addClientForm.controls.countryId?.invalid && addClientForm.controls.countryId?.touched">This
+              field is required.</p>
+          </div>
         </div>
         <div class="row">
           <label class="col-md-3 col-form-label">Notes:</label>

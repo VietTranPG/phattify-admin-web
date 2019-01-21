@@ -27,10 +27,17 @@
     margin: 0 5px;
   }
 }
-.client{
-  cursor: pointer;
-}
+
 .form-add-client { 
   overflow-y: auto;
   max-height: 600px;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+.client .cursor{
+  cursor: pointer;
 }

@@ -169,23 +169,26 @@
               <input type="text" class="form-control" formControlName="firstName" placeholder="First name">
             </div>
           </div>
-          <p class="error-text" *ngIf="addClientForm.controls.firstName.touched && !addClientForm.controls.firstName.valid">This
-            field is required.</p>
+          <div class="col-md-9">
+            <p class="error-text" *ngIf="addClientForm.controls.firstName.touched && !addClientForm.controls.firstName.valid">This
+              field is required.</p>
+          </div>
         </div>
-
         <div class="row">
-          <label class="col-md-3 col-form-label">Sur name:</label>
+          <label class="col-md-3 col-form-label">Surname:</label>
           <div class="col-md-9">
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="Sur name" formControlName="surName">
+              <input type="text" class="form-control" placeholder="Surname" formControlName="surName">
             </div>
           </div>
-          <p class="error-text" *ngIf="addClientForm.controls.surName.touched && !addClientForm.controls.surName.valid">This
-            field is required.</p>
+          <div class="col-md-9">
+            <p class="error-text" *ngIf="addClientForm.controls.surName.touched && !addClientForm.controls.surName.valid">This
+              field is required.</p>
+          </div>
         </div>
 
         <div class="form-group row">
-          <label class="col-md-3">Gender:</label>
+          <label class="col-md-3 col-form-label">Gender:</label>
           <div class="col-md-9">
             <div class="form-radio">
               <div class="radio radiofill radio-primary radio-inline">
@@ -212,9 +215,11 @@
               <input type="text" class="form-control" placeholder="abc@gmail.com" formControlName="email">
             </div>
           </div>
-          <p class="error-text" *ngIf="addClientForm.hasError('email', 'email') && addClientForm.get('email').touched">
-            Email is invalid.
-          </p>
+          <div class="col-md-9">
+            <p class="error-text" *ngIf="addClientForm.hasError('email', 'email') && addClientForm.get('email').touched">
+              Email is invalid.
+            </p>
+          </div>
         </div>
         <div class="row">
           <label class="col-md-3 col-form-label">Confirm email:</label>
@@ -224,15 +229,16 @@
             </div>
           </div>
           <div class="col-md-9">
-              <span *ngIf="addClientForm.controls.confirmEmail.touched && !addClientForm.controls.confirmEmail.valid" class="error-text">
-                  {{ 'Confirm email is required' }}
-                </span>
-            </div>
-            <div class="col-sm-8 col-lg-10">
-                <span *ngIf="addClientForm.controls.confirmEmail.touched && addClientForm.errors?.mismatchedEmail && addClientForm.controls.confirmEmail.valid " class="error-text">
-                    {{ "Email doesn't match" }}
-                  </span>
-              </div>
+            <p *ngIf="addClientForm.controls.confirmEmail.touched && !addClientForm.controls.confirmEmail.valid" class="error-text">
+              {{ 'Confirm email is required' }}
+            </p>
+          </div>
+          <div class="col-sm-8 col-lg-10">
+            <p *ngIf="addClientForm.controls.confirmEmail.touched && addClientForm.errors?.mismatchedEmail && addClientForm.controls.confirmEmail.valid "
+              class="error-text">
+              {{ "Email doesn't match" }}
+            </p>
+          </div>
         </div>
         <div class="row">
           <label class="col-md-3 col-form-label">Password:</label>
@@ -241,8 +247,10 @@
               <input type="password" class="form-control" formControlName="password">
             </div>
           </div>
-          <p class="error-text" *ngIf="addClientForm.controls.password.touched && !addClientForm.controls.password.valid">This
-            field is required.</p>
+          <div class="col-md-9">
+            <p class="error-text" *ngIf="addClientForm.controls.password.touched && !addClientForm.controls.password.valid">This
+              field is required.</p>
+          </div>
         </div>
         <div class="row">
           <label class="col-md-3 col-form-label">Confirm password:</label>
@@ -251,13 +259,17 @@
               <input type="password" class="form-control" formControlName="confirmPassword">
             </div>
           </div>
-          <p *ngIf="addClientForm.controls.confirmPassword.valid && addClientForm.errors?.mismatchedPassword" class="error-text">
-            Passwords don't match
-          </p>
-          <p *ngIf="addClientForm.controls.confirmPassword.touched && !addClientForm.controls.confirmPassword.valid"
+          <div class="col-md-9">
+            <p *ngIf="addClientForm.controls.confirmPassword.valid && addClientForm.errors?.mismatchedPassword" class="error-text">
+              Passwords don't match
+            </p>
+          </div>
+          <div class="col-md-9">
+            <p *ngIf="addClientForm.controls.confirmPassword.touched && !addClientForm.controls.confirmPassword.valid"
             class="error-text">
             Confirm password is required
           </p>
+          </div>
         </div>
 
         <div class="row">
@@ -267,14 +279,16 @@
               <input type="date" class="form-control" placeholder="2/2/1998" formControlName="dateOfBirth">
             </div>
           </div>
-          <p class="error-text" *ngIf="addClientForm.controls.dateOfBirth?.invalid && addClientForm.controls.dateOfBirth?.touched">This
-            field is required.</p>
+          <div class="col-md-9">
+            <p class="error-text" *ngIf="addClientForm.controls.dateOfBirth?.invalid && addClientForm.controls.dateOfBirth?.touched">This
+              field is required.</p>
+          </div>
         </div>
         <div class="row">
           <label class="col-md-3 col-form-label">Contact number:</label>
           <div class="col-md-9">
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="123456789" formControlName="contactNumber">
+              <input type="number" class="form-control" placeholder="123456789" formControlName="contactNumber">
             </div>
           </div>
         </div>
@@ -288,8 +302,10 @@
               </select>
             </div>
           </div>
-          <p class="error-text" *ngIf="addClientForm.controls.countryId?.invalid && addClientForm.controls.countryId?.touched">This
-            field is required.</p>
+          <div class="col-md-9">
+            <p class="error-text" *ngIf="addClientForm.controls.countryId?.invalid && addClientForm.controls.countryId?.touched">This
+              field is required.</p>
+          </div>
         </div>
         <div class="row">
           <label class="col-md-3 col-form-label">Notes:</label>

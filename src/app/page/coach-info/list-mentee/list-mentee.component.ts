@@ -145,10 +145,13 @@ export class ListMenteeComponent implements OnInit {
       dateOfBirth: this.addClientForm.value.dateOfBirth,
       contactNumber: this.addClientForm.value.contactNumber,
       note: this.addClientForm.value.note,
-      password: this.addClientForm.value.password
+      password:this.addClientForm.value.password,
+      countryId: this.addClientForm.value.countryId
     }
     data['userId'] = this.idMentor;
     this._api.addNewMentee(data).then((res: any) => {
+      console.log(data);
+      
       if (res.status == 'error') {
         this.toast.addToast({
           title: 'Message',

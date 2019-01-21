@@ -234,7 +234,8 @@ export class ClientManagementComponent implements OnInit {
       dateOfBirth: this.addClientForm.value.dateOfBirth,
       contactNumber: this.addClientForm.value.contactNumber,
       note: this.addClientForm.value.note,
-      password:this.addClientForm.value.password
+      password:this.addClientForm.value.password,
+      countryId: this.addClientForm.value.countryId
     }
     this._api.adminAddClient(data).then((res: any) => {
       console.log(res);
