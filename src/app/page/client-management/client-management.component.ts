@@ -81,16 +81,16 @@ export class ClientManagementComponent implements OnInit {
       confirmEmail: ['', [Validators.required]],
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required],
-      dateOfBirth: ['', Validators.required],
+      dateOfBirth: [''],
       contactNumber: [''],
       note: [''],
       countryId: ['', Validators.required]
     }, {
-      validator:
-        [
-          ValidateExtendService.matchingEmail('email', 'confirmEmail'),
-          ValidateExtendService.matchingPassword('password', 'confirmPassword')
-        ]
+        validator:
+          [
+            ValidateExtendService.matchingEmail('email', 'confirmEmail'),
+            ValidateExtendService.matchingPassword('password', 'confirmPassword')
+          ]
       })
   }
   onChangePage(event) {
@@ -169,10 +169,24 @@ export class ClientManagementComponent implements OnInit {
     this._api.deleteMentee(this.deleteFlag.Id).then((res: any) => {
       this._helper.toggleLoadng(false);
       if (res.status == STATUS.error) {
-        this.toast.addToast({ title: 'Message', msg: res.message, timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
+        this.toast.addToast({
+          title: 'Message',
+          msg: res.message,
+          timeout: 5000,
+          theme: 'material',
+          position: 'top-right',
+          type: 'error'
+        });
       } else {
         this.getListClient();
-        this.toast.addToast({ title: 'Message', msg: 'Delete Client Success', timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
+        this.toast.addToast({
+          title: 'Message',
+          msg: 'Delete Client Success',
+          timeout: 5000,
+          theme: 'material',
+          position: 'top-right',
+          type: 'success'
+        });
       }
     }).catch(err => {
       this._helper.toggleLoadng(false);
@@ -235,7 +249,7 @@ export class ClientManagementComponent implements OnInit {
       dateOfBirth: this.addClientForm.value.dateOfBirth,
       contactNumber: this.addClientForm.value.contactNumber,
       note: this.addClientForm.value.note,
-      password:this.addClientForm.value.password,
+      password: this.addClientForm.value.password,
       countryId: this.addClientForm.value.countryId
     }
     this._api.adminAddClient(data).then((res: any) => {
@@ -269,7 +283,14 @@ export class ClientManagementComponent implements OnInit {
   closeSendForm(val?) {
     this.showSendMail = false;
     if (val === "Successfully") {
-      this.toast.addToast({ title: 'Message', msg: val, timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
+      this.toast.addToast({
+        title: 'Message',
+        msg: val,
+        timeout: 5000,
+        theme: 'material',
+        position: 'top-right',
+        type: 'success'
+      });
     }
     this.listMail = [];
     for (let i = 0; i < this.listClient.length; i++) {
@@ -293,7 +314,7 @@ export class ClientManagementComponent implements OnInit {
     this._api.getCountries().subscribe(res => {
       let resultCountry = res['data'];
       this.countries = this.sortBy(resultCountry, 'Name', false);
-      this.addClientForm.patchValue({ 
+      this.addClientForm.patchValue({
         gender: 'male'
       })
       this.modalAddMentee.show();
@@ -328,7 +349,7 @@ export class ClientManagementComponent implements OnInit {
       }
     });
   }
-  closeFormAddMentee(){ 
+  closeFormAddMentee() {
     this.addClientForm.reset();
     this.modalAddMentee.hide();
   }
