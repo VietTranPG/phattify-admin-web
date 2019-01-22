@@ -78,6 +78,7 @@ export class CoachManagementComponent implements OnInit {
     this._api.getAllMentor(data).then(res => {
       this.listMentor = res['data']['mentors'];
       this.totalItem = res['data']['totalItem'];
+      
     }, err => {
       console.log(err);
     })

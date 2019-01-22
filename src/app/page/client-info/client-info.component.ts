@@ -46,23 +46,25 @@ export class ClientInfoComponent implements OnInit {
   ngOnInit() {
     this.router.params.subscribe((res: any) => {
       this.idClient = res.id;
-      const getClientInfoPromise = this._api.getClientInfo(this.idClient);
-      const getListMentorPromise = this._api.getListMentor();
-      const getListCountry = this._api.getListCountry();
-      Promise.all([getClientInfoPromise, getListMentorPromise, getListCountry]).then((values: any) => {
-        //  process getClientInfo
-        this.clientInfo = values[0].data;
-        this.healthList = values[0].data.Health;
-        console.log(this.clientInfo);
-        this.checkResendCode = values[0].data.Status !== 'active' ? false : true;
-        this.wipeData = values[0].data.RoundId ? true : false;
-        this.fillDataClientInfo();
-        // process getListMentor
-        this.listMentor = values[1].data;
+      this.getAllData();
+    });
+  }
+  getAllData(){ 
+    const getClientInfoPromise = this._api.getClientInfo(this.idClient);
+    const getListMentorPromise = this._api.getListMentor();
+    const getListCountry = this._api.getListCountry();
+    Promise.all([getClientInfoPromise, getListMentorPromise, getListCountry]).then((values: any) => {
+      //  process getClientInfo
+      this.clientInfo = values[0].data;
+      this.healthList = values[0].data.Health;
+      this.checkResendCode = values[0].data.Status !== 'active' ? false : true;
+      this.wipeData = values[0].data.RoundId ? true : false;
+      this.fillDataClientInfo();
+      // process getListMentor
+      this.listMentor = values[1].data;
 
-        // process get List Country
-        this.countries = values[2].data;
-      });
+      // process get List Country
+      this.countries = values[2].data;
     });
   }
   getClientInfo() {
@@ -88,14 +90,14 @@ export class ClientInfoComponent implements OnInit {
       FirstName: ['', Validators.required],
       SurName: ['', Validators.required],
       email: [{ value: '', disabled: true }],
-      DateOfBirth: ['', Validators.required],
+      DateOfBirth: [''],
       City: [{ value: '' }],
       Status: [{ value: '', disabled: true }],
       mentor: [''],
-      Gender: ['', Validators.required],
+      Gender: [''],
       CountryName: [''],
       CountryId: ['', Validators.required],
-
+      ContactNumber:[''],
       StartDate: [{ value: '', disabled: true }, Validators.required],
       StartWeight: [{ value: '', disabled: true }, Validators.required],
       CurrentWeight: [{ value: '', disabled: true }, Validators.required],
@@ -109,6 +111,8 @@ export class ClientInfoComponent implements OnInit {
   }
   fillDataClientInfo() {
     if (this.clientInfo) {
+
+      
       this.clientInfoForm.setValue({
         FirstName: this.clientInfo.FirstName,
         SurName: this.clientInfo.SurName,
@@ -123,7 +127,8 @@ export class ClientInfoComponent implements OnInit {
         CurrentWeight: this.clientInfo.CurrentWeight,
         CountryName: this.clientInfo.CountryName,
         CountryId: this.clientInfo.CountryId,
-        EndDate: moment(this.clientInfo.EndDate).format('YYYY-MM-DD')
+        EndDate: moment(this.clientInfo.EndDate).format('YYYY-MM-DD'),
+        ContactNumber:this.clientInfo.ContactNumber
       });
       if (this.clientInfo.RoundId) {
         this.clientInfoForm.get('StartDate').enable();
@@ -148,11 +153,21 @@ export class ClientInfoComponent implements OnInit {
     this._api.resendCode(apiResendCode).then(res => {
       if (res['status'] === STATUS.error) {
         this.toast.addToast({
-          title: 'Message', msg: 'Can not resend code', timeout: 5000, theme: 'material', position: 'top-right', type: 'error'
+          title: 'Message',
+          msg: 'Can not resend code',
+          timeout: 5000,
+          theme: 'material',
+          position: 'top-right',
+          type: 'error'
         });
       } else {
         this.toast.addToast({
-          title: 'Message', msg: 'Successfully', timeout: 5000, theme: 'material', position: 'top-right', type: 'success'
+          title: 'Message',
+          msg: 'Successfully',
+          timeout: 5000,
+          theme: 'material',
+          position: 'top-right',
+          type: 'success'
         });
       }
     }).catch(err => {
@@ -178,15 +193,21 @@ export class ClientInfoComponent implements OnInit {
         this.changePasswordForm.reset();
         this.toast.addToast({
           title: 'Message',
-          msg: 'Can not change password', timeout: 5000, theme: 'material', position: 'top-right', type: 'error'
+          msg: 'Can not change password',
+          timeout: 5000,
+          theme: 'material',
+          position: 'top-right',
+          type: 'error'
         });
       } else {
         this.changePasswordForm.reset();
         this.toast.addToast({
           title: 'Message',
           msg: 'Change password success',
-          timeout: 5000, theme: 'material',
-          position: 'top-right', type: 'success'
+          timeout: 5000,
+          theme: 'material',
+          position: 'top-right',
+          type: 'success'
         });
       }
     }).catch(err => {
@@ -212,7 +233,11 @@ export class ClientInfoComponent implements OnInit {
     } else if (!this.wipeData) {
       this.toast.addToast({
         title: 'Message',
-        msg: 'Delete round error, do not have round is running', timeout: 5000, theme: 'material', position: 'top-right', type: 'error'
+        msg: 'Delete round error, do not have round is running',
+        timeout: 5000,
+        theme: 'material',
+        position: 'top-right',
+        type: 'error'
       });
     }
   }
@@ -228,9 +253,23 @@ export class ClientInfoComponent implements OnInit {
       this.checkShowDelete = false;
       this._helper.toggleLoadng(false);
       if (res.status === STATUS.error) {
-        this.toast.addToast({ title: 'Message', msg: res.message, timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
+        this.toast.addToast({
+          title: 'Message',
+          msg: res.message,
+          timeout: 5000,
+          theme: 'material',
+          position: 'top-right',
+          type: 'error'
+        });
       } else {
-        this.toast.addToast({ title: 'Message', msg: 'Delete Client Success', timeout: 2000, theme: 'material', position: 'top-right', type: 'success' });
+        this.toast.addToast({
+          title: 'Message',
+          msg: 'Delete Client Success',
+          timeout: 2000,
+          theme: 'material',
+          position: 'top-right',
+          type: 'success'
+        });
         setTimeout(() => {
           this._router.navigate(['/client-management']);
         }, 2000);
@@ -246,10 +285,25 @@ export class ClientInfoComponent implements OnInit {
       this.checkShowDelete = false;
       this._helper.toggleLoadng(false);
       if (res.status === STATUS.error) {
-        this.toast.addToast({ title: 'Message', msg: res.message, timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
+        this.toast.addToast({
+          title: 'Message',
+          msg: res.message,
+          timeout: 5000,
+          theme: 'material',
+          position: 'top-right',
+          type: 'error'
+        });
       } else {
-        this.toast.addToast({ title: 'Message', msg: 'Delete Client Success', timeout: 2000, theme: 'material', position: 'top-right', type: 'success' });
-        this._router.navigate(['/coach-management']);
+        this.toast.addToast({
+          title: 'Message',
+          msg: 'Delete Client Success',
+          timeout: 2000,
+          theme: 'material',
+          position: 'top-right',
+          type: 'success'
+        });
+        // this._router.navigate(['/coach-management']);
+        this.getAllData();
       }
     }, err => {
       this._helper.toggleLoadng(true);
@@ -263,10 +317,24 @@ export class ClientInfoComponent implements OnInit {
         this.checkShowWipeData = false;
         this._helper.toggleLoadng(false);
         if (res.status === STATUS.error) {
-          this.toast.addToast({ title: 'Message', msg: 'Delete round error', timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
+          this.toast.addToast({
+            title: 'Message',
+            msg: 'Delete round error',
+            timeout: 5000,
+            theme: 'material',
+            position: 'top-right',
+            type: 'error'
+          });
         } else {
-          this.toast.addToast({ title: 'Message', msg: 'Successfully', timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
-          this.getClientInfo();
+          this.toast.addToast({
+            title: 'Message',
+            msg: 'Successfully',
+            timeout: 5000,
+            theme: 'material',
+            position: 'top-right',
+            type: 'success'
+          });
+          this.getAllData();
         }
       }, err => {
         console.log(err);
@@ -284,11 +352,27 @@ export class ClientInfoComponent implements OnInit {
       this._helper.toggleLoadng(false);
       if (res.status === STATUS.error || res.data === 'not ok') {
         this.modalAssign.hide();
-        this.toast.addToast({ title: 'Message', msg: 'Assign Mentor error', timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
+        this.toast.addToast({ 
+          title: 'Message', 
+          msg: 'Assign Mentor error', 
+          timeout: 5000, 
+          theme: 'material', 
+          position: 'top-right', 
+          type: 'error' 
+        });
       } else {
         this.modalAssign.hide();
-        this.toast.addToast({ title: 'Message', msg: 'Assign mentor successfully', timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
-        this.getClientInfo();
+        this.toast.addToast({ 
+          title: 'Message', 
+          msg: 'Assign mentor successfully', 
+          timeout: 5000, 
+          theme: 'material', 
+          position: 'top-right', 
+          type: 'success' 
+        });
+        // this.getClientInfo();
+        // this.fillDataClientInfo();
+        this.getAllData();
       }
     }, err => {
       console.log(err);
@@ -301,7 +385,14 @@ export class ClientInfoComponent implements OnInit {
       this.mentorEmail = this.listMentor.find(x => x.value === this.clientInfoForm.value.mentor);
       this.modalAssign.show();
     } else {
-      this.toast.addToast({ title: 'Message', msg: 'You must select email', timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
+      this.toast.addToast({ 
+        title: 'Message', 
+        msg: 'You must select email', 
+        timeout: 5000, 
+        theme: 'material', 
+        position: 'top-right', 
+        type: 'error' 
+      });
     }
   }
 
@@ -315,7 +406,7 @@ export class ClientInfoComponent implements OnInit {
       firstName: clientInfoForm.FirstName,
       surName: clientInfoForm.SurName,
       gender: clientInfoForm.Gender,
-      dateOfBirth: clientInfoForm.DateOfBirth,
+      dateOfBirth: clientInfoForm.DateOfBirth === 'Invalid date' ? '' : clientInfoForm.DateOfBirth,
       countryId: clientInfoForm.CountryId,
       menteeId: this.clientInfo.Id,
       city: clientInfoForm.City,

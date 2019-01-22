@@ -51,6 +51,7 @@ export class ClientManagementComponent implements OnInit {
       value: GENDER.Female
     }
   ]
+  public mask = [/\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/];
   constructor(
     private _api: ApiService,
     private _helper: HelperService,
@@ -75,21 +76,22 @@ export class ClientManagementComponent implements OnInit {
     this.addClientForm = this.formBuilder.group({
       firstName: ['', Validators.required],
       surName: ['', Validators.required],
-      gender: ['male', Validators.required],
+      gender: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       confirmEmail: ['', [Validators.required]],
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required],
-      dateOfBirth: ['', Validators.required],
+      dateOfBirth: [''],
       contactNumber: [''],
       note: [''],
+      city:['',Validators.required],
       countryId: ['', Validators.required]
     }, {
-      validator:
-        [
-          ValidateExtendService.matchingEmail('email', 'confirmEmail'),
-          ValidateExtendService.matchingPassword('password', 'confirmPassword')
-        ]
+        validator:
+          [
+            ValidateExtendService.matchingEmail('email', 'confirmEmail'),
+            ValidateExtendService.matchingPassword('password', 'confirmPassword')
+          ]
       })
   }
   onChangePage(event) {
@@ -168,10 +170,24 @@ export class ClientManagementComponent implements OnInit {
     this._api.deleteMentee(this.deleteFlag.Id).then((res: any) => {
       this._helper.toggleLoadng(false);
       if (res.status == STATUS.error) {
-        this.toast.addToast({ title: 'Message', msg: res.message, timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
+        this.toast.addToast({
+          title: 'Message',
+          msg: res.message,
+          timeout: 5000,
+          theme: 'material',
+          position: 'top-right',
+          type: 'error'
+        });
       } else {
         this.getListClient();
-        this.toast.addToast({ title: 'Message', msg: 'Delete Client Success', timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
+        this.toast.addToast({
+          title: 'Message',
+          msg: 'Delete Client Success',
+          timeout: 5000,
+          theme: 'material',
+          position: 'top-right',
+          type: 'success'
+        });
       }
     }).catch(err => {
       this._helper.toggleLoadng(false);
@@ -234,12 +250,11 @@ export class ClientManagementComponent implements OnInit {
       dateOfBirth: this.addClientForm.value.dateOfBirth,
       contactNumber: this.addClientForm.value.contactNumber,
       note: this.addClientForm.value.note,
-      password:this.addClientForm.value.password
+      password: this.addClientForm.value.password,
+      countryId: this.addClientForm.value.countryId,
+      city: this.addClientForm.value.city
     }
     this._api.adminAddClient(data).then((res: any) => {
-      console.log(res);
-      console.log(data);
-
       if (res.status == 'error') {
         this.toast.addToast({
           title: 'Message',
@@ -267,7 +282,14 @@ export class ClientManagementComponent implements OnInit {
   closeSendForm(val?) {
     this.showSendMail = false;
     if (val === "Successfully") {
-      this.toast.addToast({ title: 'Message', msg: val, timeout: 5000, theme: 'material', position: 'top-right', type: 'success' });
+      this.toast.addToast({
+        title: 'Message',
+        msg: val,
+        timeout: 5000,
+        theme: 'material',
+        position: 'top-right',
+        type: 'success'
+      });
     }
     this.listMail = [];
     for (let i = 0; i < this.listClient.length; i++) {
@@ -291,6 +313,9 @@ export class ClientManagementComponent implements OnInit {
     this._api.getCountries().subscribe(res => {
       let resultCountry = res['data'];
       this.countries = this.sortBy(resultCountry, 'Name', false);
+      this.addClientForm.patchValue({
+        gender: 'male'
+      })
       this.modalAddMentee.show();
     })
   }
@@ -322,5 +347,9 @@ export class ClientManagementComponent implements OnInit {
         this.markFormGroupTouched(control);
       }
     });
+  }
+  closeFormAddMentee() {
+    this.addClientForm.reset();
+    this.modalAddMentee.hide();
   }
 }

@@ -7,6 +7,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SelectModule } from 'ng-select';
 import { MentorDetailComponent } from './mentor-detail/mentor-detail.component';
 import { ListMenteeComponent } from './list-mentee/list-mentee.component';
+import { TextMaskModule } from 'angular2-text-mask';
 const routes: Routes = [
   { path: '', component: CoachInfoComponent }
 ]
@@ -18,6 +19,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     SelectModule,
     FormsModule,
+    TextMaskModule
   ],
   declarations: [CoachInfoComponent, MentorDetailComponent, ListMenteeComponent]
 })

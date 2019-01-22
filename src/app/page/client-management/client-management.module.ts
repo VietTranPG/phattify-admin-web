@@ -7,6 +7,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ClientManagementComponent } from './client-management.component';
 import { SelectModule } from 'ng-select';
+import { TextMaskModule } from 'angular2-text-mask';
 const routes: Routes = [
   { path: '', component: ClientManagementComponent }
 ]
@@ -18,7 +19,8 @@ const routes: Routes = [
     NgbModule.forRoot(),
     RouterModule.forChild(routes),
     SelectModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TextMaskModule
   ],
   declarations: [ClientManagementComponent, DateFormatPipe,]
 })
