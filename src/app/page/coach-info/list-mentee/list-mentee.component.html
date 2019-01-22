@@ -184,12 +184,8 @@
           <label class="col-md-3 col-form-label">Date of Birth:</label>
           <div class="col-md-9">
             <div class="input-group">
-              <input type="date" class="form-control" placeholder="2/2/1998" formControlName="dateOfBirth">
+              <input type="date" class="form-control" formControlName="dateOfBirth">
             </div>
-          </div>
-          <div class="col-md-9">
-            <p class="error-text" *ngIf="addClientForm.controls.dateOfBirth?.invalid && addClientForm.controls.dateOfBirth?.touched">This
-              field is required.</p>
           </div>
         </div>
         <div class="row">

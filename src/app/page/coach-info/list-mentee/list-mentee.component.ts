@@ -67,7 +67,7 @@ export class ListMenteeComponent implements OnInit {
       confirmEmail: ['', [Validators.required]],
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required],
-      dateOfBirth: ['', Validators.required],
+      dateOfBirth: [''],
       contactNumber: [''],
       note: [''],
     }, {

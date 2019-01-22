@@ -18,10 +18,15 @@
             </div>
           </div>
 
-          <label>Email</label>
+
           <div class="row">
             <div class="col-md-6">
+              <label>Email</label>
               <input class="form-control" formControlName="email" />
+            </div>
+            <div class="col-md-6">
+              <label>Contact number</label>
+              <input class="form-control" formControlName="ContactNumber" />
             </div>
           </div>
           <div class="row">
@@ -35,8 +40,8 @@
                 <option [ngValue]="false">Male</option>
                 <option [ngValue]="true">Female</option>
               </select>
-              <p class="error-text" *ngIf="!clientInfoForm.controls.Gender.valid">This
-                field is required</p>
+              <!-- <p class="error-text" *ngIf="!clientInfoForm.controls.Gender.valid">This
+                field is required</p> -->
             </div>
             <div class="col-md-6">
               <label>Date of Birth</label>
@@ -137,7 +142,8 @@
                   <input class="form-control" type="text" placeholder="0" formControlName="StartWeight" />
                   <p class="error-text" *ngIf="!clientInfoForm.controls.StartWeight.valid">This
                     field is required</p>
-                  <p class="error-text" *ngIf="clientInfoForm.controls.StartWeight.valid && clientInfoForm.errors?.invalidStartWeight">This field is invalid</p>
+                  <p class="error-text" *ngIf="clientInfoForm.controls.StartWeight.valid && clientInfoForm.errors?.invalidStartWeight">This
+                    field is invalid</p>
                 </div>
               </div>
             </div>
@@ -156,7 +162,8 @@
         <!-- <button class="btn btn-success" type="submit" [disabled]="!clientInfoForm.valid" (click)="editClientInfo()">Save</button> -->
         <button class="btn btn-success" type="submit" (click)="editClientInfo()">Save</button>
         <button class="btn btn-danger" (click)='confirmDelete("delete")'>Delete</button>
-        <button class="btn btn-danger" (click)='confirmDelete("deleteFromMentor")' *ngIf="this.clientInfo?.MentorId">Delete From Mentor</button>
+        <button class="btn btn-danger" (click)='confirmDelete("deleteFromMentor")' *ngIf="this.clientInfo?.MentorId">Delete
+          From Mentor</button>
       </div>
     </form>
   </div>
@@ -173,24 +180,29 @@
     <div class="container">
       <form class="form" [formGroup]="changePasswordForm">
         <div class="row">
-          <div class="col-md-6">
-            <label>New password: </label>
-            <input type="password" formControlName="password">
+          <label class="col-md-4 col-form-label">New password: </label>
+          <div class="col-md-8">
+            <div class="input-group">
+              <input type="password" formControlName="password" class="form-control">
+            </div>
             <p class="error-text" *ngIf="changePasswordForm.controls.password.touched && !changePasswordForm.controls.password.valid">This
               field is required.</p>
           </div>
         </div>
         <div class="row">
-          <div class="col-md-6">
-            <label>Confirm new password: </label>
-            <input type="password" formControlName="confirmPassword">
-            <p *ngIf="changePasswordForm.controls.confirmPassword.valid && changePasswordForm.errors?.mismatchedPassword" class="error-text">
+          <label class="col-md-4 col-form-label">Confirm new password: </label>
+          <div class="col-md-8">
+            <div class="input-group">
+              <input type="password" class="form-control" formControlName="confirmPassword">
+            </div>
+            <p *ngIf="changePasswordForm.controls.confirmPassword.valid && changePasswordForm.errors?.mismatchedPassword"
+              class="error-text">
               Passwords don't match
             </p>
             <p *ngIf="changePasswordForm.controls.confirmPassword.touched && !changePasswordForm.controls.confirmPassword.valid"
-            class="error-text">
-            Confirm password is required
-          </p>
+              class="error-text">
+              Confirm password is required
+            </p>
           </div>
         </div>
       </form>
