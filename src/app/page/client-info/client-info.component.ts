@@ -57,7 +57,6 @@ export class ClientInfoComponent implements OnInit {
       //  process getClientInfo
       this.clientInfo = values[0].data;
       this.healthList = values[0].data.Health;
-      console.log(this.clientInfo);
       this.checkResendCode = values[0].data.Status !== 'active' ? false : true;
       this.wipeData = values[0].data.RoundId ? true : false;
       this.fillDataClientInfo();
@@ -95,10 +94,10 @@ export class ClientInfoComponent implements OnInit {
       City: [{ value: '' }],
       Status: [{ value: '', disabled: true }],
       mentor: [''],
-      Gender: ['', Validators.required],
+      Gender: [''],
       CountryName: [''],
       CountryId: ['', Validators.required],
-
+      ContactNumber:[''],
       StartDate: [{ value: '', disabled: true }, Validators.required],
       StartWeight: [{ value: '', disabled: true }, Validators.required],
       CurrentWeight: [{ value: '', disabled: true }, Validators.required],
@@ -112,6 +111,8 @@ export class ClientInfoComponent implements OnInit {
   }
   fillDataClientInfo() {
     if (this.clientInfo) {
+
+      
       this.clientInfoForm.setValue({
         FirstName: this.clientInfo.FirstName,
         SurName: this.clientInfo.SurName,
@@ -126,7 +127,8 @@ export class ClientInfoComponent implements OnInit {
         CurrentWeight: this.clientInfo.CurrentWeight,
         CountryName: this.clientInfo.CountryName,
         CountryId: this.clientInfo.CountryId,
-        EndDate: moment(this.clientInfo.EndDate).format('YYYY-MM-DD')
+        EndDate: moment(this.clientInfo.EndDate).format('YYYY-MM-DD'),
+        ContactNumber:this.clientInfo.ContactNumber
       });
       if (this.clientInfo.RoundId) {
         this.clientInfoForm.get('StartDate').enable();

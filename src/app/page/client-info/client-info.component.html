@@ -18,10 +18,15 @@
             </div>
           </div>
 
-          <label>Email</label>
+
           <div class="row">
             <div class="col-md-6">
+              <label>Email</label>
               <input class="form-control" formControlName="email" />
+            </div>
+            <div class="col-md-6">
+              <label>Contact number</label>
+              <input class="form-control" formControlName="ContactNumber" />
             </div>
           </div>
           <div class="row">
@@ -35,8 +40,8 @@
                 <option [ngValue]="false">Male</option>
                 <option [ngValue]="true">Female</option>
               </select>
-              <p class="error-text" *ngIf="!clientInfoForm.controls.Gender.valid">This
-                field is required</p>
+              <!-- <p class="error-text" *ngIf="!clientInfoForm.controls.Gender.valid">This
+                field is required</p> -->
             </div>
             <div class="col-md-6">
               <label>Date of Birth</label>
