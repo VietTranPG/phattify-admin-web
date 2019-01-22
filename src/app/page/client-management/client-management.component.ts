@@ -84,6 +84,7 @@ export class ClientManagementComponent implements OnInit {
       dateOfBirth: [''],
       contactNumber: [''],
       note: [''],
+      city:['',Validators.required],
       countryId: ['', Validators.required]
     }, {
         validator:
@@ -250,12 +251,10 @@ export class ClientManagementComponent implements OnInit {
       contactNumber: this.addClientForm.value.contactNumber,
       note: this.addClientForm.value.note,
       password: this.addClientForm.value.password,
-      countryId: this.addClientForm.value.countryId
+      countryId: this.addClientForm.value.countryId,
+      city: this.addClientForm.value.city
     }
     this._api.adminAddClient(data).then((res: any) => {
-      console.log(res);
-      console.log(data);
-
       if (res.status == 'error') {
         this.toast.addToast({
           title: 'Message',
