@@ -94,3 +94,14 @@ button {
 	}
 
 }
+
+.pcoded-navbar {
+	top: 0px!important;
+	@media screen and (min-width: 1024px){
+		top:50px!important;
+	}
+}
+
+.img-fluid {
+	height: 30px;
+}
