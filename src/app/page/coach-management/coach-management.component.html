@@ -65,6 +65,10 @@
                 <i *ngIf="!this.typeOrderBoolean && this.selectSort=='SubscriptionStatus'" class="icofont icofont-caret-up"></i>
                 <i *ngIf="this.typeOrderBoolean && this.selectSort=='SubscriptionStatus'" class="icofont icofont-caret-down"></i>
                 Subscription Status</th>
+              <th (click)="sortTable('TotalMoneyRef')">
+                <i *ngIf="!this.typeOrderBoolean && this.selectSort=='TotalMoneyRef'" class="icofont icofont-caret-up"></i>
+                <i *ngIf="this.typeOrderBoolean && this.selectSort=='TotalMoneyRef'" class="icofont icofont-caret-down"></i>
+                Total Money Ref</th>
               <!-- <th rowspan="2">Action</th> -->
             </tr>
             <tr>
@@ -100,6 +104,7 @@
                 <td>{{item.createdAt | date: 'dd/MM/yyyy'}}</td>
                 <td>{{item.RefCode}}</td>
                 <th>{{item.SubscriptionStatus}}</th>
+                <th>{{item.TotalMoneyRef}}</th>
                 <!-- <td>
                 <button class="btn-custom btn-orange" (click)="$event.stopPropagation();sendOneEmail(item.Email)"><i class="fa fa-paper-plane"></i></button>
               </td> -->
