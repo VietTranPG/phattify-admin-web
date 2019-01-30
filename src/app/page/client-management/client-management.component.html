@@ -7,13 +7,13 @@
   <div class="col-sm-12">
     <app-card [classHeader]="true" [blockClass]="'table-border-style'" [cardOptionBlock]="true">
       <!-- <span class="code-header">Example of <code>horizontal</code> table borders. This is a default table border style attached to <code>.table</code> class. All borders have the same grey color and style, table itself doesn't have a border, but you can add this border using <code>.table-framed</code> class added to the table with <code>.table</code> class.</span> -->
-      <div class="table-responsive">
+      <div class="">
         <div class="headerTable">
           <div class="row">
-            <div class="col-md-3">
+            <div class="col-sm-4 col-lg-screen">
               <input type="text" [(ngModel)]="searchInput" class="form-control" placeholder="Name or email" (keydown)="keyDownFunction($event)">
             </div>
-            <div class="col-md-3">
+            <div class="col-sm-4 col-lg-screen">
               <!-- <select [(ngModel)]="type" class="form-control">
                 <option value="">All</option>
                 <option value="Mentee">Mentee</option>
@@ -23,7 +23,7 @@
 
               </ng-select>
             </div>
-            <div class="col-md-3">
+            <div class="col-sm-4 col-lg-screen">
               <select [(ngModel)]="status" class="form-control">
                 <option value="">All</option>
                 <option value="active">Active</option>
@@ -33,12 +33,15 @@
                 <option value="not-connected">Not Connected</option>
               </select>
             </div>
-            <button type="button" class="btn btn-warning btn-header" (click)="searchTable()">Search</button>
-            <button type="button" class="btn btn-header" (click)="showAll()">Show All</button>
+            <div class="col-sm-12  col-lg-screen col-button-custom">
+              <button type="button" class="btn btn-warning btn-header" (click)="searchTable()">Search</button>
+              <button type="button" class="btn btn-header" (click)="showAll()">Show All</button>
+            </div>
           </div>
         </div>
         <button type="button" class="btn btn-danger margin-button" (click)="showSendMailForm()">Compose</button>
         <button class="btn btn-warning col-right" (click)="showAddClient()">Add</button>
+      <div class="table-responsive">
         <table class="table table-framed table-wrap-text">
           <thead>
             <tr>
@@ -124,6 +127,7 @@
             </tr>
           </tbody>
         </table>
+      </div>
       </div>
       <ngb-pagination class="d-flex justify-content-center" [collectionSize]="totalItem" [pageSize]="limit" [(page)]="page"
         [maxSize]="5" [boundaryLinks]="true" (pageChange)="onChangePage($event)"></ngb-pagination>

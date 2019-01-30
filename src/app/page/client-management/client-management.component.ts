@@ -81,7 +81,7 @@ export class ClientManagementComponent implements OnInit {
       confirmEmail: ['', [Validators.required]],
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required],
-      dateOfBirth: [''],
+      dateOfBirth: [],
       contactNumber: [''],
       note: [''],
       city:['',Validators.required],

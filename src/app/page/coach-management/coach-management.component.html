@@ -2,13 +2,13 @@
   <div class="col-sm-12">
     <app-card [classHeader]="true" [blockClass]="'table-border-style'" [cardOptionBlock]="true">
       <!-- <span class="code-header">Example of <code>horizontal</code> table borders. This is a default table border style attached to <code>.table</code> class. All borders have the same grey color and style, table itself doesn't have a border, but you can add this border using <code>.table-framed</code> class added to the table with <code>.table</code> class.</span> -->
-      <div class="table-responsive">
+      <div class="">
         <div class="headerTable">
           <div class="row row-filter">
-            <div class="col-md-3">
+            <div class="col-sm-4 col-lg-screen">
               <input type="text" [(ngModel)]="searchInput" class="form-control" placeholder="Search by email or name">
             </div>
-            <div class="col-md-3">
+            <div class="col-sm-4 col-lg-screen">
               <!-- <select [(ngModel)]="type" class="form-control">
                 <option value="">All</option>
                 <option value="Mentee">Mentee</option>
@@ -17,87 +17,101 @@
               <ng-select class="select-custom" [(ngModel)]="group" placeholder="Search by group">
               </ng-select>
             </div>
-            <div class="col-md-3">
+            <div class="col-sm-4 col-lg-screen">
               <ng-select class="select-custom loading-search" [(ngModel)]="mentee" [options]="listMentee"
                 (filterInputChanged)="searchMentee($event)" placeholder="Search by mentee">
 
               </ng-select>
             </div>
-            <button type="button" class="btn btn-warning btn-header" (click)="searchTable()">Search</button>
-            <button type="button" class="btn btn-header" (click)="showAll()">Show All</button>
+            <div class="col-sm-12  col-lg-screen col-button-custom">
+              <button type="button" class="btn btn-warning btn-header" (click)="searchTable()">Search</button>
+              <button type="button" class="btn btn-header" (click)="showAll()">Show All</button>
+            </div>
           </div>
         </div>
         <button type="button" class="btn btn-danger margin-button" (click)="showSendMailForm()">Compose</button>
-
-        <table class="table table-framed table-wrap-text">
-          <tr>
-            <th rowspan="2">
-              <input type="checkbox" [(ngModel)]="selectAll" (change)="changeAll(selectAll)" />
-            </th>
-            <th rowspan="2">#</th>
-            <th rowspan="2" (click)="sortTable('FirstName')">
-              <i *ngIf="!this.typeOrderBoolean && this.selectSort=='FirstName'" class="icofont icofont-caret-up"></i>
-              <i *ngIf="this.typeOrderBoolean && this.selectSort=='FirstName'" class="icofont icofont-caret-down"></i>
-              First Name</th>
-            <th rowspan="2" (click)="sortTable('SurName')">
-              <i *ngIf="!this.typeOrderBoolean && this.selectSort=='SurName'" class="icofont icofont-caret-up"></i>
-              <i *ngIf="this.typeOrderBoolean && this.selectSort=='SurName'" class="icofont icofont-caret-down"></i>
-              Last Name</th>
-            <th rowspan="2" (click)="sortTable('Email')">
-              <i *ngIf="!this.typeOrderBoolean && this.selectSort=='Email'" class="icofont icofont-caret-up"></i>
-              <i *ngIf="this.typeOrderBoolean && this.selectSort=='Email'" class="icofont icofont-caret-down"></i>
-              Email</th>
-            <th rowspan="2">Contact Number</th>
-            <th rowspan="2" (click)="sortTable('Status')">
+        <div class="table-responsive">
+          <table class="table table-framed table-wrap-text">
+            <tr>
+              <th rowspan="2">
+                <input type="checkbox" [(ngModel)]="selectAll" (change)="changeAll(selectAll)" />
+              </th>
+              <th rowspan="2">#</th>
+              <th rowspan="2" (click)="sortTable('FirstName')">
+                <i *ngIf="!this.typeOrderBoolean && this.selectSort=='FirstName'" class="icofont icofont-caret-up"></i>
+                <i *ngIf="this.typeOrderBoolean && this.selectSort=='FirstName'" class="icofont icofont-caret-down"></i>
+                First Name</th>
+              <th rowspan="2" (click)="sortTable('SurName')">
+                <i *ngIf="!this.typeOrderBoolean && this.selectSort=='SurName'" class="icofont icofont-caret-up"></i>
+                <i *ngIf="this.typeOrderBoolean && this.selectSort=='SurName'" class="icofont icofont-caret-down"></i>
+                Last Name</th>
+              <th rowspan="2" (click)="sortTable('Email')">
+                <i *ngIf="!this.typeOrderBoolean && this.selectSort=='Email'" class="icofont icofont-caret-up"></i>
+                <i *ngIf="this.typeOrderBoolean && this.selectSort=='Email'" class="icofont icofont-caret-down"></i>
+                Email</th>
+              <th rowspan="2">Contact Number</th>
+              <th rowspan="2" (click)="sortTable('Status')">
                 <i *ngIf="!this.typeOrderBoolean && this.selectSort=='Status'" class="icofont icofont-caret-up"></i>
                 <i *ngIf="this.typeOrderBoolean && this.selectSort=='Status'" class="icofont icofont-caret-down"></i>
-              Status</th>
-            <th colspan="2" style="padding: 5px">Number of client</th>
-            <th rowspan="2">Assign Group</th>
-            <th rowspan="2" (click)="sortTable('createdAt')">
+                Status</th>
+              <th colspan="2" style="padding: 5px">Number of client</th>
+              <th rowspan="2">Assign Group</th>
+              <th rowspan="2" (click)="sortTable('createdAt')">
                 <i *ngIf="!this.typeOrderBoolean && this.selectSort=='createdAt'" class="icofont icofont-caret-up"></i>
                 <i *ngIf="this.typeOrderBoolean && this.selectSort=='createdAt'" class="icofont icofont-caret-down"></i>
-              Date Joined</th>
-            <th rowspan="2">Ref Code</th>
-            <!-- <th rowspan="2">Action</th> -->
-          </tr>
-          <tr>
-            <th style="padding: 5px; border-top: 0;" (click)="sortTable('NumberOfClient')">
+                Date Joined</th>
+              <th rowspan="2">Ref Code</th>
+              <th (click)="sortTable('SubscriptionStatus')">
+                <i *ngIf="!this.typeOrderBoolean && this.selectSort=='SubscriptionStatus'" class="icofont icofont-caret-up"></i>
+                <i *ngIf="this.typeOrderBoolean && this.selectSort=='SubscriptionStatus'" class="icofont icofont-caret-down"></i>
+                Subscription Status</th>
+              <th (click)="sortTable('TotalMoneyRef')">
+                <i *ngIf="!this.typeOrderBoolean && this.selectSort=='TotalMoneyRef'" class="icofont icofont-caret-up"></i>
+                <i *ngIf="this.typeOrderBoolean && this.selectSort=='TotalMoneyRef'" class="icofont icofont-caret-down"></i>
+                Total Money Ref</th>
+              <!-- <th rowspan="2">Action</th> -->
+            </tr>
+            <tr>
+              <th style="padding: 5px; border-top: 0;" (click)="sortTable('NumberOfClient')">
                 <i *ngIf="!this.typeOrderBoolean && this.selectSort=='NumberOfClient'" class="icofont icofont-caret-up"></i>
                 <i *ngIf="this.typeOrderBoolean && this.selectSort=='NumberOfClient'" class="icofont icofont-caret-down"></i>
-              This month</th>
-            <th style="padding: 5px; border-top: 0;" (click)="sortTable('TotalClient')">
+                This month</th>
+              <th style="padding: 5px; border-top: 0;" (click)="sortTable('TotalClient')">
                 <i *ngIf="!this.typeOrderBoolean && this.selectSort=='TotalClient'" class="icofont icofont-caret-up"></i>
                 <i *ngIf="this.typeOrderBoolean && this.selectSort=='TotalClient'" class="icofont icofont-caret-down"></i>
-              Total</th>
-          </tr>
-          <tbody>
-            <tr *ngFor="let item of listMentor;let i = index" class = "coach">
-              <td><input type="checkbox" (change)="changeOne()" [(ngModel)]="item.checked" /></td>
-              <td (click)="goToCoachInfo(item.Id)" class="cursor">{{i+1}}</td>
-              <td (click)="goToCoachInfo(item.Id)" class="cursor">{{item.FirstName}}</td>
-              <td (click)="goToCoachInfo(item.Id)" class="cursor">{{item.SurName}}</td>
-              <td>{{item.Email}}</td>
-              <td>{{item.ContactNumber}}</td>
-              <td>{{item.BlockedAt?'blocked':item.Status}}</td>
-              <td>{{item.clientThisMonth ?item.clientThisMonth : 0}}</td>
-              <td>{{item.TotalClient ? item.TotalClient : 0}}</td>
-              <td>
-                <select class="table-select">
-                  <option>Group A</option>
-                  <option>Group B</option>
-                  <option>Group C</option>
-                </select>
-                <button class="btn-custom btn-orange">Assign</button>
-              </td>
-              <td>{{item.createdAt | date: 'dd/MM/yyyy'}}</td>
-              <td>{{item.RefCode}}</td>
-              <!-- <td>
+                Total</th>
+            </tr>
+            <tbody>
+              <tr *ngFor="let item of listMentor;let i = index" class="coach">
+                <td><input type="checkbox" (change)="changeOne()" [(ngModel)]="item.checked" /></td>
+                <td (click)="goToCoachInfo(item.Id)" class="cursor">{{i+1}}</td>
+                <td (click)="goToCoachInfo(item.Id)" class="cursor">{{item.FirstName}}</td>
+                <td (click)="goToCoachInfo(item.Id)" class="cursor">{{item.SurName}}</td>
+                <td>{{item.Email}}</td>
+                <td>{{item.ContactNumber}}</td>
+                <td>{{item.BlockedAt?'blocked':item.Status}}</td>
+
+                <td>{{item.clientThisMonth ?item.clientThisMonth : 0}}</td>
+                <td>{{item.TotalClient ? item.TotalClient : 0}}</td>
+                <td>
+                  <select class="table-select">
+                    <option>Group A</option>
+                    <option>Group B</option>
+                    <option>Group C</option>
+                  </select>
+                  <button class="btn-custom btn-orange">Assign</button>
+                </td>
+                <td>{{item.createdAt | date: 'dd/MM/yyyy'}}</td>
+                <td>{{item.RefCode}}</td>
+                <th>{{item.SubscriptionStatus}}</th>
+                <th>{{item.TotalMoneyRef}}</th>
+                <!-- <td>
                 <button class="btn-custom btn-orange" (click)="$event.stopPropagation();sendOneEmail(item.Email)"><i class="fa fa-paper-plane"></i></button>
               </td> -->
-            </tr>
-          </tbody>
-        </table>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
       <ngb-pagination class="d-flex justify-content-center" [collectionSize]="totalItem" [pageSize]="limit" [(page)]="page"
         [maxSize]="5" [boundaryLinks]="true" (pageChange)="onChangePage($event)"></ngb-pagination>
@@ -105,10 +119,6 @@
   </div>
 </div>
 <div class="email-compose" *ngIf="showSendMail">
-  <email-compose
-  [listMail]="listMail"
-  [isMinimize]="isMinimize"
-  (closeSendMail) = "closeSendForm($event)"
-  (deleteMail) = "deleteMail($event)"></email-compose>
+  <email-compose [listMail]="listMail" [isMinimize]="isMinimize" (closeSendMail)="closeSendForm($event)" (deleteMail)="deleteMail($event)"></email-compose>
 </div>
 <toast #toast></toast>
