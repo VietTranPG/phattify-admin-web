@@ -48,7 +48,7 @@
           <td>{{mentee.VerifyCode}}</td>
           <td>{{mentee.createdAt | date: 'dd/MM/yyyy'}}</td>
           <td>
-            <button class="btn btn-danger btn-custom" (click)="delete(mentee.Id)"> <i class="icofont icofont-bin"></i></button>
+            <button *ngIf="mentee.Type !='Invite'" class="btn btn-danger btn-custom" (click)="delete(mentee.Id)"> <i class="icofont icofont-bin"></i></button>
             <button *ngIf="mentee.Type =='Invite'" class="btn btn-warning btn-custom"><i class="fa fa-paper-plane-o"
                 aria-hidden="true" (click)="resendCode(mentee.Id)"></i></button>
           </td>
