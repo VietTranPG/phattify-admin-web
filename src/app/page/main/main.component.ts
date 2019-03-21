@@ -2,6 +2,10 @@ import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { animate, AUTO_STYLE, state, style, transition, trigger } from '@angular/animations';
 import { MenuItems } from '../../shared/menu-items/menu-items';
+import { ApiService } from '../../services/api-service/api.service';
+import { HttpClient, HttpBackend, HttpHeaders } from '@angular/common/http';
+import { SERVER_URL } from '../../constants/config';
+import { HelperService } from '../../services/helper-service/helper.service';
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -145,7 +149,7 @@ export class MainComponent implements OnInit {
 
   public config: any;
   public searchInterval: any;
-
+  private httpClient: HttpClient;
   scroll = (): void => {
     const scrollPosition = window.pageYOffset;
     if (scrollPosition > 50) {
@@ -167,8 +171,12 @@ export class MainComponent implements OnInit {
 
   constructor(
     public menuItems: MenuItems,
-    private router: Router
+    private router: Router,
+    private _api: ApiService,
+    handler: HttpBackend,
+    private _helper:HelperService
   ) {
+    this.httpClient = new HttpClient(handler);
     this.animateSidebar = '';
     this.navType = 'st2';
     this.themeLayout = 'vertical';
@@ -575,9 +583,35 @@ export class MainComponent implements OnInit {
     }
   }
 
-  logout(){
+  logout() {
     localStorage.removeItem('userInfo');
     this.router.navigate(['login']);
   }
+  exportEmail() {
+    this._helper.toggleLoadng(true);
+    let headers: any;
+    if (localStorage.getItem('userInfo') && JSON.parse(localStorage.getItem('userInfo')).data) {
+      headers = new HttpHeaders().set('Authorization', `Bearer ${JSON.parse(localStorage.getItem('userInfo')).data}`);
+    }
+    const url = `${SERVER_URL}admin`;
+    this.httpClient.put(url, {}, { responseType: 'arraybuffer', headers: headers }).subscribe(res => {
+      this._helper.toggleLoadng(false);
+      this.downloadFile(res)
+    },err=>{
+      this._helper.toggleLoadng(false);
+    })
+  }
+  downloadFile(data: any) {
+    var url = window.URL.createObjectURL(new Blob([data]));
 
+    // Debe haber una manera mejor de hacer esto...
+    var a = document.createElement('a');
+    document.body.appendChild(a);
+    a.setAttribute('style', 'display: none');
+    a.href = url;
+    a.download = 'Ilose_Email.xlsx';
+    a.click();
+    window.URL.revokeObjectURL(url);
+    a.remove(); // remove the element
+  }
 }
