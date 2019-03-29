@@ -76,7 +76,7 @@
                 <i *ngIf="this.typeOrderBoolean==false && this.selectSort=='MentorEmail'" class="icofont icofont-caret-up"></i>
                 <i *ngIf="this.typeOrderBoolean && this.selectSort=='MentorEmail'" class="icofont icofont-caret-down"></i>
                 Assigned Mentor</th>
-              <th>Invited Code</th>
+              <!-- <th>Invited Code</th> -->
               <th (click)="sortTable('createdAt')">
                 <i *ngIf="this.typeOrderBoolean==false && this.selectSort=='createdAt'" class="icofont icofont-caret-up"></i>
                 <i *ngIf="this.typeOrderBoolean && this.selectSort=='createdAt'" class="icofont icofont-caret-down"></i>
@@ -110,19 +110,19 @@
               <td>
                 {{client.MentorEmail}}
               </td>
-              <td>
+              <!-- <td>
                 <div *ngIf="client.Type=='Invite'">
                   {{client.VerifyCode}}
                 </div>
-              </td>
+              </td> -->
               <td>
                 {{client.createdAt | dateFormat}}
               </td>
               <td>
                 <button class="btn btn-danger btn-custom" (click)="confirmDelete(client)"> <i class="icofont icofont-bin"></i></button>
-                <button *ngIf="client.Type=='Invite'" class="btn btn-warning btn-custom" (click)="resendCode(client.Id)"><i
+                <!-- <button *ngIf="client.Type=='Invite'" class="btn btn-warning btn-custom" (click)="resendCode(client.Id)"><i
                     class="fa fa-paper-plane-o" aria-hidden="true"></i>
-                </button>
+                </button> -->
               </td>
             </tr>
           </tbody>
