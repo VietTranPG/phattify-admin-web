@@ -224,4 +224,12 @@ export class ApiService {
     }
     return this.http.put(url, req);
   }
+  getAppConfig(){
+    const url = SERVER_URL + 'config';
+    return this.http.get(url);
+  }
+  updateAppConfig(body){
+    const url = SERVER_URL + 'config';
+    return this.http.put(url,body);
+  }
 }
