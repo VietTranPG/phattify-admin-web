@@ -18,7 +18,9 @@ import { HelperService } from '../../services/helper-service/helper.service';
 export class ConfigsComponent implements OnInit {
   editorValue: any;
   configs: configModel = {} as configModel;
-
+  public editorConfig = {
+    placeholder: 'Put your things hear'
+  };
   @ViewChild('modalEditor')
   modalEditor: any;
   typeEdit: any;
