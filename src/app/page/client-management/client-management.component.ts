@@ -84,7 +84,7 @@ export class ClientManagementComponent implements OnInit {
       dateOfBirth: [],
       contactNumber: [''],
       note: [''],
-      city:['',Validators.required],
+      city: ['', Validators.required],
       countryId: ['', Validators.required]
     }, {
         validator:
@@ -100,6 +100,7 @@ export class ClientManagementComponent implements OnInit {
   }
 
   getListClient() {
+    this._helper.toggleLoadng(true)
     const data = {
       search: this.searchInput,
       page: this.page,
@@ -112,10 +113,13 @@ export class ClientManagementComponent implements OnInit {
     };
 
     this._api.management(data).then(res => {
+      this._helper.toggleLoadng(false)
+
       this.listClient = res['data']['clients']
       this.totalItem = res['data']['totalItem'];
     }).catch(err => {
-      console.log(err);
+      this._helper.toggleLoadng(false)
+
     })
   }
   showAll() {

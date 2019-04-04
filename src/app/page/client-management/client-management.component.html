@@ -8,23 +8,18 @@
     <app-card [classHeader]="true" [blockClass]="'table-border-style'" [cardOptionBlock]="true">
       <!-- <span class="code-header">Example of <code>horizontal</code> table borders. This is a default table border style attached to <code>.table</code> class. All borders have the same grey color and style, table itself doesn't have a border, but you can add this border using <code>.table-framed</code> class added to the table with <code>.table</code> class.</span> -->
       <div class="">
-        <div class="headerTable">
+        <form class="headerTable" (submit)="searchTable()">
           <div class="row">
             <div class="col-sm-4 col-lg-screen">
-              <input type="text" [(ngModel)]="searchInput" class="form-control" placeholder="Name or email" (keydown)="keyDownFunction($event)">
+              <input type="text" name="searchInput" [(ngModel)]="searchInput" class="form-control" placeholder="Name or email" (keydown)="keyDownFunction($event)">
             </div>
             <div class="col-sm-4 col-lg-screen">
-              <!-- <select [(ngModel)]="type" class="form-control">
-                <option value="">All</option>
-                <option value="Mentee">Mentee</option>
-                <option value="Mentor">Mentor</option>
-              </select> -->
-              <ng-select class="select-custom" [options]="listMentor" [(ngModel)]="mentor" placeholder="Select Mentor">
+              <ng-select class="select-custom" [options]="listMentor" [(ngModel)]="mentor" name="mentor" placeholder="Select Mentor">
 
               </ng-select>
             </div>
             <div class="col-sm-4 col-lg-screen">
-              <select [(ngModel)]="status" class="form-control">
+              <select [(ngModel)]="status" class="form-control" name="status">
                 <option value="">All</option>
                 <option value="active">Active</option>
                 <option value="deactive">Inactivate</option>
@@ -38,7 +33,7 @@
               <button type="button" class="btn btn-header" (click)="showAll()">Show All</button>
             </div>
           </div>
-        </div>
+        </form>
         <button type="button" class="btn btn-danger margin-button" (click)="showSendMailForm()">Compose</button>
         <button class="btn btn-warning col-right" (click)="showAddClient()">Add</button>
       <div class="table-responsive">
