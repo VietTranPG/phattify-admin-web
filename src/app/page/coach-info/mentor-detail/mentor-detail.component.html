@@ -44,7 +44,7 @@
         <div class="col-sm-6">
           <label>Date of Birth</label>
           <div class="col-xs-12">
-            <input class="form-control" formControlName="DateOfBirth" />
+            <input class="form-control" type="date" formControlName="DateOfBirth" />
           </div>
         </div>
       </div>
@@ -52,7 +52,10 @@
         <div class="col-sm-6">
           <label>Country</label>
           <div class="col-xs-12">
-            <input class="form-control" formControlName="CountryName" />
+              <select class="form-control" type="text" formControlName="CountryId">
+                  <option *ngFor="let country of countries" value="{{country?.Id}}">{{country?.Name}}</option>
+                </select>
+            <!-- <input class="form-control" formControlName="CountryName" /> -->
           </div>
         </div>
         <div class="col-sm-6">
@@ -93,6 +96,7 @@
       <div class="row row-custom row--flex-end">
         <button type="button" class="btn btn-default ripple" [disabled]="mentorIsBlocked" (click)="modalDelete.show()">Block</button>
         <button type="button" class="btn btn-danger ripple light" (click)="modalDownGrade.show()">Downgrade mentor</button>
+        <button type="button" class="btn btn-success ripple light" (click)="updateMentor()">Save</button>
       </div>
     </form>
 

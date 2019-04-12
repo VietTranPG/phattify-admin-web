@@ -12,6 +12,7 @@ import { STATUS } from '../../../constants/config';
   styleUrls: ['./mentor-detail.component.scss']
 })
 export class MentorDetailComponent implements OnInit {
+  countries:any = [];
   idMentor: any;
   mentorInfo: any;
   healthList: any = [];
@@ -42,31 +43,39 @@ export class MentorDetailComponent implements OnInit {
   }
   InitForm() {
     this.mentorInfoForm = this.formBuilder.group({
-      FirstName: [{ value: '', disabled: true }],
-      Email: [{ value: '', disabled: true }],
-      ContactNumber: [{ value: '', disabled: true }],
-      DateOfBirth: [{ value: '', disabled: true }],
-      CountryName: [{ value: '', disabled: true }],
-      City: [{ value: '', disabled: true }],
-      Gender: [{ value: '', disabled: true }],
-      SurName: [{ value: '', disabled: true }],
+      FirstName: [{ value: '' }],
+      Email: [{ value: '' }],
+      ContactNumber: [{ value: '' }],
+      DateOfBirth: [{ value: '' }],
+      CountryId: [{ value: '' }],
+      City: [{ value: '' }],
+      Gender: [{ value: '' }],
+      SurName: [{ value: '' }],
       Status: [{ value: '', disabled: true }]
     })
     this.changePasswordForm = this.formBuilder.group({
       password: ['', Validators.required],
       confirmPassword: ['', [Validators.required]]
     }, { validator: ValidateExtendService.matchingPassword('password', 'confirmPassword') })
+    this._api.getCountries().subscribe(res => {
+      let resultCountry = res['data'];
+      this.countries = resultCountry;
+    })
   }
   getMentorInfo() {
+    this._helper.toggleLoadng(true);
     this.router.params.subscribe(res => {
       this.idMentor = res.id;
       this._api.getMentorInfo(this.idMentor).then(data => {
+        this._helper.toggleLoadng(false)
+
         this.mentorInfo = data['data'];
         this.healthList = data['data']['Health'];
-        console.log(this.mentorInfo);
-        
         this.mentorIsBlocked = this.mentorInfo.BlockedAt ? true : false;
         this.fillDataMentorInfo();
+      }, err => {
+        this._helper.toggleLoadng(false)
+
       })
     })
   }
@@ -76,12 +85,12 @@ export class MentorDetailComponent implements OnInit {
         FirstName: this.mentorInfo.FirstName,
         Email: this.mentorInfo.Email,
         ContactNumber: this.mentorInfo.ContactNumber,
-        DateOfBirth: moment(this.mentorInfo.DateOfBirth).format('DD-MM-YYYY'),
-        CountryName: this.mentorInfo.CountryName,
+        DateOfBirth: moment(this.mentorInfo.DateOfBirth).format('YYYY-MM-DD'),
+        CountryId: this.mentorInfo.CountryId,
         City: this.mentorInfo.City,
         Gender: this.mentorInfo.Gender,
         SurName: this.mentorInfo.SurName,
-        Status: this.mentorInfo.BlockedAt ?'Blocked': this.mentorInfo.Status
+        Status: this.mentorInfo.BlockedAt ? 'Blocked' : this.mentorInfo.Status
       })
     }
   }
@@ -176,6 +185,28 @@ export class MentorDetailComponent implements OnInit {
       }
     }).catch(err => {
       console.log(err)
+    })
+  }
+  updateMentor(){
+    console.log(this.mentorInfoForm.value)
+    let req = this.mentorInfoForm.value;
+    req.Id = this.idMentor;
+    this._helper.toggleLoadng(true);
+    this._api.updateMentor(req).subscribe((res:any)=>{
+      this._helper.toggleLoadng(false);
+      if(res.status=='success'){
+        this._helper.showToast({
+          title: 'Message',
+          msg: 'Change mentor infor success',
+          timeout: 5000,
+          theme: 'material',
+          position: 'top-right',
+          type: 'success'
+        });
+      }
+      
+    },err=>{
+      this._helper.toggleLoadng(false);
     })
   }
 }

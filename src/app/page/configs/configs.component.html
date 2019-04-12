@@ -1,0 +1,74 @@
+<div class="card">
+  <div class="card-block">
+    <div class="card-header">
+      <h5>Contact Mentor Page</h5>
+      <div class="card-header-right">
+        <span (click)="openEditModal('ContactMentorPage')" class="icofont icofont-ui-edit"></span>
+      </div>
+    </div>
+    <div class="content">
+      <div [innerHTML]="configs.ContactMentorPage | safe: 'html'"></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-block">
+    <div class="card-header">
+      <h5>Register As Mentor Page</h5>
+      <div class="card-header-right">
+        <span (click)="openEditModal('RegisterAsMentorPage')" class="icofont icofont-ui-edit"></span>
+      </div>
+    </div>
+    <div class="content">
+      <div [innerHTML]="configs.RegisterAsMentorPage | safe: 'html'"></div>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-block">
+    <div class="card-header">
+      <h5>Special Offer Page</h5>
+      <div class="card-header-right">
+        <span (click)="openEditModal('SpecialOfferPage')" class="icofont icofont-ui-edit"></span>
+      </div>
+    </div>
+    <div class="content">
+      <div [innerHTML]="configs.SpecialOfferPage | safe: 'html'"></div>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-block">
+    <div class="card-header">
+      <h5>Monthly Subscription Page</h5>
+      <div class="card-header-right">
+        <span (click)="openEditModal('MonthlySubscriptionPage')" class="icofont icofont-ui-edit"></span>
+      </div>
+    </div>
+    <div class="content">
+      <div [innerHTML]="configs.MonthlySubscriptionPage | safe: 'html'"></div>
+    </div>
+  </div>
+</div>
+
+<!-- modal editor -->
+<app-modal-basic #modalEditor>
+  <div class="app-modal-header">
+    <h4 class="modal-title">Editor</h4>
+    <button type="button" class="close basic-close" (click)="modalEditor.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="app-modal-body">
+    <div class="container">
+      <quill-editor [(ngModel)]="quill" [options]="editorConfig" (ready)="onEditorCreated($event)"
+        (change)="onContentChanged($event)">
+      </quill-editor>
+    </div>
+  </div>
+  <div class="app-modal-footer">
+    <button type="button" class="btn btn-default ripple" (click)="modalEditor.hide()">Close</button>
+    <button type="button" class="btn btn-danger ripple light" (click)="edit()">Confirm</button>
+  </div>
+</app-modal-basic>

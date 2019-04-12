@@ -49,11 +49,13 @@ export class ClientInfoComponent implements OnInit {
       this.getAllData();
     });
   }
-  getAllData(){ 
+  getAllData() {
+    this._helper.toggleLoadng(true);
     const getClientInfoPromise = this._api.getClientInfo(this.idClient);
     const getListMentorPromise = this._api.getListMentor();
     const getListCountry = this._api.getListCountry();
     Promise.all([getClientInfoPromise, getListMentorPromise, getListCountry]).then((values: any) => {
+      this._helper.toggleLoadng(false);
       //  process getClientInfo
       this.clientInfo = values[0].data;
       this.healthList = values[0].data.Health;
@@ -65,31 +67,18 @@ export class ClientInfoComponent implements OnInit {
 
       // process get List Country
       this.countries = values[2].data;
+    }).catch(err => {
+      this._helper.toggleLoadng(false);
     });
   }
   getClientInfo() {
     this._api.getClientInfo(this.idClient);
-    // .then((data: any) => {
-    //   // this.clientInfo = data['data'];
-    //   // this.healthList = data['data']['Health'];
-    //   // console.log(this.clientInfo);
-    //   // this.checkResendCode = data['data']['Status'] !== 'active' ? false : true;
-    //   // this.wipeData = data['data']['RoundId'] ? true : false;
-
-    //   this.clientInfo = data.data;
-    //   this.healthList = data.data.Health;
-    //   console.log(this.clientInfo);
-    //   this.checkResendCode = data.data.Status !== 'active' ? false : true;
-    //   this.wipeData = data.data.RoundId ? true : false;
-
-    //   this.fillDataClientInfo();
-    // });
   }
   initForm() {
     this.clientInfoForm = this.formBuilder.group({
       FirstName: ['', Validators.required],
       SurName: ['', Validators.required],
-      email: [{ value: '', disabled: true }],
+      email: [{ value: '' }],
       DateOfBirth: [''],
       City: [{ value: '' }],
       Status: [{ value: '', disabled: true }],
@@ -97,7 +86,7 @@ export class ClientInfoComponent implements OnInit {
       Gender: [''],
       CountryName: [''],
       CountryId: ['', Validators.required],
-      ContactNumber:[''],
+      ContactNumber: [''],
       StartDate: [{ value: '', disabled: true }, Validators.required],
       StartWeight: [{ value: '', disabled: true }, Validators.required],
       CurrentWeight: [{ value: '', disabled: true }, Validators.required],
@@ -112,7 +101,7 @@ export class ClientInfoComponent implements OnInit {
   fillDataClientInfo() {
     if (this.clientInfo) {
 
-      
+
       this.clientInfoForm.setValue({
         FirstName: this.clientInfo.FirstName,
         SurName: this.clientInfo.SurName,
@@ -128,7 +117,7 @@ export class ClientInfoComponent implements OnInit {
         CountryName: this.clientInfo.CountryName,
         CountryId: this.clientInfo.CountryId,
         EndDate: moment(this.clientInfo.EndDate).format('YYYY-MM-DD'),
-        ContactNumber:this.clientInfo.ContactNumber
+        ContactNumber: this.clientInfo.ContactNumber
       });
       if (this.clientInfo.RoundId) {
         this.clientInfoForm.get('StartDate').enable();
@@ -352,23 +341,23 @@ export class ClientInfoComponent implements OnInit {
       this._helper.toggleLoadng(false);
       if (res.status === STATUS.error || res.data === 'not ok') {
         this.modalAssign.hide();
-        this.toast.addToast({ 
-          title: 'Message', 
-          msg: 'Assign Mentor error', 
-          timeout: 5000, 
-          theme: 'material', 
-          position: 'top-right', 
-          type: 'error' 
+        this.toast.addToast({
+          title: 'Message',
+          msg: 'Assign Mentor error',
+          timeout: 5000,
+          theme: 'material',
+          position: 'top-right',
+          type: 'error'
         });
       } else {
         this.modalAssign.hide();
-        this.toast.addToast({ 
-          title: 'Message', 
-          msg: 'Assign mentor successfully', 
-          timeout: 5000, 
-          theme: 'material', 
-          position: 'top-right', 
-          type: 'success' 
+        this.toast.addToast({
+          title: 'Message',
+          msg: 'Assign mentor successfully',
+          timeout: 5000,
+          theme: 'material',
+          position: 'top-right',
+          type: 'success'
         });
         // this.getClientInfo();
         // this.fillDataClientInfo();
@@ -385,24 +374,24 @@ export class ClientInfoComponent implements OnInit {
       this.mentorEmail = this.listMentor.find(x => x.value === this.clientInfoForm.value.mentor);
       this.modalAssign.show();
     } else {
-      this.toast.addToast({ 
-        title: 'Message', 
-        msg: 'You must select email', 
-        timeout: 5000, 
-        theme: 'material', 
-        position: 'top-right', 
-        type: 'error' 
+      this.toast.addToast({
+        title: 'Message',
+        msg: 'You must select email',
+        timeout: 5000,
+        theme: 'material',
+        position: 'top-right',
+        type: 'error'
       });
     }
   }
 
   editClientInfo() {
-    //
     if (!this.clientInfoForm.valid) {
       return false;
     }
     const clientInfoForm = this.clientInfoForm.value;
     const data = {
+      email:clientInfoForm.email,
       firstName: clientInfoForm.FirstName,
       surName: clientInfoForm.SurName,
       gender: clientInfoForm.Gender,
@@ -410,6 +399,7 @@ export class ClientInfoComponent implements OnInit {
       countryId: clientInfoForm.CountryId,
       menteeId: this.clientInfo.Id,
       city: clientInfoForm.City,
+      contactNumber: clientInfoForm.ContactNumber,
       startWeight: 0,
       startDate: '',
       RoundId: '',
@@ -420,12 +410,11 @@ export class ClientInfoComponent implements OnInit {
       data.RoundId = this.clientInfo.RoundId;
     }
     // call api save info
+    this._helper.toggleLoadng(true);
     this._api.adminUpdateClient(data).then((res: any) => {
+    this._helper.toggleLoadng(false);
       if (res.status === 'error') {
-        this.toast.addToast({
-          title: 'Message', msg: res.message,
-          timeout: 5000, theme: 'material', position: 'top-right', type: 'error'
-        });
+       
       } else {
         this.toast.addToast({
           title: 'Message', msg: 'Successfully', timeout: 5000,
@@ -433,6 +422,7 @@ export class ClientInfoComponent implements OnInit {
         });
       }
     }).catch(err => {
+      this._helper.toggleLoadng(false);
       this.toast.addToast({
         title: 'Message', msg: err.message,
         timeout: 5000, theme: 'material', position: 'top-right', type: 'error'

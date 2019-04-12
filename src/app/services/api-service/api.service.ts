@@ -141,6 +141,10 @@ export class ApiService {
     const url = SERVER_URL + 'managementmentor?search=' + q;
     return this.http.get(url);
   }
+  updateMentor(body) {
+    const url = SERVER_URL + 'managementmentor'
+    return this.http.put(url,body);
+  }
   getMentorInfo(id) {
     const url = this.url + 'mentor-info?Id=' + id;
     return new Promise((resolve, reject) => {
@@ -223,5 +227,13 @@ export class ApiService {
       idClient: idClient
     }
     return this.http.put(url, req);
+  }
+  getAppConfig(){
+    const url = SERVER_URL + 'config';
+    return this.http.get(url);
+  }
+  updateAppConfig(body){
+    const url = SERVER_URL + 'config';
+    return this.http.put(url,body);
   }
 }

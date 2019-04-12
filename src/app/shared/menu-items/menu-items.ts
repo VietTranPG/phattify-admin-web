@@ -54,6 +54,13 @@ const MENUITEMS = [
         name: 'Coach Management',
         type: 'link',
         icon: 'feather icon-menu'
+      },
+      {
+        state: 'configs',
+        short_label: 'C',
+        name: 'Change Content Text',
+        type: 'link',
+        icon: 'feather icon-menu'
       }
     ],
   }
