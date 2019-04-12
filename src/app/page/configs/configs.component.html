@@ -7,7 +7,7 @@
       </div>
     </div>
     <div class="content">
-      <div [innerHTML]="configs.ContactMentorPage"></div>
+      <div [innerHTML]="configs.ContactMentorPage | safe: 'html'"></div>
     </div>
   </div>
 </div>
@@ -21,7 +21,7 @@
       </div>
     </div>
     <div class="content">
-      <div [innerHTML]="configs.RegisterAsMentorPage"></div>
+      <div [innerHTML]="configs.RegisterAsMentorPage | safe: 'html'"></div>
     </div>
   </div>
 </div>
@@ -34,7 +34,7 @@
       </div>
     </div>
     <div class="content">
-      <div [innerHTML]="configs.SpecialOfferPage"></div>
+      <div [innerHTML]="configs.SpecialOfferPage | safe: 'html'"></div>
     </div>
   </div>
 </div>
@@ -47,7 +47,7 @@
       </div>
     </div>
     <div class="content">
-      <div [innerHTML]="configs.MonthlySubscriptionPage"></div>
+      <div [innerHTML]="configs.MonthlySubscriptionPage | safe: 'html'"></div>
     </div>
   </div>
 </div>
