@@ -1,173 +1,196 @@
-<div class="card card--form card--user-info">
-  <div class="container">
-    <div class="heading-custom">User Detail</div>
-    <form class="form" [formGroup]="clientInfoForm">
-      <div class="row">
-        <div class="col-md-6">
-          <label>Name</label>
-          <div class="row">
-            <div class="col-md-6">
-              <input class="form-control" placeholder="First Name" formControlName="FirstName" />
-              <p class="error-text" *ngIf="!clientInfoForm.controls.FirstName.valid">This
-                field is required</p>
-            </div>
-            <div class="col-md-6">
-              <input class="form-control" placeholder="Last Name" formControlName="SurName" />
-              <p class="error-text" *ngIf="!clientInfoForm.controls.SurName.valid">This
-                field is required</p>
-            </div>
-          </div>
-
-
-          <div class="row">
-            <div class="col-md-6">
-              <label>Email</label>
-              <input class="form-control" formControlName="email" />
-            </div>
-            <div class="col-md-6">
-              <label>Contact number</label>
-              <input class="form-control" formControlName="ContactNumber" />
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12"><button class="btn btn-warning btn--form" (click)="this.modalChangePassword.show()">Change
-                password</button></div>
-          </div>
-          <div class="row">
-            <div class="col-md-6">
-              <label>Gender</label>
-              <select class="form-control" formControlName="Gender">
-                <option [ngValue]="false">Male</option>
-                <option [ngValue]="true">Female</option>
-              </select>
-              <!-- <p class="error-text" *ngIf="!clientInfoForm.controls.Gender.valid">This
-                field is required</p> -->
-            </div>
-            <div class="col-md-6">
-              <label>Date of Birth</label>
-              <input class="form-control" type="date" formControlName="DateOfBirth" />
-              <p class="error-text" *ngIf="!clientInfoForm.controls.DateOfBirth.valid">This
-                field is required</p>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6">
-              <label>Country</label>
-              <select class="form-control" type="text" formControlName="CountryId">
-                <option *ngFor="let country of countries" value="{{country?.Id}}">{{country?.Name}}</option>
-              </select>
-            </div>
-            <div class="col-md-6">
-              <label>City/Town</label>
-              <input class="form-control" type="text" formControlName="City" />
-            </div>
-          </div>
-          <label>Health List</label>
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-control--custom">
-                <ul class="list-group list-group-flush" *ngFor="let healthList of healthList; let i = index">
-                  <li class="list-group-item disabled">{{healthList.Name}}</li>
-                </ul>
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item disabled" *ngIf="clientInfo.OtherIllnesses">OtherIllnesses:
-                    {{clientInfo.OtherIllnesses}}</li>
-                  <li class="list-group-item disabled" *ngIf="clientInfo.Allergies">Allergies: {{clientInfo.Allergies}}</li>
-                  <li class="list-group-item disabled" *ngIf="clientInfo.HealthMedication">HealthMedication:
-                    {{clientInfo.HealthMedication}}</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <label>Status</label>
-          <div class="row">
-            <div class="col-md-6">
-              <select formControlName="Status" class="form-control">
-                <option value="active">Active</option>
-                <option value="deactive">Inactivate</option>
-                <option value="pending">Invite pending</option>
-              </select>
-            </div>
-            <div class="col-md-3">
-              <!-- <button [class]="checkResendCode?'btn btn-secondary btn--form':'btn btn-warning btn--form'" [disabled]="checkResendCode"
-                (click)="resendCode()">Resend</button> -->
-            </div>
-          </div>
-          <label>Mentor</label>
-
-          <div class="row" *ngIf="!clientInfo.MentorEmail">
-            <div class="col-md-6">
-              <ng-select class="select-custom" [options]="listMentor" formControlName="mentor" placeholder="select Mentor"></ng-select>
-            </div>
-            <div class="col-md-3">
-              <button class="btn btn-warning btn--form" (click)='showModalAssign()'>Assign</button>
-            </div>
-          </div>
-          <div class="row" *ngIf="clientInfo.MentorEmail">
-            <div class="col-md-6">
-              <input class="form-control" formControlName="mentor" disabled />
-            </div>
-          </div>
+<div class="card--coach-management">
+  <div class="row">
+    <div class="col">
+      <div class=" col-flex">
+        <div [class]="showClientDetail?'col-detail col-active':'col-detail'" (click)="showClientDetail = true">
+          <h5>Client Detail</h5>
         </div>
-        <div class="col-md-6" [hidden]="!clientInfo.RoundId">
-          <div class="row row--center">
-            <div class="title">Current Round information</div>
-            <button class="btn btn-warning btn--form" (click)="confirmDelete('wipeData')">Wipe Data</button>
-          </div>
-          <div class="row">
-            <div class="col-md-6">
-              <label>Start Date</label>
-              <div class="row">
-                <div class="col-md-12">
-                  <input class="form-control" type="date" formControlName="StartDate" />
-                  <p class="error-text" *ngIf="!clientInfoForm.controls.StartDate.valid">This
-                    field is required</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <label>End Date</label>
-              <div class="row">
-                <div class="col-md-12">
-                  <input class="form-control" type="date" formControlName="EndDate" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6">
-              <label>Start Weight</label>
-              <div class="row">
-                <div class="col-md-12">
-                  <input class="form-control" type="text" placeholder="0" formControlName="StartWeight" />
-                  <p class="error-text" *ngIf="!clientInfoForm.controls.StartWeight.valid">This
-                    field is required</p>
-                  <p class="error-text" *ngIf="clientInfoForm.controls.StartWeight.valid && clientInfoForm.errors?.invalidStartWeight">This
-                    field is invalid</p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <label>Current Weight</label>
-              <div class="row">
-                <div class="col-md-12">
-                  <input class="form-control" type="text" placeholder="0" formControlName="CurrentWeight" />
-                </div>
-              </div>
-            </div>
-          </div>
+        <div [class]="!showClientDetail?'col-detail col-active':'col-detail'" (click)="showClientDetail = false">
+          <h5>Round Detail</h5>
         </div>
       </div>
-      <div class="row row--flex-end">
-        <!-- <button class="btn btn-success" type="submit" [disabled]="!clientInfoForm.valid" (click)="editClientInfo()">Save</button> -->
-        <button class="btn btn-success" type="submit" (click)="editClientInfo()">Save</button>
-        <button class="btn btn-danger" (click)='confirmDelete("delete")'>Delete</button>
-        <button class="btn btn-danger" (click)='confirmDelete("deleteFromMentor")' *ngIf="this.clientInfo?.MentorId && clientInfo.Type!='Invite'">Delete
-          From Mentor</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12" *ngIf="showClientDetail">
+      <div class="card card--form card--user-info">
+        <div class="container">
+          <div class="heading-custom">User Detail</div>
+          <form class="form" [formGroup]="clientInfoForm">
+            <div class="row">
+              <div class="col-md-6">
+                <label>Name</label>
+                <div class="row">
+                  <div class="col-md-6">
+                    <input class="form-control" placeholder="First Name" formControlName="FirstName" />
+                    <p class="error-text" *ngIf="!clientInfoForm.controls.FirstName.valid">This
+                      field is required</p>
+                  </div>
+                  <div class="col-md-6">
+                    <input class="form-control" placeholder="Last Name" formControlName="SurName" />
+                    <p class="error-text" *ngIf="!clientInfoForm.controls.SurName.valid">This
+                      field is required</p>
+                  </div>
+                </div>
+      
+      
+                <div class="row">
+                  <div class="col-md-6">
+                    <label>Email</label>
+                    <input class="form-control" formControlName="email" />
+                  </div>
+                  <div class="col-md-6">
+                    <label>Contact number</label>
+                    <input class="form-control" formControlName="ContactNumber" />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12"><button class="btn btn-warning btn--form" (click)="this.modalChangePassword.show()">Change
+                      password</button></div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <label>Gender</label>
+                    <select class="form-control" formControlName="Gender">
+                      <option [ngValue]="false">Male</option>
+                      <option [ngValue]="true">Female</option>
+                    </select>
+                    <!-- <p class="error-text" *ngIf="!clientInfoForm.controls.Gender.valid">This
+                      field is required</p> -->
+                  </div>
+                  <div class="col-md-6">
+                    <label>Date of Birth</label>
+                    <input class="form-control" type="date" formControlName="DateOfBirth" />
+                    <p class="error-text" *ngIf="!clientInfoForm.controls.DateOfBirth.valid">This
+                      field is required</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <label>Country</label>
+                    <select class="form-control" type="text" formControlName="CountryId">
+                      <option *ngFor="let country of countries" value="{{country?.Id}}">{{country?.Name}}</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label>City/Town</label>
+                    <input class="form-control" type="text" formControlName="City" />
+                  </div>
+                </div>
+                <label>Health List</label>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-control--custom">
+                      <ul class="list-group list-group-flush" *ngFor="let healthList of healthList; let i = index">
+                        <li class="list-group-item disabled">{{healthList.Name}}</li>
+                      </ul>
+                      <ul class="list-group list-group-flush">
+                        <li class="list-group-item disabled" *ngIf="clientInfo.OtherIllnesses">OtherIllnesses:
+                          {{clientInfo.OtherIllnesses}}</li>
+                        <li class="list-group-item disabled" *ngIf="clientInfo.Allergies">Allergies: {{clientInfo.Allergies}}</li>
+                        <li class="list-group-item disabled" *ngIf="clientInfo.HealthMedication">HealthMedication:
+                          {{clientInfo.HealthMedication}}</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <label>Status</label>
+                <div class="row">
+                  <div class="col-md-6">
+                    <select formControlName="Status" class="form-control">
+                      <option value="active">Active</option>
+                      <option value="deactive">Inactivate</option>
+                      <option value="pending">Invite pending</option>
+                    </select>
+                  </div>
+                  <div class="col-md-3">
+                    <!-- <button [class]="checkResendCode?'btn btn-secondary btn--form':'btn btn-warning btn--form'" [disabled]="checkResendCode"
+                      (click)="resendCode()">Resend</button> -->
+                  </div>
+                </div>
+                <label>Mentor</label>
+      
+                <div class="row" *ngIf="!clientInfo.MentorEmail">
+                  <div class="col-md-6">
+                    <ng-select class="select-custom" [options]="listMentor" formControlName="mentor" placeholder="select Mentor"></ng-select>
+                  </div>
+                  <div class="col-md-3">
+                    <button class="btn btn-warning btn--form" (click)='showModalAssign()'>Assign</button>
+                  </div>
+                </div>
+                <div class="row" *ngIf="clientInfo.MentorEmail">
+                  <div class="col-md-6">
+                    <input class="form-control" formControlName="mentor" disabled />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6" [hidden]="!clientInfo.RoundId">
+                <div class="row row--center">
+                  <div class="title">Current Round information</div>
+                  <button class="btn btn-warning btn--form" (click)="confirmDelete('wipeData')">Wipe Data</button>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <label>Start Date</label>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <input class="form-control" type="date" formControlName="StartDate" />
+                        <p class="error-text" *ngIf="!clientInfoForm.controls.StartDate.valid">This
+                          field is required</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label>End Date</label>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <input class="form-control" type="date" formControlName="EndDate" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <label>Start Weight</label>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <input class="form-control" type="text" placeholder="0" formControlName="StartWeight" />
+                        <p class="error-text" *ngIf="!clientInfoForm.controls.StartWeight.valid">This
+                          field is required</p>
+                        <p class="error-text" *ngIf="clientInfoForm.controls.StartWeight.valid && clientInfoForm.errors?.invalidStartWeight">This
+                          field is invalid</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label>Current Weight</label>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <input class="form-control" type="text" placeholder="0" formControlName="CurrentWeight" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row row--flex-end">
+              <!-- <button class="btn btn-success" type="submit" [disabled]="!clientInfoForm.valid" (click)="editClientInfo()">Save</button> -->
+              <button class="btn btn-success" type="submit" (click)="editClientInfo()">Save</button>
+              <button class="btn btn-danger" (click)='confirmDelete("delete")'>Delete</button>
+              <button class="btn btn-danger" (click)='confirmDelete("deleteFromMentor")' *ngIf="this.clientInfo?.MentorId && clientInfo.Type!='Invite'">Delete
+                From Mentor</button>
+            </div>
+          </form>
+        </div>
       </div>
-    </form>
+    </div>
+    <div class="col-md-12" *ngIf="!showClientDetail">
+      <round-info></round-info>
+    </div>
   </div>
 </div>
+
+
 <!-- modal change password-->
 <app-modal-basic #modalChangePassword>
   <div class="app-modal-header">

@@ -23,6 +23,7 @@ import {QuillEditorModule} from 'ngx-quill-editor';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 
 import { ChipsComponent } from './chips/chips.component';
+import { RoundInfoComponent } from './round-info/round-info.component';
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
 };
@@ -58,7 +59,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     DataFilterPipe,
     FormatNumberPipe,
     ToastComponent,
-    EmailComposeComponent
+    EmailComposeComponent,
+    RoundInfoComponent
   ],
   declarations: [
     ToggleFullScreenDirective,
@@ -75,7 +77,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     FormatNumberPipe,
     ToastComponent,
     EmailComposeComponent,
-    ChipsComponent
+    ChipsComponent,
+    RoundInfoComponent
   ],
   providers: [
     {

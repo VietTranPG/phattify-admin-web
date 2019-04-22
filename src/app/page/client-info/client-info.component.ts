@@ -34,6 +34,7 @@ export class ClientInfoComponent implements OnInit {
   mentorEmail: any;
   countries: any;
   checkDeleteFromMentor: any;
+  showClientDetail:boolean = false;
   constructor(
     private router: ActivatedRoute,
     private _api: ApiService,
