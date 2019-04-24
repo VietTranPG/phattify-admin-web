@@ -3,22 +3,17 @@
     <app-card [classHeader]="true" [blockClass]="'table-border-style'" [cardOptionBlock]="true">
       <!-- <span class="code-header">Example of <code>horizontal</code> table borders. This is a default table border style attached to <code>.table</code> class. All borders have the same grey color and style, table itself doesn't have a border, but you can add this border using <code>.table-framed</code> class added to the table with <code>.table</code> class.</span> -->
       <div class="">
-        <div class="headerTable">
+        <form class="headerTable" (submit)="searchTable()">
           <div class="row row-filter">
             <div class="col-sm-4 col-lg-screen">
-              <input type="text" [(ngModel)]="searchInput" class="form-control" placeholder="Search by email or name">
+              <input type="text" [(ngModel)]="searchInput" name="searchInput" class="form-control" placeholder="Search by email or name">
             </div>
             <div class="col-sm-4 col-lg-screen">
-              <!-- <select [(ngModel)]="type" class="form-control">
-                <option value="">All</option>
-                <option value="Mentee">Mentee</option>
-                <option value="Mentor">Mentor</option>
-              </select> -->
-              <ng-select class="select-custom" [(ngModel)]="group" placeholder="Search by group">
+              <ng-select class="select-custom" [(ngModel)]="group" name="group" placeholder="Search by group">
               </ng-select>
             </div>
             <div class="col-sm-4 col-lg-screen">
-              <ng-select class="select-custom loading-search" [(ngModel)]="mentee" [options]="listMentee"
+              <ng-select class="select-custom loading-search" [(ngModel)]="mentee" name="mentee" [options]="listMentee"
                 (filterInputChanged)="searchMentee($event)" placeholder="Search by mentee">
 
               </ng-select>
@@ -28,7 +23,7 @@
               <button type="button" class="btn btn-header" (click)="showAll()">Show All</button>
             </div>
           </div>
-        </div>
+        </form>
         <button type="button" class="btn btn-danger margin-button" (click)="showSendMailForm()">Compose</button>
         <div class="table-responsive">
           <table class="table table-framed table-wrap-text">
@@ -69,6 +64,7 @@
                 <i *ngIf="!this.typeOrderBoolean && this.selectSort=='TotalMoneyRef'" class="icofont icofont-caret-up"></i>
                 <i *ngIf="this.typeOrderBoolean && this.selectSort=='TotalMoneyRef'" class="icofont icofont-caret-down"></i>
                 Total Money Ref</th>
+                <th rowspan="2">SubscriptionId</th>
               <!-- <th rowspan="2">Action</th> -->
             </tr>
             <tr>
@@ -105,6 +101,7 @@
                 <td>{{item.RefCode}}</td>
                 <th>{{item.SubscriptionStatus}}</th>
                 <th>{{item.TotalMoneyRef}}</th>
+                <th>{{item.SubscriptionId}}</th>
                 <!-- <td>
                 <button class="btn-custom btn-orange" (click)="$event.stopPropagation();sendOneEmail(item.Email)"><i class="fa fa-paper-plane"></i></button>
               </td> -->
