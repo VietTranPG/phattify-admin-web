@@ -24,6 +24,10 @@ import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 
 import { ChipsComponent } from './chips/chips.component';
 import { RoundInfoComponent } from './round-info/round-info.component';
+import { RoudDetailTableComponent } from './round-info/roud-detail-table/roud-detail-table.component';
+import { FormatTimeUtcPipe } from '../pipes/format-time-utc.pipe';
+import { TextMaskModule } from 'angular2-text-mask';
+import { FormatTimePipe } from '../pipes/format-time.pipe';
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
 };
@@ -39,7 +43,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     QuillEditorModule,
     FormsModule,
     ReactiveFormsModule,
-
+    TextMaskModule
   ],
   exports: [
     NgbModule,
@@ -60,7 +64,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     FormatNumberPipe,
     ToastComponent,
     EmailComposeComponent,
-    RoundInfoComponent
+    RoundInfoComponent,FormatTimePipe
   ],
   declarations: [
     ToggleFullScreenDirective,
@@ -78,7 +82,10 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ToastComponent,
     EmailComposeComponent,
     ChipsComponent,
-    RoundInfoComponent
+    RoundInfoComponent,
+    RoudDetailTableComponent,
+    FormatTimeUtcPipe,
+    FormatTimePipe
   ],
   providers: [
     {

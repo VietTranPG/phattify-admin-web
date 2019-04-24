@@ -1,0 +1,76 @@
+<app-card>
+  <div class="table-responsive">
+    <table class="table table-xl">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Created Date</th>
+          <th>Weight</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let rd of roundDetail;let i = index;trackBy:i">
+          <td scope="row">{{i + 1}}</td>
+          <td>
+            <input type="date" class="form-control inline-edit" [ngModel]="rd.createdAt | date:'yyyy-MM-dd'"
+              (ngModelChange)="rd.createdAt = $event" [disabled]='!rd.enable'>
+          </td>
+          <td><input type="number" class="form-control inline-edit" [(ngModel)]="rd.CurrentWeight"
+              [disabled]='!rd.enable'></td>
+          <td>
+            <button *ngIf="!rd.enable" class="btn btn-warning" (click)="showEdit(i)">Edit</button>
+            <button *ngIf="rd.enable" class="btn btn-success" (click)="edit(i)">Save</button>
+            <button *ngIf="rd.enable" class="btn btn-danger" (click)="closeEdit(i)">Close</button>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot *ngIf="roundDetail.length>2">
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>
+            <button *ngIf="!editAll" class="btn btn-primary" (click)="showEdit()">Edit All</button>
+            <button *ngIf="editAll" class="btn btn-success" (click)="closeEdit()">Save All</button>
+            <button *ngIf="editAll" class="btn btn-danger" (click)="closeEdit()">Close All</button>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</app-card>
+
+<app-modal-basic #modalConfirmUpdate>
+  <div class="app-modal-header">
+    <h4 class="modal-title">Confirm</h4>
+    <button type="button" class="close basic-close" (click)="cancelUpdate()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="app-modal-body">
+    <p>Please confirm the changes that you want to make</p>
+    <div class="content-diff">
+      <div class="old">
+        <div class="date">
+          24-12-1994
+        </div>
+        <div class="value">
+          100kg
+        </div>
+      </div>
+      <div class="new">
+        <div class="date">
+          25-12-1994
+        </div>
+        <div class="value">
+          101 kg
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="app-modal-footer">
+    <button type="button" class="btn btn-default ripple" (click)="cancelUpdate()">Close</button>
+    <button type="button" class="btn btn-success ripple light" (click)="delete()">Update</button>
+  </div>
+</app-modal-basic>

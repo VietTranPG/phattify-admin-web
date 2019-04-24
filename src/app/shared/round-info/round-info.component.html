@@ -2,16 +2,21 @@
   <div class="card-round">
     <div class="card-header round-header">
       <h5>Round Information</h5>
+      <div>User Time Zone: {{userTimeZone>=0?'+':'-'}}{{userTimeZone}}</div>
     </div>
-    <div class="card-block round-detail">
-      <div>Apr 22 2019 - Apr 30 2019</div>
-      <div>processing</div>
-      <div>Start Weight: 50kg</div>
-      <div>Target Weight: 60kg</div>
-      <div><button class="btn btn-primary btn-outline-primary ripple light">Edit Round Detail</button> </div>
-      <div><button class="btn btn-primary btn-outline-primary ripple light">Show Round Detail</button> </div>
+    <div *ngFor="let r of rounds">
+      <div class="card-block round-detail">
+        <div>{{r.StartDate | formatTime:'UTCtoLocal':userTimeZone}} - {{r.EndDate | formatTime:'UTCtoLocal':userTimeZone}}</div>
+        <div>{{r.Status}}</div>
+        <div>Start Weight: {{r.StartWeight}}kg</div>
+        <div>Target Weight: {{r.TargetWeight}}kg</div>
+        <div><button class="btn btn-primary btn-outline-primary ripple light">Edit Round Detail</button> </div>
+        <div><button class="btn btn-primary btn-outline-primary ripple light">Show Round Detail</button> </div>
+      </div>
+      <roud-detail-table [roundDetail]='r.RoundDetail' [userTimeZone]='userTimeZone'></roud-detail-table>
     </div>
   </div>
+
 </div>
 
 <!-- <div class="col-md-12 card">

@@ -236,4 +236,8 @@ export class ApiService {
     const url = SERVER_URL + 'config';
     return this.http.put(url,body);
   }
+  getRoundAndMeansurementByUserId(userId){
+    const url = SERVER_URL + 'admin-round?UserId='+userId;
+    return this.http.get(url);
+  }
 }
