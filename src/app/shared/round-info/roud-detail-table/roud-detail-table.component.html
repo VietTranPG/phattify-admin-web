@@ -13,7 +13,7 @@
         <tr *ngFor="let rd of roundDetail;let i = index;trackBy:i">
           <td scope="row">{{i + 1}}</td>
           <td>
-            <input type="date" class="form-control inline-edit" [ngModel]="rd.createdAt | date:'yyyy-MM-dd'"
+            <input type="date" class="form-control inline-edit" [ngModel]="rd.createdAt |formatTime:'UTCtoLocal':userTimeZone |date:'yyyy-MM-dd'"
               (ngModelChange)="rd.createdAt = $event" [disabled]='!rd.enable'>
           </td>
           <td><input type="number" class="form-control inline-edit" [(ngModel)]="rd.CurrentWeight"
@@ -71,6 +71,6 @@
   </div>
   <div class="app-modal-footer">
     <button type="button" class="btn btn-default ripple" (click)="cancelUpdate()">Close</button>
-    <button type="button" class="btn btn-success ripple light" (click)="delete()">Update</button>
+    <button type="button" class="btn btn-success ripple light" (click)="update()">Update</button>
   </div>
 </app-modal-basic>

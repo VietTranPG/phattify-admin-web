@@ -19,7 +19,7 @@ export class HelperService {
     return moment(time).utc().format('YYYY-MM-DD HH:mm:ss');
   }
   convertTimeToLocalByTimeZone(time, timezone) {
-    return moment(time).utc().add(timezone, 'hours').format('YYYY-MM-DD');
+    return moment(time).utc().add(timezone, 'hours').format('YYYY-MM-DD HH:mm:ss');
   }
   convertTimeToUTCByTimeZone(time, timezone) {
     return moment(time).add(-timezone, 'hours').format('YYYY-MM-DD HH:mm:ss');

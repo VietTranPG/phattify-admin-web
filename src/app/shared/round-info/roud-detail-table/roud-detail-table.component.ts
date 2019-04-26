@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, Output,EventEmitter } from '@angular/core';
 import { NgbCalendar, NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import * as _ from "lodash";
 import { HelperService } from '../../../services/helper-service/helper.service';
+import { ApiService } from '../../../services/api-service/api.service';
 @Component({
   selector: 'roud-detail-table',
   templateUrl: './roud-detail-table.component.html',
@@ -10,11 +11,13 @@ import { HelperService } from '../../../services/helper-service/helper.service';
 export class RoudDetailTableComponent implements OnInit {
   @Input() roundDetail: any = [];
   @Input() userTimeZone: any;
+  @Output() onUpdateSuccess = new EventEmitter();
   @ViewChild('modalConfirmUpdate') modalConfirmUpdate:any;
   oldData: any;
   editAll: boolean = false;
   test: any = new Date();
-  constructor(private _helperService: HelperService) {
+  objectCompare:any;
+  constructor(private _helperService: HelperService,private _api:ApiService) {
   }
   ngOnChanges() {
     this.roundDetail.forEach(e => {
@@ -47,7 +50,7 @@ export class RoudDetailTableComponent implements OnInit {
     this.roundDetail = this._helperService.cloneArray(this.oldData);
   }
   edit() {
-    this.checkDiffArr(this.oldData, this.roundDetail);
+    this.objectCompare=this.checkDiffArr(this.oldData, this.roundDetail);
     this.modalConfirmUpdate.show();
   }
   checkDiffArr(arrOld, arr) {
@@ -65,5 +68,21 @@ export class RoudDetailTableComponent implements OnInit {
   }
   cancelUpdate(){
     this.modalConfirmUpdate.hide()
+  }
+  update(){
+    let req = this._helperService.cloneArray(this.objectCompare.new);
+    req.forEach(e=>{
+      e.createdAt =this.userTimeZone?this._helperService.convertTimeToLocalByTimeZone(e.createdAt,this.userTimeZone):this._helperService.convertTimeToUTC(e.createdAt)
+    })
+    this._helperService.toggleLoadng(true);
+    this._api.updateRoundDetails(req).subscribe((res:any)=>{
+      this._helperService.toggleLoadng(false);
+      if(res.status == 'success'){
+        this.onUpdateSuccess.emit('');
+      }else{  
+        alert(res.message)
+      }
+    });
+    console.log(this.objectCompare)
   }
 }

@@ -13,7 +13,7 @@
         <div><button class="btn btn-primary btn-outline-primary ripple light">Edit Round Detail</button> </div>
         <div><button class="btn btn-primary btn-outline-primary ripple light">Show Round Detail</button> </div>
       </div>
-      <roud-detail-table [roundDetail]='r.RoundDetail' [userTimeZone]='userTimeZone'></roud-detail-table>
+      <roud-detail-table [roundDetail]='r.RoundDetail' [userTimeZone]='userTimeZone' (onUpdateSuccess)="updateSuccess($event)"></roud-detail-table>
     </div>
   </div>
 
@@ -30,3 +30,48 @@
     </div>
   </div>
 </div> -->
+
+<!-- <app-modal-basic #modalChangeRoundInfo>
+  <div class="app-modal-header">
+    <h4 class="modal-title">Change password</h4>
+    <button type="button" class="close basic-close" (click)="modalChangePassword.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="app-modal-body">
+    <div class="container">
+      <form class="form" [formGroup]="changeRoundInfoForm">
+        <div class="row">
+          <label class="col-md-4 col-form-label">New password: </label>
+          <div class="col-md-8">
+            <div class="input-group">
+              <input type="password" formControlName="password" class="form-control">
+            </div>
+            <p class="error-text" *ngIf="changePasswordForm.controls.password.touched && !changePasswordForm.controls.password.valid">This
+              field is required.</p>
+          </div>
+        </div>
+        <div class="row">
+          <label class="col-md-4 col-form-label">Confirm new password: </label>
+          <div class="col-md-8">
+            <div class="input-group">
+              <input type="password" class="form-control" formControlName="confirmPassword">
+            </div>
+            <p *ngIf="changePasswordForm.controls.confirmPassword.valid && changePasswordForm.errors?.mismatchedPassword"
+              class="error-text">
+              Passwords don't match
+            </p>
+            <p *ngIf="changePasswordForm.controls.confirmPassword.touched && !changePasswordForm.controls.confirmPassword.valid"
+              class="error-text">
+              Confirm password is required
+            </p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="app-modal-footer">
+    <button type="button" class="btn btn-default ripple" (click)="modalChangePassword.hide()">Close</button>
+    <button type="button" class="btn btn-danger ripple light" (click)="changePassword()" [disabled]="changePasswordForm.invalid || changePasswordForm.hasError('mismatchedPassWord')">Confirm</button>
+  </div>
+</app-modal-basic> -->
