@@ -41,36 +41,41 @@
   </div>
 </app-card>
 
-<app-modal-basic #modalConfirmUpdate>
-  <div class="app-modal-header">
-    <h4 class="modal-title">Confirm</h4>
+<app-modal-basic #modalConfirmUpdate class="modal--confirm-update">
+  <div class="app-modal-header modal--header">
     <button type="button" class="close basic-close" (click)="cancelUpdate()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="app-modal-body">
+  <div class="app-modal-body modal--body">
     <p>Please confirm the changes that you want to make</p>
-    <div class="content-diff">
-      <div class="old">
-        <div class="date">
+    <div class="confirm__row">
+      <div class="confirm__col flex-wrap">
+        <div class="confirm__col-header">
+          Before
+        </div>
+        <div class="confirm__col date">
           24-12-1994
         </div>
-        <div class="value">
+        <div class="confirm__col value">
           100kg
         </div>
       </div>
-      <div class="new">
-        <div class="date">
+      <div class="confirm__col flex-wrap">
+        <div class="confirm__col-header">
+          After
+        </div>
+        <div class="confirm__col date">
           25-12-1994
         </div>
-        <div class="value">
+        <div class="confirm__col value">
           101 kg
         </div>
       </div>
     </div>
   </div>
   <div class="app-modal-footer">
-    <button type="button" class="btn btn-default ripple" (click)="cancelUpdate()">Close</button>
-    <button type="button" class="btn btn-success ripple light" (click)="update()">Update</button>
+    <button type="button" class="btn btn-warning ripple" (click)="cancelUpdate()">Close</button>
+    <button type="button" class="btn btn-primary btn-outline-primary ripple light" (click)="update()">Update</button>
   </div>
 </app-modal-basic>

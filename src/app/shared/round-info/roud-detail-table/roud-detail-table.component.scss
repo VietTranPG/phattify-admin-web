@@ -3,3 +3,45 @@
     border: none;
     background: none
 }
+
+.flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex-wrap {
+    @extend .flex;
+    flex-wrap: wrap;
+}
+
+.confirm__row {
+    @extend .flex;
+}
+
+.confirm__col {
+    @extend .flex;
+    width: 50%;
+}
+
+.value, .date {
+    padding: 10px;
+    border: 1px solid #eee;
+}
+
+.confirm__col-header {
+    width: 100%;
+    padding: 10px;
+    background: #0764ff;
+    color: #fff;
+    text-align: center;
+    text-transform: uppercase;
+    border-left: 1px solid #eee;
+}
+
+.modal--header {
+    button {
+        padding: 0;
+        font-size: 35px;
+    }
+}
