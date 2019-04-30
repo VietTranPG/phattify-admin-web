@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -8,9 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CoachInfoComponent implements OnInit {
   showCoachDetail = true;
-  
-  constructor() {
-
+  idMentor:any;
+  currentTab ='RoundDetail'
+  constructor(private router: ActivatedRoute) {
+    this.router.params.subscribe((res: any) => {
+      this.idMentor = res.id;
+    });
    }
 
   ngOnInit() {

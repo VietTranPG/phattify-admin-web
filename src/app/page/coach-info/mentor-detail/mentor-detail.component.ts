@@ -63,18 +63,18 @@ export class MentorDetailComponent implements OnInit {
     })
   }
   getMentorInfo() {
-    this._helper.toggleLoadng(true);
+    this._helper.toggleLoading(true);
     this.router.params.subscribe(res => {
       this.idMentor = res.id;
       this._api.getMentorInfo(this.idMentor).then(data => {
-        this._helper.toggleLoadng(false)
+        this._helper.toggleLoading(false)
 
         this.mentorInfo = data['data'];
         this.healthList = data['data']['Health'];
         this.mentorIsBlocked = this.mentorInfo.BlockedAt ? true : false;
         this.fillDataMentorInfo();
       }, err => {
-        this._helper.toggleLoadng(false)
+        this._helper.toggleLoading(false)
 
       })
     })
@@ -96,9 +96,9 @@ export class MentorDetailComponent implements OnInit {
   }
   downGradeMentor() {
     this.modalDownGrade.hide();
-    this._helper.toggleLoadng(true);
+    this._helper.toggleLoading(true);
     this._api.downGradeMentor(this.idMentor).then((res: any) => {
-      this._helper.toggleLoadng(false);
+      this._helper.toggleLoading(false);
       if (res.status == STATUS.error) {
         this.toast.addToast({
           title: 'Message',
@@ -122,13 +122,13 @@ export class MentorDetailComponent implements OnInit {
         }, 2000)
       }
     }, err => {
-      this._helper.toggleLoadng(false);
+      this._helper.toggleLoading(false);
     })
   }
   blockMentor() {
-    this._helper.toggleLoadng(true);
+    this._helper.toggleLoading(true);
     this._api.blockMentor(this.idMentor).then((res: any) => {
-      this._helper.toggleLoadng(false);
+      this._helper.toggleLoading(false);
       if (res.status == STATUS.error) {
         this.toast.addToast({
           title: 'Message',
@@ -151,7 +151,7 @@ export class MentorDetailComponent implements OnInit {
         this.modalDelete.hide();
       }
     }, err => {
-      this._helper.toggleLoadng(false);
+      this._helper.toggleLoading(false);
     })
   }
   changePassword() {
@@ -159,9 +159,9 @@ export class MentorDetailComponent implements OnInit {
     let data = {
       "password": this.changePasswordForm.value.password
     }
-    this._helper.toggleLoadng(true);
+    this._helper.toggleLoading(true);
     this._api.changePassword(data, this.idMentor).then(res => {
-      this._helper.toggleLoadng(false);
+      this._helper.toggleLoading(false);
       if (res['status'] === STATUS.error) {
         this.changePasswordForm.reset();
         this.toast.addToast({
@@ -191,9 +191,9 @@ export class MentorDetailComponent implements OnInit {
     console.log(this.mentorInfoForm.value)
     let req = this.mentorInfoForm.value;
     req.Id = this.idMentor;
-    this._helper.toggleLoadng(true);
+    this._helper.toggleLoading(true);
     this._api.updateMentor(req).subscribe((res:any)=>{
-      this._helper.toggleLoadng(false);
+      this._helper.toggleLoading(false);
       if(res.status=='success'){
         this._helper.showToast({
           title: 'Message',
@@ -206,7 +206,7 @@ export class MentorDetailComponent implements OnInit {
       }
       
     },err=>{
-      this._helper.toggleLoadng(false);
+      this._helper.toggleLoading(false);
     })
   }
 }

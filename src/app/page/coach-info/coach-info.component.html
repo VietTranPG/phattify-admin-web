@@ -2,21 +2,30 @@
   <div class="row">
     <div class="col">
       <div class=" col-flex">
-        <div [class]="showCoachDetail?'col-detail col-active':'col-detail'" (click)="showCoachDetail = true">
+        <div [class]="currentTab=='MentorDetail'?'col-detail col-active':'col-detail'"
+          (click)="currentTab = 'MentorDetail'">
           <h5>Mentor detail</h5>
         </div>
-        <div [class]="!showCoachDetail?'col-detail col-active':'col-detail'" (click)="showCoachDetail = false">
+        <div [class]="currentTab=='ClientList'?'col-detail col-active':'col-detail'"
+          (click)="currentTab = 'ClientList'">
           <h5>Client list</h5>
+        </div>
+        <div [class]="currentTab=='RoundDetail'?'col-detail col-active':'col-detail'"
+          (click)="currentTab = 'RoundDetail'">
+          <h5>Rounds Detail</h5>
         </div>
       </div>
     </div>
   </div>
   <div class="row">
-    <div class="col-md-12" *ngIf="showCoachDetail">
+    <div class="col-md-12" *ngIf="currentTab=='MentorDetail'">
       <app-mentor-detail></app-mentor-detail>
     </div>
-    <div class="col-md-12" *ngIf="!showCoachDetail">
+    <div class="col-md-12" *ngIf="currentTab=='ClientList'">
       <app-list-mentee></app-list-mentee>
+    </div>
+    <div class="col-md-12" *ngIf="currentTab=='RoundDetail'">
+      <round-info [UserId]='idMentor'></round-info>
     </div>
   </div>
 </div>

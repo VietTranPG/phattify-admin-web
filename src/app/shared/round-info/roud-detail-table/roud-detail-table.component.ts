@@ -16,7 +16,10 @@ export class RoudDetailTableComponent implements OnInit {
   oldData: any;
   editAll: boolean = false;
   test: any = new Date();
-  objectCompare:any;
+  objectCompare:any={
+    old:[],
+    new:[]
+  };
   constructor(private _helperService: HelperService,private _api:ApiService) {
   }
   ngOnChanges() {
@@ -72,11 +75,11 @@ export class RoudDetailTableComponent implements OnInit {
   update(){
     let req = this._helperService.cloneArray(this.objectCompare.new);
     req.forEach(e=>{
-      e.createdAt =this.userTimeZone?this._helperService.convertTimeToLocalByTimeZone(e.createdAt,this.userTimeZone):this._helperService.convertTimeToUTC(e.createdAt)
+      e.createdAt =this.userTimeZone?this._helperService.convertTimeToUTCByTimeZone(e.createdAt,this.userTimeZone):this._helperService.convertTimeToUTC(e.createdAt)
     })
-    this._helperService.toggleLoadng(true);
+    this._helperService.toggleLoading(true);
     this._api.updateRoundDetails(req).subscribe((res:any)=>{
-      this._helperService.toggleLoadng(false);
+      this._helperService.toggleLoading(false);
       if(res.status == 'success'){
         this.onUpdateSuccess.emit('');
       }else{  

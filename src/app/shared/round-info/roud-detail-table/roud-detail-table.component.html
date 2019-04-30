@@ -13,7 +13,8 @@
         <tr *ngFor="let rd of roundDetail;let i = index;trackBy:i">
           <td scope="row">{{i + 1}}</td>
           <td>
-            <input type="date" class="form-control inline-edit" [ngModel]="rd.createdAt |formatTime:'UTCtoLocal':userTimeZone |date:'yyyy-MM-dd'"
+            <input type="date" class="form-control inline-edit"
+              [ngModel]="rd.createdAt |formatTime:'UTCtoLocal':userTimeZone |date:'yyyy-MM-dd'"
               (ngModelChange)="rd.createdAt = $event" [disabled]='!rd.enable'>
           </td>
           <td><input type="number" class="form-control inline-edit" [(ngModel)]="rd.CurrentWeight"
@@ -54,22 +55,26 @@
         <div class="confirm__col-header">
           Before
         </div>
-        <div class="confirm__col date">
-          24-12-1994
-        </div>
-        <div class="confirm__col value">
-          100kg
+        <div *ngFor="let item of objectCompare.old">
+          <div class="confirm__col date">
+            {{item.createdAt}}
+          </div>
+          <div class="confirm__col value">
+            {{item.CurrentWeight}}
+          </div>
         </div>
       </div>
       <div class="confirm__col flex-wrap">
         <div class="confirm__col-header">
           After
         </div>
-        <div class="confirm__col date">
-          25-12-1994
-        </div>
-        <div class="confirm__col value">
-          101 kg
+        <div *ngFor="let item of objectCompare.new">
+          <div class="confirm__col date">
+            {{item.createdAt}}
+          </div>
+          <div class="confirm__col value">
+            {{item.CurrentWeight}}
+          </div>
         </div>
       </div>
     </div>

@@ -6,72 +6,95 @@
     </div>
     <div *ngFor="let r of rounds">
       <div class="card-block round-detail">
-        <div>{{r.StartDate | formatTime:'UTCtoLocal':userTimeZone}} - {{r.EndDate | formatTime:'UTCtoLocal':userTimeZone}}</div>
+        <div>{{r.StartDate}} - {{r.EndDate}}</div>
         <div>{{r.Status}}</div>
         <div>Start Weight: {{r.StartWeight}}kg</div>
         <div>Target Weight: {{r.TargetWeight}}kg</div>
-        <div><button class="btn btn-primary btn-outline-primary ripple light">Edit Round Detail</button> </div>
-        <div><button class="btn btn-primary btn-outline-primary ripple light">Show Round Detail</button> </div>
+        <div><button class="btn btn-primary btn-outline-primary ripple light" (click)="editRoundInfo(r)">Edit Round
+            Detail</button> </div>
+        <div><button class="btn btn-primary btn-outline-primary ripple light" (click)="r.showDetail=!r.showDetail">Show Round Detail</button> </div>
       </div>
-      <roud-detail-table [roundDetail]='r.RoundDetail' [userTimeZone]='userTimeZone' (onUpdateSuccess)="updateSuccess($event)"></roud-detail-table>
+      <roud-detail-table [roundDetail]='r.RoundDetail' [userTimeZone]='userTimeZone'
+        (onUpdateSuccess)="updateSuccess($event)" *ngIf="r.showDetail"></roud-detail-table>
     </div>
   </div>
 
 </div>
 
-<!-- <div class="col-md-12 card">
+<div class="col-md-12 card">
   <div class="card-round">
     <div class="card-header">
       <h5>Measurement</h5>
     </div>
-    <div class="card-block">
-      <h5>Card with header</h5>
-      <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's</p>
-    </div>
-  </div>
-</div> -->
+    <measurement-table [measurements]="measurements" [userTimeZone]='userTimeZone' (onUpdateSuccess)="updateSuccess($event)" >
 
-<!-- <app-modal-basic #modalChangeRoundInfo>
+    </measurement-table>
+  </div>
+</div>
+
+<app-modal-basic #modalChangeRoundInfo>
   <div class="app-modal-header">
-    <h4 class="modal-title">Change password</h4>
-    <button type="button" class="close basic-close" (click)="modalChangePassword.hide()">
+    <h4 class="modal-title">Round Info</h4>
+    <button type="button" class="close basic-close" (click)="modalChangeRoundInfo.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="app-modal-body">
     <div class="container">
-      <form class="form" [formGroup]="changeRoundInfoForm">
+      <form class="form" [formGroup]="roundInfoForm">
         <div class="row">
-          <label class="col-md-4 col-form-label">New password: </label>
+          <label class="col-md-4 col-form-label">StartDate </label>
           <div class="col-md-8">
             <div class="input-group">
-              <input type="password" formControlName="password" class="form-control">
+              <input type="date" formControlName="StartDate" class="form-control">
             </div>
-            <p class="error-text" *ngIf="changePasswordForm.controls.password.touched && !changePasswordForm.controls.password.valid">This
-              field is required.</p>
+          </div>
+        </div>
+
+        <div class="row">
+          <label class="col-md-4 col-form-label">EndDate </label>
+          <div class="col-md-8">
+            <div class="input-group">
+              <input type="date" formControlName="EndDate" class="form-control">
+            </div>
           </div>
         </div>
         <div class="row">
-          <label class="col-md-4 col-form-label">Confirm new password: </label>
+          <label class="col-md-4 col-form-label">StartWeight </label>
           <div class="col-md-8">
             <div class="input-group">
-              <input type="password" class="form-control" formControlName="confirmPassword">
+              <input type="number" formControlName="StartWeight" class="form-control">
             </div>
-            <p *ngIf="changePasswordForm.controls.confirmPassword.valid && changePasswordForm.errors?.mismatchedPassword"
-              class="error-text">
-              Passwords don't match
-            </p>
-            <p *ngIf="changePasswordForm.controls.confirmPassword.touched && !changePasswordForm.controls.confirmPassword.valid"
-              class="error-text">
-              Confirm password is required
-            </p>
+          </div>
+        </div>
+        <div class="row">
+          <label class="col-md-4 col-form-label">TargetWeight </label>
+          <div class="col-md-8">
+            <div class="input-group">
+              <input type="number" formControlName="TargetWeight" class="form-control">
+            </div>
+          </div>
+        </div>
+        <div formArrayName="Stages">
+          <div class="row" *ngFor="let stage of roundInfoForm.controls.Stages.controls;let i = index" [formGroupName]="i">
+            <label class="col-md-4 col-form-label">Stage {{i+1}} </label>
+            <div class="col-md-4">
+              <div class="input-group">
+                <input type="date" formControlName="StartDate" class="form-control">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="input-group">
+                <input type="date" formControlName="EndDate" class="form-control endDate-Stage-{{i}}">
+              </div>
+            </div>
           </div>
         </div>
       </form>
     </div>
   </div>
   <div class="app-modal-footer">
-    <button type="button" class="btn btn-default ripple" (click)="modalChangePassword.hide()">Close</button>
-    <button type="button" class="btn btn-danger ripple light" (click)="changePassword()" [disabled]="changePasswordForm.invalid || changePasswordForm.hasError('mismatchedPassWord')">Confirm</button>
+    <button type="button" class="btn btn-default ripple" (click)="modalChangeRoundInfo.hide()">Close</button>
+    <button type="button" class="btn btn-danger ripple light" (click)="changeRoundInfo()">Confirm</button>
   </div>
-</app-modal-basic> -->
+</app-modal-basic>

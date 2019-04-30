@@ -28,6 +28,7 @@ import { RoudDetailTableComponent } from './round-info/roud-detail-table/roud-de
 import { FormatTimeUtcPipe } from '../pipes/format-time-utc.pipe';
 import { TextMaskModule } from 'angular2-text-mask';
 import { FormatTimePipe } from '../pipes/format-time.pipe';
+import { MeasurementTableComponent } from './round-info/measurement-table/measurement-table.component';
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
 };
@@ -85,7 +86,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     RoundInfoComponent,
     RoudDetailTableComponent,
     FormatTimeUtcPipe,
-    FormatTimePipe
+    FormatTimePipe,
+    MeasurementTableComponent
   ],
   providers: [
     {

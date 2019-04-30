@@ -25,9 +25,9 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    this._helper.toggleLoadng(true);
+    this._helper.toggleLoading(true);
     this._api.login(this.loginForm.value).then(res => {
-      this._helper.toggleLoadng(false);
+      this._helper.toggleLoading(false);
       if (res['status'] == "success") {
           // window.alert('Login success')
         this.router.navigate(['dashboard']);
@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
       else window.alert('Login failed')
     }).catch(err => {
       console.log(err);
-      this._helper.toggleLoadng(false);
+      this._helper.toggleLoading(false);
     })
 
   }

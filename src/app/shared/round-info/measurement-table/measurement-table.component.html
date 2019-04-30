@@ -1,0 +1,87 @@
+<app-card>
+  <div class="table-responsive">
+    <table class="table table-xl">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Chest</th>
+          <th>Waist</th>
+          <th>Hips   </th>
+          <th>LeftArm</th>
+          <th>RightArm</th>
+          <th>LeftThigh</th>
+          <th>RightThigh</th>
+          <th>createdAt</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let m of measurements;let i = index;trackBy:i">
+          <td scope="row">{{i + 1}}</td>
+          <td><input type="text" class="form-control inline-edit" [(ngModel)]="m.Chest" [disabled]='!m.enable'>
+          </td>
+          <td><input type="text" class="form-control inline-edit" [(ngModel)]="m.Waist" [disabled]='!m.enable'>
+          </td>
+          <td><input type="text" class="form-control inline-edit" [(ngModel)]="m.Hips" [disabled]='!m.enable'>
+          </td>
+          <td><input type="text" class="form-control inline-edit" [(ngModel)]="m.LeftArm" [disabled]='!m.enable'>
+          </td>
+          <td><input type="text" class="form-control inline-edit" [(ngModel)]="m.RightArm" [disabled]='!m.enable'>
+          </td>
+          <td><input type="text" class="form-control inline-edit" [(ngModel)]="m.LeftThigh" [disabled]='!m.enable'>
+          </td>
+          <td><input type="text" class="form-control inline-edit" [(ngModel)]="m.RightThigh" [disabled]='!m.enable'>
+          </td>
+          <td>
+            <input type="date" class="form-control inline-edit"
+              [ngModel]="m.createdAt |formatTime:'UTCtoLocal':userTimeZone |date:'yyyy-MM-dd'"
+              (ngModelChange)="m.createdAt = $event" [disabled]='!m.enable'>
+          </td>
+          <td>
+            <button *ngIf="!m.enable" class="btn btn-warning" (click)="showEdit(i)">Edit</button>
+            <button *ngIf="m.enable" class="btn btn-success" (click)="edit(i)">Save</button>
+            <button *ngIf="m.enable" class="btn btn-danger" (click)="closeEdit(i)">Close</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</app-card>
+
+<app-modal-basic #modalConfirmUpdate class="modal--confirm-update">
+  <div class="app-modal-header modal--header">
+    <button type="button" class="close basic-close" (click)="cancelUpdate()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="app-modal-body modal--body">
+    <p>Please confirm the changes that you want to make</p>
+    <div class="confirm__row">
+      <div class="confirm__col flex-wrap">
+        <div class="confirm__col-header">
+          Before
+        </div>
+        <div class="confirm__col date">
+          24-12-1994
+        </div>
+        <div class="confirm__col value">
+          100kg
+        </div>
+      </div>
+      <div class="confirm__col flex-wrap">
+        <div class="confirm__col-header">
+          After
+        </div>
+        <div class="confirm__col date">
+          25-12-1994
+        </div>
+        <div class="confirm__col value">
+          101 kg
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="app-modal-footer">
+    <button type="button" class="btn btn-warning ripple" (click)="cancelUpdate()">Close</button>
+    <button type="button" class="btn btn-primary btn-outline-primary ripple light" (click)="update()">Update</button>
+  </div>
+</app-modal-basic>

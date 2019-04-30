@@ -100,7 +100,7 @@ export class ClientManagementComponent implements OnInit {
   }
 
   getListClient() {
-    this._helper.toggleLoadng(true)
+    this._helper.toggleLoading(true)
     const data = {
       search: this.searchInput,
       page: this.page,
@@ -113,12 +113,12 @@ export class ClientManagementComponent implements OnInit {
     };
 
     this._api.management(data).then(res => {
-      this._helper.toggleLoadng(false)
+      this._helper.toggleLoading(false)
 
       this.listClient = res['data']['clients']
       this.totalItem = res['data']['totalItem'];
     }).catch(err => {
-      this._helper.toggleLoadng(false)
+      this._helper.toggleLoading(false)
 
     })
   }
@@ -170,9 +170,9 @@ export class ClientManagementComponent implements OnInit {
   }
   delete() {
     this.modalDelete.hide();
-    this._helper.toggleLoadng(true);
+    this._helper.toggleLoading(true);
     this._api.deleteMentee(this.deleteFlag.Id).then((res: any) => {
-      this._helper.toggleLoadng(false);
+      this._helper.toggleLoading(false);
       if (res.status == STATUS.error) {
         this.toast.addToast({
           title: 'Message',
@@ -194,7 +194,7 @@ export class ClientManagementComponent implements OnInit {
         });
       }
     }).catch(err => {
-      this._helper.toggleLoadng(false);
+      this._helper.toggleLoading(false);
     })
   }
 

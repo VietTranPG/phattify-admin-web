@@ -66,7 +66,7 @@ export class CoachManagementComponent implements OnInit {
     this.getListMentor();
   }
   getListMentor() {
-    this._helper.toggleLoadng(true)
+    this._helper.toggleLoading(true)
     const data = {
       search: this.searchInput,
       page: this.page,
@@ -77,13 +77,13 @@ export class CoachManagementComponent implements OnInit {
       checked: false
     };
     this._api.getAllMentor(data).then(res => {
-    this._helper.toggleLoadng(false)
+    this._helper.toggleLoading(false)
 
       this.listMentor = res['data']['mentors'];
       this.totalItem = res['data']['totalItem'];
       
     }, err => {
-    this._helper.toggleLoadng(false)
+    this._helper.toggleLoading(false)
 
       console.log(err);
     })
