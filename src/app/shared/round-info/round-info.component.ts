@@ -51,7 +51,7 @@ export class RoundInfoComponent implements OnInit {
       }
     })
   }
-  updateSuccess() {
+  updateSuccess($event) {
     this.getRoundData(this.UserId);
   }
   initForm(roundInfo, stages?) {

@@ -76,7 +76,7 @@
           </div>
         </div>
         <div formArrayName="Stages">
-          <div class="row" *ngFor="let stage of roundInfoForm.controls.Stages.controls;let i = index" [formGroupName]="i">
+          <div class="row" *ngFor="let stage of roundInfoForm.get('Stages')['controls'];let i = index" [formGroupName]="i">
             <label class="col-md-4 col-form-label">Stage {{i+1}} </label>
             <div class="col-md-4">
               <div class="input-group">

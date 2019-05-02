@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angu
 import { HelperService } from '../../../services/helper-service/helper.service';
 import * as _ from 'lodash';
 import { ApiService } from '../../../services/api-service/api.service';
+import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 @Component({
   selector: 'measurement-table',
   templateUrl: './measurement-table.component.html',
@@ -15,7 +16,19 @@ export class MeasurementTableComponent implements OnInit {
   objectCompare:any;
   oldData:any;
   constructor(private _helperService:HelperService,private _api:ApiService) { }
-
+  private maskNumber = createNumberMask({
+    prefix: '',
+    suffix: '',
+    includeThousandsSeparator: true,
+    thousandsSeparatorSymbol: ',',
+    allowDecimal: true,
+    decimalSymbol: '.',
+    decimalLimit: 2,
+    integerLimit: null,
+    requireDecimal: false,
+    allowNegative: false,
+    allowLeadingZeroes: false
+  });
   ngOnInit() {
   }
   ngOnChanges() {
