@@ -56,8 +56,8 @@ export class RoundInfoComponent implements OnInit {
   }
   initForm(roundInfo, stages?) {
     this.roundInfoForm = this.fb.group({
-      StartDate: [roundInfo.StartDate],
-      EndDate: [roundInfo.EndDate],
+      StartDate: [roundInfo.StartDate, Validators.required],
+      EndDate: [roundInfo.EndDate, Validators.required],
       StartWeight: [roundInfo.StartWeight, Validators.required],
       TargetWeight: [roundInfo.TargetWeight, Validators.required],
       Stages: new FormArray([]),
@@ -138,19 +138,24 @@ export class RoundInfoComponent implements OnInit {
     }
   }
   changeRoundInfo() {
+    if (this.roundInfoForm.invalid) {
+      this._helper.markFormGroupTouched(this.roundInfoForm);
+      return;
+    }
     this._helper.toggleLoading(true);
     let request = {
       round: Object.assign(this.roundInfoForm.value),
       stages: this.stages
     }
     request.round.StartDate = this.userTimeZone ? this._helper.convertTimeToUTCByTimeZone(request.round.StartDate, this.userTimeZone) : this._helper.convertTimeToUTC(request.round.StartDate);
-    request.round.EndDate = this.userTimeZone ? this._helper.convertTimeToUTCByTimeZone(request.round.EndDate, this.userTimeZone) : this._helper.convertTimeToUTC(request.round.EndDate)  
+    request.round.EndDate = this.userTimeZone ? this._helper.convertTimeToUTCByTimeZone(request.round.EndDate, this.userTimeZone) : this._helper.convertTimeToUTC(request.round.EndDate)
     request.round.Id = this.currentRound.RoundId;
     console.log(request, this.stages)
-    this._api.updateRoundInfo(request).subscribe(res=>{
+    this._api.updateRoundInfo(request).subscribe(res => {
       this._helper.toggleLoading(false);
       this.modalChangeRoundInfo.hide();
-    },err=>{
+    this.getRoundData(this.UserId);
+    }, err => {
       this._helper.toggleLoading(false);
     })
   }

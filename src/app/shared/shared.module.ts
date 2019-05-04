@@ -29,6 +29,7 @@ import { FormatTimeUtcPipe } from '../pipes/format-time-utc.pipe';
 import { TextMaskModule } from 'angular2-text-mask';
 import { FormatTimePipe } from '../pipes/format-time.pipe';
 import { MeasurementTableComponent } from './round-info/measurement-table/measurement-table.component';
+import { OrderByPipe } from '../pipes/order-by.pipe';
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
 };
@@ -65,7 +66,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     FormatNumberPipe,
     ToastComponent,
     EmailComposeComponent,
-    RoundInfoComponent,FormatTimePipe
+    RoundInfoComponent,FormatTimePipe,OrderByPipe
   ],
   declarations: [
     ToggleFullScreenDirective,
@@ -80,6 +81,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     SpinnerComponent,
     DataFilterPipe,
     FormatNumberPipe,
+    OrderByPipe,
     ToastComponent,
     EmailComposeComponent,
     ChipsComponent,

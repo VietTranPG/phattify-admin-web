@@ -4,7 +4,7 @@
       <h5>Round Information</h5>
       <div>User Time Zone: {{userTimeZone>=0?'+':'-'}}{{userTimeZone}}</div>
     </div>
-    <div *ngFor="let r of rounds">
+    <div *ngFor="let r of rounds | orderBy:{property:'StartDate',direction:-1}">
       <div class="card-block round-detail">
         <div>{{r.StartDate}} - {{r.EndDate}}</div>
         <div>{{r.Status}}</div>
@@ -60,19 +60,23 @@
           </div>
         </div>
         <div class="row">
-          <label class="col-md-4 col-form-label">StartWeight </label>
+          <label class="col-md-4 col-form-label">Start-Weight </label>
           <div class="col-md-8">
             <div class="input-group">
               <input type="number" formControlName="StartWeight" class="form-control">
             </div>
+            <p class="error-text" *ngIf="roundInfoForm.controls.StartWeight.touched && !roundInfoForm.controls.StartWeight.valid">This
+              field is required.</p>
           </div>
         </div>
         <div class="row">
-          <label class="col-md-4 col-form-label">TargetWeight </label>
+          <label class="col-md-4 col-form-label">Target-Weight </label>
           <div class="col-md-8">
             <div class="input-group">
               <input type="number" formControlName="TargetWeight" class="form-control">
             </div>
+            <p class="error-text" *ngIf="roundInfoForm.controls.TargetWeight.touched && !roundInfoForm.controls.TargetWeight.valid">This
+              field is required.</p>
           </div>
         </div>
         <div formArrayName="Stages">

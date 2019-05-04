@@ -55,7 +55,7 @@
         <div class="confirm__col-header">
           Before
         </div>
-        <div *ngFor="let item of objectCompare.old">
+        <div class="confirm__block" *ngFor="let item of objectCompare.old">
           <div class="confirm__col date">
             {{item.createdAt}}
           </div>
@@ -68,7 +68,7 @@
         <div class="confirm__col-header">
           After
         </div>
-        <div *ngFor="let item of objectCompare.new">
+        <div class="confirm__block" *ngFor="let item of objectCompare.new">
           <div class="confirm__col date">
             {{item.createdAt}}
           </div>

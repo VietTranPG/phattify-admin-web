@@ -45,3 +45,8 @@
         font-size: 35px;
     }
 }
+
+.confirm__block {
+    @extend .flex;
+    width: 100%;
+}

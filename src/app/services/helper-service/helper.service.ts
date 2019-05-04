@@ -31,4 +31,13 @@ export class HelperService {
     console.log('end: ',end,'start: ',start)
    return  moment(end).diff(moment(start),'days')
   }
+  markFormGroupTouched(formGroup) {
+    (<any>Object).values(formGroup.controls).forEach(control => {
+      control.markAsTouched();
+
+      if (control.controls) {
+        this.markFormGroupTouched(control);
+      }
+    });
+  }
 } 
