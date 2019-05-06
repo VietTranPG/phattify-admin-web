@@ -65,8 +65,9 @@
             <div class="input-group">
               <input type="number" formControlName="StartWeight" class="form-control">
             </div>
-            <p class="error-text" *ngIf="roundInfoForm.controls.StartWeight.touched && !roundInfoForm.controls.StartWeight.valid">This
-              field is required.</p>
+            <p class="error-text" *ngIf="roundInfoForm.controls.StartWeight.touched && !roundInfoForm.controls.StartWeight.valid">
+              Start Weight must be > 0
+            </p>
           </div>
         </div>
         <div class="row">
@@ -75,8 +76,7 @@
             <div class="input-group">
               <input type="number" formControlName="TargetWeight" class="form-control">
             </div>
-            <p class="error-text" *ngIf="roundInfoForm.controls.TargetWeight.touched && !roundInfoForm.controls.TargetWeight.valid">This
-              field is required.</p>
+            <p class="error-text" *ngIf="roundInfoForm.controls.TargetWeight.touched && !roundInfoForm.controls.TargetWeight.valid">Target Weight must be > 0</p>
           </div>
         </div>
         <div formArrayName="Stages">

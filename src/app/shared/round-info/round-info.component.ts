@@ -58,8 +58,8 @@ export class RoundInfoComponent implements OnInit {
     this.roundInfoForm = this.fb.group({
       StartDate: [roundInfo.StartDate, Validators.required],
       EndDate: [roundInfo.EndDate, Validators.required],
-      StartWeight: [roundInfo.StartWeight, Validators.required],
-      TargetWeight: [roundInfo.TargetWeight, Validators.required],
+      StartWeight: [roundInfo.StartWeight, [Validators.required,Validators.min(0)]],
+      TargetWeight: [roundInfo.TargetWeight, [Validators.required,Validators.min(0)]],
       Stages: new FormArray([]),
     })
     if (stages) {
@@ -142,7 +142,6 @@ export class RoundInfoComponent implements OnInit {
       this._helper.markFormGroupTouched(this.roundInfoForm);
       return;
     }
-    this._helper.toggleLoading(true);
     let request = {
       round: Object.assign(this.roundInfoForm.value),
       stages: this.stages
@@ -150,11 +149,18 @@ export class RoundInfoComponent implements OnInit {
     request.round.StartDate = this.userTimeZone ? this._helper.convertTimeToUTCByTimeZone(request.round.StartDate, this.userTimeZone) : this._helper.convertTimeToUTC(request.round.StartDate);
     request.round.EndDate = this.userTimeZone ? this._helper.convertTimeToUTCByTimeZone(request.round.EndDate, this.userTimeZone) : this._helper.convertTimeToUTC(request.round.EndDate)
     request.round.Id = this.currentRound.RoundId;
-    console.log(request, this.stages)
+    console.log(request, this.stages);
+    let caculateDayOfRound = this._helper.subDate(request.round.EndDate, request.round.StartDate);
+    if (caculateDayOfRound > 150) {
+      let mess = 'The maximum length of the round is 150 days';
+      alert(mess);
+      return;
+    }
+    this._helper.toggleLoading(true);
     this._api.updateRoundInfo(request).subscribe(res => {
       this._helper.toggleLoading(false);
       this.modalChangeRoundInfo.hide();
-    this.getRoundData(this.UserId);
+      this.getRoundData(this.UserId);
     }, err => {
       this._helper.toggleLoading(false);
     })

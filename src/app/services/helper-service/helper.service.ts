@@ -28,7 +28,6 @@ export class HelperService {
     return arr.map(x => Object.assign({}, x));
   }
   subDate(end,start){
-    console.log('end: ',end,'start: ',start)
    return  moment(end).diff(moment(start),'days')
   }
   markFormGroupTouched(formGroup) {
