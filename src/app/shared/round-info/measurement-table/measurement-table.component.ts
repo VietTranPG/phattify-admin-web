@@ -34,6 +34,14 @@ export class MeasurementTableComponent implements OnInit {
   ngOnChanges() {
     this.measurements.forEach(e => {
       e.createdAt = this.userTimeZone ? this._helperService.convertTimeToLocalByTimeZone(e.createdAt, this.userTimeZone) : this._helperService.convertTimeToLocal(e.createdAt);
+      e.Chest = Number(e.Chest);
+      e.Hips = Number(e.Hips);
+      e.LeftArm = Number(e.LeftArm);
+      e.LeftThigh = Number(e.LeftThigh);
+      e.RightArm = Number(e.RightArm);
+      e.RightThigh = Number(e.RightThigh);
+      e.Waist = Number(e.Waist);
+
     });
     this.oldData = this._helperService.cloneArray(this.measurements);
   }
