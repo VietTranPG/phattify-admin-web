@@ -588,17 +588,17 @@ export class MainComponent implements OnInit {
     this.router.navigate(['login']);
   }
   exportEmail() {
-    this._helper.toggleLoadng(true);
+    this._helper.toggleLoading(true);
     let headers: any;
     if (localStorage.getItem('userInfo') && JSON.parse(localStorage.getItem('userInfo')).data) {
       headers = new HttpHeaders().set('Authorization', `Bearer ${JSON.parse(localStorage.getItem('userInfo')).data}`);
     }
     const url = `${SERVER_URL}admin`;
     this.httpClient.put(url, {}, { responseType: 'arraybuffer', headers: headers }).subscribe(res => {
-      this._helper.toggleLoadng(false);
+      this._helper.toggleLoading(false);
       this.downloadFile(res)
     },err=>{
-      this._helper.toggleLoadng(false);
+      this._helper.toggleLoading(false);
     })
   }
   downloadFile(data: any) {

@@ -16,5 +16,5 @@ export const GENDER = {
 };
 export const CACHE_SERVICE = {
     GetCountries: 7 * 60 * 60 * 24, // 1 week
-    GetHealthChecklist: 7 * 60 * 60 * 24 // 1 week
+    GetHealthChecklist: 7 * 60 * 60 * 24 // 1 week  
 };

@@ -236,4 +236,24 @@ export class ApiService {
     const url = SERVER_URL + 'config';
     return this.http.put(url,body);
   }
+  getRoundAndMeansurementByUserId(userId){
+    const url = SERVER_URL + 'admin-round?UserId='+userId;
+    return this.http.get(url);
+  }
+  getStagesByRoundId(RoundId){
+    const url = SERVER_URL + 'admin-round?RoundId='+RoundId;
+    return this.http.get(url);
+  }
+  updateRoundDetails(rds){
+    const url = SERVER_URL + 'admin-round';
+    return this.http.put(url,rds);
+  }
+  updateRoundInfo(round){
+    const url = SERVER_URL + 'admin-round';
+    return this.http.post(url,round);
+  }
+  updateMeasurements(measurements){
+    const url = SERVER_URL + 'admin-round';
+    return this.http.patch(url,measurements);
+  }
 }

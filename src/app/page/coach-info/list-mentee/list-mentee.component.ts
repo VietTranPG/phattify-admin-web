@@ -187,9 +187,9 @@ export class ListMenteeComponent implements OnInit {
   }
   deleteMentee() {
     this.modalDelete.hide();
-    this._helper.toggleLoadng(true);
+    this._helper.toggleLoading(true);
     this._api.deleteMenteeFromMentor( this.idMentor,this.idMenteeDelete).subscribe((res: any) => {
-      this._helper.toggleLoadng(false);
+      this._helper.toggleLoading(false);
       if (res.status === STATUS.error) {
         this.toast.addToast({ title: 'Message', msg: res.message, timeout: 5000, theme: 'material', position: 'top-right', type: 'error' });
       } else {
@@ -198,7 +198,7 @@ export class ListMenteeComponent implements OnInit {
 
       }
     }, err => {
-      this._helper.toggleLoadng(true);
+      this._helper.toggleLoading(true);
     })
   }
   goToClientInfo(id) {

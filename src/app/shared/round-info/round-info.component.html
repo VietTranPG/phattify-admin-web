@@ -1,0 +1,104 @@
+<div class="col-md-12 card">
+  <div class="card-round">
+    <div class="card-header round-header">
+      <h5>Round Information</h5>
+      <div>User Time Zone: {{userTimeZone>=0?'+':'-'}}{{userTimeZone}}</div>
+    </div>
+    <div *ngFor="let r of rounds | orderBy:{property:'StartDate',direction:-1}">
+      <div class="card-block round-detail">
+        <div>{{r.StartDate}} - {{r.EndDate}}</div>
+        <div>{{r.Status}}</div>
+        <div>Start Weight: {{r.StartWeight}}kg</div>
+        <div>Target Weight: {{r.TargetWeight}}kg</div>
+        <div><button class="btn btn-primary btn-outline-primary ripple light" (click)="editRoundInfo(r)">Edit Round
+            Detail</button> </div>
+        <div><button class="btn btn-primary btn-outline-primary ripple light" (click)="r.showDetail=!r.showDetail">Show Round Detail</button> </div>
+      </div>
+      <roud-detail-table [roundDetail]='r.RoundDetail' [userTimeZone]='userTimeZone'
+        (onUpdateSuccess)="updateSuccess($event)" *ngIf="r.showDetail"></roud-detail-table>
+    </div>
+  </div>
+
+</div>
+
+<div class="col-md-12 card">
+  <div class="card-round">
+    <div class="card-header">
+      <h5>Measurement</h5>
+    </div>
+    <measurement-table [measurements]="measurements" [userTimeZone]='userTimeZone' (onUpdateSuccess)="updateSuccess($event)" >
+
+    </measurement-table>
+  </div>
+</div>
+
+<app-modal-basic #modalChangeRoundInfo>
+  <div class="app-modal-header">
+    <h4 class="modal-title">Round Info</h4>
+    <button type="button" class="close basic-close" (click)="modalChangeRoundInfo.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="app-modal-body">
+    <div class="container">
+      <form class="form" [formGroup]="roundInfoForm">
+        <div class="row">
+          <label class="col-md-4 col-form-label">StartDate </label>
+          <div class="col-md-8">
+            <div class="input-group">
+              <input type="date" formControlName="StartDate" class="form-control">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <label class="col-md-4 col-form-label">EndDate </label>
+          <div class="col-md-8">
+            <div class="input-group">
+              <input type="date" formControlName="EndDate" class="form-control">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <label class="col-md-4 col-form-label">Start-Weight </label>
+          <div class="col-md-8">
+            <div class="input-group">
+              <input type="number" formControlName="StartWeight" class="form-control">
+            </div>
+            <p class="error-text" *ngIf="roundInfoForm.controls.StartWeight.touched && !roundInfoForm.controls.StartWeight.valid">
+              Start Weight must be > 0
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <label class="col-md-4 col-form-label">Target-Weight </label>
+          <div class="col-md-8">
+            <div class="input-group">
+              <input type="number" formControlName="TargetWeight" class="form-control">
+            </div>
+            <p class="error-text" *ngIf="roundInfoForm.controls.TargetWeight.touched && !roundInfoForm.controls.TargetWeight.valid">Target Weight must be > 0</p>
+          </div>
+        </div>
+        <div formArrayName="Stages">
+          <div class="row" *ngFor="let stage of roundInfoForm.get('Stages')['controls'];let i = index" [formGroupName]="i">
+            <label class="col-md-4 col-form-label">Stage {{i+1}} </label>
+            <div class="col-md-4">
+              <div class="input-group">
+                <input type="date" formControlName="StartDate" class="form-control">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="input-group">
+                <input type="date" formControlName="EndDate" class="form-control endDate-Stage-{{i}}">
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="app-modal-footer">
+    <button type="button" class="btn btn-default ripple" (click)="modalChangeRoundInfo.hide()">Close</button>
+    <button type="button" class="btn btn-danger ripple light" (click)="changeRoundInfo()">Confirm</button>
+  </div>
+</app-modal-basic>
