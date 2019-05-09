@@ -236,4 +236,12 @@ export class ApiService {
     const url = SERVER_URL + 'config';
     return this.http.put(url,body);
   }
+  getErrorMentor(){
+    const url = SERVER_URL + 'error-mentor';
+    return this.http.get(url);
+  }
+  updateErrorMentor(body){
+    const url = SERVER_URL + 'error-mentor';
+    return this.http.put(url,body);
+  }
 }
