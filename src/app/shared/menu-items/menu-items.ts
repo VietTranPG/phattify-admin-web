@@ -61,6 +61,13 @@ const MENUITEMS = [
         name: 'Change Content Text',
         type: 'link',
         icon: 'feather icon-menu'
+      },
+      {
+        state: 'error-mentor',
+        short_label: 'E',
+        name: 'Error Mentor',
+        type: 'link',
+        icon: 'feather icon-menu'
       }
     ],
   }

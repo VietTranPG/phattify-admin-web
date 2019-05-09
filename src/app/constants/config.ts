@@ -1,7 +1,7 @@
 // UAT
-export const SERVER_URL = 'http://ilosemobileapp.azurewebsites.net/api/';
+// export const SERVER_URL = 'http://ilosemobileapp.azurewebsites.net/api/';
 // DEV
-// export const SERVER_URL = 'http://phattifymobileservice.azurewebsites.net/api/';
+export const SERVER_URL = 'http://phattifymobileservice.azurewebsites.net/api/';
 // export const SERVER_URL = 'http://localhost:3000/api/';
 
 //LIVE

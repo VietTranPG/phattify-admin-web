@@ -256,4 +256,12 @@ export class ApiService {
     const url = SERVER_URL + 'admin-round';
     return this.http.patch(url,measurements);
   }
+  getErrorMentor(){
+    const url = SERVER_URL + 'error-mentor';
+    return this.http.get(url);
+  }
+  updateErrorMentor(body){
+    const url = SERVER_URL + 'error-mentor';
+    return this.http.put(url,body);
+  }
 }
