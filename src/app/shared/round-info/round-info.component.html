@@ -4,8 +4,8 @@
       <h5>Round Information</h5>
       <div>User Time Zone: {{userTimeZone>=0?'+':'-'}}{{userTimeZone}}</div>
     </div>
-    <div *ngFor="let r of rounds | orderBy:{property:'StartDate',direction:-1}">
-      <div class="card-block round-detail">
+    <div *ngFor="let r of rounds | orderBy:{property:'StartDate',direction:-1}" >
+      <div class="card-block round-detail" *ngIf="r.StartDate != null && r.StartWeight != null">
         <div>{{r.StartDate}} - {{r.EndDate}}</div>
         <div>{{r.Status}}</div>
         <div>Start Weight: {{r.StartWeight}}kg</div>
