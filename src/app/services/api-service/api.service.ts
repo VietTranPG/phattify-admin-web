@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SERVER_URL, CACHE_SERVICE } from '../../constants/config';
 import { CacheService, CacheStoragesEnum } from 'ng2-cache';
-import moment = require('moment');
+import * as moment from 'moment';
 @Injectable()
 export class ApiService {
   url = SERVER_URL;
