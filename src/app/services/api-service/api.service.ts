@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SERVER_URL, CACHE_SERVICE } from '../../constants/config';
 import { CacheService, CacheStoragesEnum } from 'ng2-cache';
+import moment = require('moment');
 @Injectable()
 export class ApiService {
   url = SERVER_URL;
@@ -230,7 +231,7 @@ export class ApiService {
   }
   getAppConfig(){
     const url = SERVER_URL + 'config';
-    return this.http.get(url);
+    return this.http.get(url, {params: { "t": moment().unix().toString()}});
   }
   updateAppConfig(body){
     const url = SERVER_URL + 'config';
