@@ -723,7 +723,7 @@ var HomeService = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return GENDER; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CACHE_SERVICE; });
 // UAT
-var SERVER_URL = 'http://ilosemobileapp.azurewebsites.net/api/';
+var SERVER_URL = 'https://ilosemobileapp.azurewebsites.net/api';
 // DEV
 // export const SERVER_URL = 'http://phattifymobileservice.azurewebsites.net/api/';
 // export const SERVER_URL = 'http://localhost:3000/api/';
