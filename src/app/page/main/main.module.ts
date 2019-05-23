@@ -19,7 +19,8 @@ const routes: Routes = [
       { path: 'coach-management', loadChildren: '../coach-management/coach-management.module#CoachManagementModule' },
       { path: 'client-info/:id', loadChildren: '../client-info/client-info.module#ClientInfoModule' },
       { path: 'mentor-info/:id', loadChildren: '../coach-info/coach-info.module#CoachInfoModule' },
-      { path: 'configs', loadChildren: '../configs/configs.module#ConfigsModule' }
+      { path: 'configs', loadChildren: '../configs/configs.module#ConfigsModule' },
+      { path: 'error-mentor', loadChildren: '../stripe-error-mentor/stripe-error-mentor.module#StripeErrorMentorModule' }
     ]
   },
 

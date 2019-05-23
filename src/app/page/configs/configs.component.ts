@@ -58,7 +58,10 @@ export class ConfigsComponent implements OnInit {
   }
   edit() {
     this._helper.toggleLoading(true);
-    let req = { type: this.typeEdit, content: this.quill };
+    let req = { 
+      type: this.typeEdit, 
+      content: this.quill.replace('<a href=', '<a style="color: blue; text-decoration: underline" href=')
+    };
     this._api.updateAppConfig(req).subscribe(res => {
       this._helper.toggleLoading(false);
       this.modalEditor.hide();
