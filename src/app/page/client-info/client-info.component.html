@@ -37,7 +37,8 @@
                 <div class="row">
                   <div class="col-md-6">
                     <label>Email</label>
-                    <input class="form-control" formControlName="email" />
+                    <input class="form-control" pattern="^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$" formControlName="email" required="true"/>
+                    <p class="error-text" *ngIf="!clientInfoForm.controls.email.valid">Missing or wrong email format</p>
                   </div>
                   <div class="col-md-6">
                     <label>Contact number</label>

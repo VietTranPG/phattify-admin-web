@@ -231,7 +231,7 @@ export class ApiService {
   }
   getAppConfig(){
     const url = SERVER_URL + 'config';
-    return this.http.get(url, {params: { "t": moment().unix().toString()}});
+    return this.http.get(url);
   }
   updateAppConfig(body){
     const url = SERVER_URL + 'config';
