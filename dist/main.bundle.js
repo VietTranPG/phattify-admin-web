@@ -754,6 +754,8 @@ var CACHE_SERVICE = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_do__ = __webpack_require__("./node_modules/rxjs/_esm5/add/operator/do.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_helper_service_helper_service__ = __webpack_require__("./src/app/services/helper-service/helper.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_moment__ = __webpack_require__("./node_modules/moment/moment.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_moment__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -767,18 +769,32 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var CommonHttpInterceptor = /** @class */ (function () {
     function CommonHttpInterceptor(_helper) {
         this._helper = _helper;
     }
     CommonHttpInterceptor.prototype.intercept = function (req, next) {
         var _this = this;
+        var currentTime = __WEBPACK_IMPORTED_MODULE_4_moment__().unix();
         var headers;
         if (localStorage.getItem('userInfo') && JSON.parse(localStorage.getItem('userInfo')).data) {
             headers = new __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["e" /* HttpHeaders */]().set('Authorization', "Bearer " + JSON.parse(localStorage.getItem('userInfo')).data);
         }
+        var newUrl = req.url;
+        if (req.method === 'GET') {
+            console.log(req);
+            var url = req.url;
+            if (url.includes('?')) {
+                newUrl = req.url + "&t=" + currentTime;
+            }
+            else {
+                newUrl = req.url + "?t=" + currentTime;
+            }
+        }
         // const headers = new HttpHeaders().set('Content-Type', 'application/json');
         return next.handle(req.clone({
+            url: newUrl,
             headers: headers,
         })).do(function (event) {
             if (event instanceof __WEBPACK_IMPORTED_MODULE_1__angular_common_http__["f" /* HttpResponse */]) {
@@ -969,8 +985,6 @@ var OrderByPipe = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__constants_config__ = __webpack_require__("./src/app/constants/config.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ng2_cache__ = __webpack_require__("./node_modules/ng2-cache/esm5/ng2-cache.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_moment__ = __webpack_require__("./node_modules/moment/moment.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_moment__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -980,7 +994,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-
 
 
 
@@ -1229,7 +1242,7 @@ var ApiService = /** @class */ (function () {
     };
     ApiService.prototype.getAppConfig = function () {
         var url = __WEBPACK_IMPORTED_MODULE_2__constants_config__["c" /* SERVER_URL */] + 'config';
-        return this.http.get(url, { params: { "t": __WEBPACK_IMPORTED_MODULE_4_moment__().unix().toString() } });
+        return this.http.get(url);
     };
     ApiService.prototype.updateAppConfig = function (body) {
         var url = __WEBPACK_IMPORTED_MODULE_2__constants_config__["c" /* SERVER_URL */] + 'config';
@@ -2594,7 +2607,7 @@ var MeasurementTableComponent = /** @class */ (function () {
 /***/ "./src/app/shared/round-info/roud-detail-table/roud-detail-table.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-card>\r\n  <div class=\"table-responsive\">\r\n    <table class=\"table table-xl\">\r\n      <thead>\r\n        <tr>\r\n          <th>#</th>\r\n          <th>Created Date</th>\r\n          <th>Weight</th>\r\n          <th>Action</th>\r\n        </tr>\r\n      </thead>\r\n      <tbody>\r\n        <tr *ngFor=\"let rd of roundDetail;let i = index\">\r\n          <td scope=\"row\">{{i + 1}}</td>\r\n          <td>\r\n            <input type=\"date\" class=\"form-control inline-edit\"\r\n              [ngModel]=\"rd.createdAt |formatTime:'UTCtoLocal':userTimeZone |date:'yyyy-MM-dd'\"\r\n              (ngModelChange)=\"rd.createdAt = $event\" [disabled]='!rd.enable'>\r\n          </td>\r\n          <td><input type=\"number\" class=\"form-control inline-edit\" [(ngModel)]=\"rd.CurrentWeight\"\r\n              [disabled]='!rd.enable'></td>\r\n          <td>\r\n            <button *ngIf=\"!rd.enable\" class=\"btn btn-warning\" (click)=\"showEdit(i)\">Edit</button>\r\n            <button *ngIf=\"rd.enable\" class=\"btn btn-success\" (click)=\"edit(i)\">Save</button>\r\n            <button *ngIf=\"rd.enable\" class=\"btn btn-danger\" (click)=\"closeEdit(i)\">Close</button>\r\n          </td>\r\n        </tr>\r\n      </tbody>\r\n      <tfoot *ngIf=\"roundDetail.length>2\">\r\n        <tr>\r\n          <td></td>\r\n          <td></td>\r\n          <td></td>\r\n          <td>\r\n            <button *ngIf=\"!editAll\" class=\"btn btn-primary\" (click)=\"showEdit()\">Edit All</button>\r\n            <button *ngIf=\"editAll\" class=\"btn btn-success\" (click)=\"closeEdit()\">Save All</button>\r\n            <button *ngIf=\"editAll\" class=\"btn btn-danger\" (click)=\"closeEdit()\">Close All</button>\r\n          </td>\r\n        </tr>\r\n      </tfoot>\r\n    </table>\r\n  </div>\r\n</app-card>\r\n\r\n<app-modal-basic #modalConfirmUpdate class=\"modal--confirm-update\">\r\n  <div class=\"app-modal-header modal--header\">\r\n    <button type=\"button\" class=\"close basic-close\" (click)=\"cancelUpdate()\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"app-modal-body modal--body\">\r\n    <p>Please confirm the changes that you want to make</p>\r\n    <div class=\"confirm__row\">\r\n      <div class=\"confirm__col flex-wrap\">\r\n        <div class=\"confirm__col-header\">\r\n          Before\r\n        </div>\r\n        <div class=\"confirm__block\" *ngFor=\"let item of objectCompare.old\">\r\n          <div class=\"confirm__col date\">\r\n            {{item.createdAt}}\r\n          </div>\r\n          <div class=\"confirm__col value\">\r\n            {{item.CurrentWeight}}\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"confirm__col flex-wrap\">\r\n        <div class=\"confirm__col-header\">\r\n          After\r\n        </div>\r\n        <div class=\"confirm__block\" *ngFor=\"let item of objectCompare.new\">\r\n          <div class=\"confirm__col date\">\r\n            {{item.createdAt}}\r\n          </div>\r\n          <div class=\"confirm__col value\">\r\n            {{item.CurrentWeight}}\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div class=\"app-modal-footer\">\r\n    <button type=\"button\" class=\"btn btn-warning ripple\" (click)=\"cancelUpdate()\">Close</button>\r\n    <button type=\"button\" class=\"btn btn-primary btn-outline-primary ripple light\" (click)=\"update()\">Update</button>\r\n  </div>\r\n</app-modal-basic>"
+module.exports = "<app-card>\r\n  <div class=\"table-responsive\">\r\n    <table class=\"table table-xl\">\r\n      <thead>\r\n        <tr>\r\n          <th>#</th>\r\n          <th>Created Date</th>\r\n          <th>Weight</th>\r\n          <th>Action</th>\r\n        </tr>\r\n      </thead>\r\n      <tbody>\r\n        <tr *ngFor=\"let rd of roundDetail;let i = index\">\r\n          <td scope=\"row\">{{i + 1}}</td>\r\n          <td>\r\n            <input type=\"date\" class=\"form-control inline-edit\" [max]='today'\r\n              [ngModel]=\"rd.createdAt |formatTime:'UTCtoLocal':userTimeZone |date:'yyyy-MM-dd'\"\r\n              (ngModelChange)=\"rd.createdAt = $event\" [disabled]='!rd.enable'>\r\n          </td>\r\n          <td><input type=\"number\" class=\"form-control inline-edit\" [(ngModel)]=\"rd.CurrentWeight\"\r\n              [disabled]='!rd.enable'></td>\r\n          <td>\r\n            <button *ngIf=\"!rd.enable\" class=\"btn btn-warning\" (click)=\"showEdit(i)\">Edit</button>\r\n            <button *ngIf=\"rd.enable\" class=\"btn btn-success\" (click)=\"edit(i)\">Save</button>\r\n            <button *ngIf=\"rd.enable\" class=\"btn btn-danger\" (click)=\"closeEdit(i)\">Close</button>\r\n          </td>\r\n        </tr>\r\n      </tbody>\r\n      <tfoot *ngIf=\"roundDetail.length>2\">\r\n        <tr>\r\n          <td></td>\r\n          <td></td>\r\n          <td></td>\r\n          <td>\r\n            <button *ngIf=\"!editAll\" class=\"btn btn-primary\" (click)=\"showEdit()\">Edit All</button>\r\n            <button *ngIf=\"editAll\" class=\"btn btn-success\" (click)=\"closeEdit()\">Save All</button>\r\n            <button *ngIf=\"editAll\" class=\"btn btn-danger\" (click)=\"closeEdit()\">Close All</button>\r\n          </td>\r\n        </tr>\r\n      </tfoot>\r\n    </table>\r\n  </div>\r\n</app-card>\r\n\r\n<app-modal-basic #modalConfirmUpdate class=\"modal--confirm-update\">\r\n  <div class=\"app-modal-header modal--header\">\r\n    <button type=\"button\" class=\"close basic-close\" (click)=\"cancelUpdate()\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"app-modal-body modal--body\">\r\n    <p>Please confirm the changes that you want to make</p>\r\n    <div class=\"confirm__row\">\r\n      <div class=\"confirm__col flex-wrap\">\r\n        <div class=\"confirm__col-header\">\r\n          Before\r\n        </div>\r\n        <div class=\"confirm__block\" *ngFor=\"let item of objectCompare.old\">\r\n          <div class=\"confirm__col date\">\r\n            {{item.createdAt}}\r\n          </div>\r\n          <div class=\"confirm__col value\">\r\n            {{item.CurrentWeight}}\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"confirm__col flex-wrap\">\r\n        <div class=\"confirm__col-header\">\r\n          After\r\n        </div>\r\n        <div class=\"confirm__block\" *ngFor=\"let item of objectCompare.new\">\r\n          <div class=\"confirm__col date\">\r\n            {{item.createdAt}}\r\n          </div>\r\n          <div class=\"confirm__col value\">\r\n            {{item.CurrentWeight}}\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div class=\"app-modal-footer\">\r\n    <button type=\"button\" class=\"btn btn-warning ripple\" (click)=\"cancelUpdate()\">Close</button>\r\n    <button type=\"button\" class=\"btn btn-primary btn-outline-primary ripple light\" (click)=\"update()\">Update</button>\r\n  </div>\r\n</app-modal-basic>"
 
 /***/ }),
 
@@ -2615,6 +2628,8 @@ module.exports = ".inline-edit:disabled {\n  opacity: 1;\n  border: none;\n  bac
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_lodash__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_helper_service_helper_service__ = __webpack_require__("./src/app/services/helper-service/helper.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_api_service_api_service__ = __webpack_require__("./src/app/services/api-service/api.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_moment__ = __webpack_require__("./node_modules/moment/moment.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_moment__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2624,6 +2639,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -2640,6 +2656,7 @@ var RoudDetailTableComponent = /** @class */ (function () {
             old: [],
             new: []
         };
+        this.today = __WEBPACK_IMPORTED_MODULE_4_moment__().format('YYYY-MM-DD');
     }
     RoudDetailTableComponent.prototype.ngOnChanges = function () {
         var _this = this;
@@ -2676,7 +2693,14 @@ var RoudDetailTableComponent = /** @class */ (function () {
     };
     RoudDetailTableComponent.prototype.edit = function () {
         this.objectCompare = this.checkDiffArr(this.oldData, this.roundDetail);
-        this.modalConfirmUpdate.show();
+        var createdAt = this.objectCompare.new[0].createdAt;
+        var diff = __WEBPACK_IMPORTED_MODULE_4_moment__().diff(__WEBPACK_IMPORTED_MODULE_4_moment__(createdAt, 'YYYY-MM-DD'), 'days');
+        if (diff < 0) {
+            alert('Start date cannot later than today');
+        }
+        else {
+            this.modalConfirmUpdate.show();
+        }
     };
     RoudDetailTableComponent.prototype.checkDiffArr = function (arrOld, arr) {
         var arrNew = arr.map(function (obj) {
@@ -2830,6 +2854,7 @@ var RoundInfoComponent = /** @class */ (function () {
         this.getRoundData(this.UserId);
     };
     RoundInfoComponent.prototype.initForm = function (roundInfo, stages) {
+        var _this = this;
         this.roundInfoForm = this.fb.group({
             StartDate: [roundInfo.StartDate, __WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].required],
             EndDate: [roundInfo.EndDate, __WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].required],
@@ -2843,6 +2868,25 @@ var RoundInfoComponent = /** @class */ (function () {
                 this.addStagesToForm(stages[i], i);
             }
         }
+        this.roundInfoForm.controls['StartDate'].valueChanges.subscribe(function (newVal) {
+            var oldVal = _this.roundInfoForm.value['StartDate'];
+            if (newVal !== oldVal) {
+                _this.HandleStartDateChange(newVal);
+            }
+        });
+        this.roundInfoForm.controls['EndDate'].valueChanges.subscribe(function (newVal) {
+            var oldVal = _this.roundInfoForm.value['EndDate'];
+            if (newVal !== oldVal) {
+                _this.HandleEndDateChange(newVal);
+            }
+        });
+        this.roundInfoForm.controls['Stages'].valueChanges.subscribe(function (newVal) {
+            var oldVal = _this.roundInfoForm.value['Stages'];
+            var diff = __WEBPACK_IMPORTED_MODULE_5_lodash__["differenceWith"](newVal, oldVal, __WEBPACK_IMPORTED_MODULE_5_lodash__["isEqual"])[0];
+            if (newVal.length == _this.stages.length) {
+                _this.HandleStagesChange(diff);
+            }
+        });
     };
     RoundInfoComponent.prototype.addStagesToForm = function (stageInput, index) {
         var stagesArr = this.roundInfoForm.controls['Stages'];
@@ -2854,6 +2898,7 @@ var RoundInfoComponent = /** @class */ (function () {
         stagesArr.push(stage);
     };
     RoundInfoComponent.prototype.editRoundInfo = function (r) {
+        this.getRoundData(this.UserId);
         this.modalChangeRoundInfo.show();
         this.currentRound = r;
         this.initForm(r);
@@ -2869,7 +2914,6 @@ var RoundInfoComponent = /** @class */ (function () {
         });
     };
     RoundInfoComponent.prototype.setDateOfStages = function (round, stages) {
-        var _this = this;
         for (var i = 0; i < stages.length; i++) {
             if (i == 0) {
                 stages[i].StartDate = round.StartDate;
@@ -2880,14 +2924,29 @@ var RoundInfoComponent = /** @class */ (function () {
                 stages[i].EndDate = __WEBPACK_IMPORTED_MODULE_4_moment__(stages[i].StartDate).add(stages[i].DayOfStages - 1, 'day').format('YYYY-MM-DD');
             }
         }
+        var stageLength = this.stages.length;
+        this.currentRound.EndDate = this.stages[stageLength - 1].EndDate;
         this.initForm(this.currentRound, stages);
-        this.roundInfoForm.controls['Stages'].valueChanges.subscribe(function (newVal) {
-            var oldVal = _this.roundInfoForm.value['Stages'];
-            var diff = __WEBPACK_IMPORTED_MODULE_5_lodash__["differenceWith"](newVal, oldVal, __WEBPACK_IMPORTED_MODULE_5_lodash__["isEqual"])[0];
-            if (newVal.length == _this.stages.length) {
-                _this.HandleStagesChange(diff);
-            }
-        });
+    };
+    RoundInfoComponent.prototype.HandleStartDateChange = function (newVal) {
+        this.stages[0].StartDate = newVal;
+        this.HandleStagesChange(this.stages[0]);
+    };
+    RoundInfoComponent.prototype.HandleEndDateChange = function (newVal) {
+        var diffDatePickandStartStage = this._helper.subDate(newVal, this.currentRound.StartDate);
+        if (diffDatePickandStartStage < 0) {
+            var mess = 'Please select the end date of stages later than the start date';
+            alert(mess);
+            this.setDateOfStages(this.currentRound, this.stages);
+            return;
+        }
+        var length = this.stages.length;
+        this.currentRound.EndDate = newVal;
+        this.stages[length - 1].EndDate = newVal;
+        // this.roundInfoForm.controls['StartDate'].setValue([newVal, Validators.required]);
+        // this.stages[4].EndDate = moment().format('YYYY-MM-DD')
+        this.initForm(this.currentRound, this.stages);
+        // this.HandleStagesChange(this.stages[length - 1]);
     };
     RoundInfoComponent.prototype.HandleStagesChange = function (diff) {
         var indexOfDiff = this.stages.findIndex(function (x) { return x.Id == diff.Id; });
@@ -2908,7 +2967,7 @@ var RoundInfoComponent = /** @class */ (function () {
                 }
                 var diffDateEndStage = this._helper.subDate(diff.EndDate, stageChanged.EndDate);
                 this.stages[indexOfDiff].DayOfStages += diffDateEndStage;
-                this.currentRound.EndDate = __WEBPACK_IMPORTED_MODULE_4_moment__(this.currentRound.EndDate).add(diffDateEndStage, 'day').format('YYYY-MM-DD');
+                // this.currentRound.EndDate = moment(this.currentRound.EndDate).add(diffDateEndStage, 'day').format('YYYY-MM-DD')
             }
             this.stages[indexOfDiff].StartDate = diff.StartDate;
             this.stages[indexOfDiff].EndDate = diff.EndDate;

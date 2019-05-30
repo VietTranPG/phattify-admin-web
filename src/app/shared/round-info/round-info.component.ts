@@ -68,6 +68,25 @@ export class RoundInfoComponent implements OnInit {
         this.addStagesToForm(stages[i], i)
       }
     }
+    this.roundInfoForm.controls['StartDate'].valueChanges.subscribe((newVal) => {
+      let oldVal = this.roundInfoForm.value['StartDate'];
+      if (newVal !== oldVal) {
+        this.HandleStartDateChange(newVal)
+      }
+    })
+    this.roundInfoForm.controls['EndDate'].valueChanges.subscribe((newVal) => {
+      let oldVal = this.roundInfoForm.value['EndDate'];
+      if (newVal !== oldVal) {
+        this.HandleEndDateChange(newVal)
+      }
+    })
+    this.roundInfoForm.controls['Stages'].valueChanges.subscribe((newVal) => {
+      let oldVal = this.roundInfoForm.value['Stages'];
+      let diff = _.differenceWith(newVal, oldVal, _.isEqual)[0];
+      if (newVal.length == this.stages.length) {
+        this.HandleStagesChange(diff)
+      }
+    })
   }
   addStagesToForm(stageInput, index) {
     const stagesArr = this.roundInfoForm.controls['Stages'] as FormArray;
@@ -79,6 +98,7 @@ export class RoundInfoComponent implements OnInit {
     stagesArr.push(stage)
   }
   editRoundInfo(r) {
+    this.getRoundData(this.UserId);
     this.modalChangeRoundInfo.show();
     this.currentRound = r;
     this.initForm(r);
@@ -102,14 +122,31 @@ export class RoundInfoComponent implements OnInit {
         stages[i].EndDate = moment(stages[i].StartDate).add(stages[i].DayOfStages - 1, 'day').format('YYYY-MM-DD')
       }
     }
+    
+    const stageLength = this.stages.length;
+    this.currentRound.EndDate = this.stages[stageLength - 1].EndDate;
     this.initForm(this.currentRound, stages);
-    this.roundInfoForm.controls['Stages'].valueChanges.subscribe((newVal) => {
-      let oldVal = this.roundInfoForm.value['Stages'];
-      let diff = _.differenceWith(newVal, oldVal, _.isEqual)[0];
-      if (newVal.length == this.stages.length) {
-        this.HandleStagesChange(diff)
-      }
-    })
+  }
+  HandleStartDateChange(newVal) {
+    this.stages[0].StartDate = newVal;
+    this.HandleStagesChange(this.stages[0]);
+  }
+  HandleEndDateChange(newVal) {
+    let diffDatePickandStartStage = this._helper.subDate(newVal, this.currentRound.StartDate);
+    if (diffDatePickandStartStage < 0) {
+      let mess = 'Please select the end date of stages later than the start date';
+      alert(mess);
+      this.setDateOfStages(this.currentRound, this.stages)
+      return
+    }
+    const length = this.stages.length;
+    this.currentRound.EndDate = newVal;
+    this.stages[length - 1].EndDate = newVal;
+    // this.roundInfoForm.controls['StartDate'].setValue([newVal, Validators.required]);
+    // this.stages[4].EndDate = moment().format('YYYY-MM-DD')
+    this.initForm(this.currentRound, this.stages);
+
+    // this.HandleStagesChange(this.stages[length - 1]);
   }
   HandleStagesChange(diff) {
     let indexOfDiff = this.stages.findIndex(x => x.Id == diff.Id);
@@ -130,8 +167,9 @@ export class RoundInfoComponent implements OnInit {
         }
         let diffDateEndStage = this._helper.subDate(diff.EndDate, stageChanged.EndDate);
         this.stages[indexOfDiff].DayOfStages += diffDateEndStage;
-        this.currentRound.EndDate = moment(this.currentRound.EndDate).add(diffDateEndStage, 'day').format('YYYY-MM-DD')
+        // this.currentRound.EndDate = moment(this.currentRound.EndDate).add(diffDateEndStage, 'day').format('YYYY-MM-DD')
       }
+      
       this.stages[indexOfDiff].StartDate = diff.StartDate;
       this.stages[indexOfDiff].EndDate = diff.EndDate;
       this.setDateOfStages(this.currentRound, this.stages)

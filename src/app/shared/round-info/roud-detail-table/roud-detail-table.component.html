@@ -13,7 +13,7 @@
         <tr *ngFor="let rd of roundDetail;let i = index">
           <td scope="row">{{i + 1}}</td>
           <td>
-            <input type="date" class="form-control inline-edit"
+            <input type="date" class="form-control inline-edit" [max]='today'
               [ngModel]="rd.createdAt |formatTime:'UTCtoLocal':userTimeZone |date:'yyyy-MM-dd'"
               (ngModelChange)="rd.createdAt = $event" [disabled]='!rd.enable'>
           </td>
