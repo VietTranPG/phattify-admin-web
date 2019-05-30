@@ -2607,7 +2607,7 @@ var MeasurementTableComponent = /** @class */ (function () {
 /***/ "./src/app/shared/round-info/roud-detail-table/roud-detail-table.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-card>\r\n  <div class=\"table-responsive\">\r\n    <table class=\"table table-xl\">\r\n      <thead>\r\n        <tr>\r\n          <th>#</th>\r\n          <th>Created Date</th>\r\n          <th>Weight</th>\r\n          <th>Action</th>\r\n        </tr>\r\n      </thead>\r\n      <tbody>\r\n        <tr *ngFor=\"let rd of roundDetail;let i = index\">\r\n          <td scope=\"row\">{{i + 1}}</td>\r\n          <td>\r\n            <input type=\"date\" class=\"form-control inline-edit\"\r\n              [ngModel]=\"rd.createdAt |formatTime:'UTCtoLocal':userTimeZone |date:'yyyy-MM-dd'\"\r\n              (ngModelChange)=\"rd.createdAt = $event\" [disabled]='!rd.enable'>\r\n          </td>\r\n          <td><input type=\"number\" class=\"form-control inline-edit\" [(ngModel)]=\"rd.CurrentWeight\"\r\n              [disabled]='!rd.enable'></td>\r\n          <td>\r\n            <button *ngIf=\"!rd.enable\" class=\"btn btn-warning\" (click)=\"showEdit(i)\">Edit</button>\r\n            <button *ngIf=\"rd.enable\" class=\"btn btn-success\" (click)=\"edit(i)\">Save</button>\r\n            <button *ngIf=\"rd.enable\" class=\"btn btn-danger\" (click)=\"closeEdit(i)\">Close</button>\r\n          </td>\r\n        </tr>\r\n      </tbody>\r\n      <tfoot *ngIf=\"roundDetail.length>2\">\r\n        <tr>\r\n          <td></td>\r\n          <td></td>\r\n          <td></td>\r\n          <td>\r\n            <button *ngIf=\"!editAll\" class=\"btn btn-primary\" (click)=\"showEdit()\">Edit All</button>\r\n            <button *ngIf=\"editAll\" class=\"btn btn-success\" (click)=\"closeEdit()\">Save All</button>\r\n            <button *ngIf=\"editAll\" class=\"btn btn-danger\" (click)=\"closeEdit()\">Close All</button>\r\n          </td>\r\n        </tr>\r\n      </tfoot>\r\n    </table>\r\n  </div>\r\n</app-card>\r\n\r\n<app-modal-basic #modalConfirmUpdate class=\"modal--confirm-update\">\r\n  <div class=\"app-modal-header modal--header\">\r\n    <button type=\"button\" class=\"close basic-close\" (click)=\"cancelUpdate()\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"app-modal-body modal--body\">\r\n    <p>Please confirm the changes that you want to make</p>\r\n    <div class=\"confirm__row\">\r\n      <div class=\"confirm__col flex-wrap\">\r\n        <div class=\"confirm__col-header\">\r\n          Before\r\n        </div>\r\n        <div class=\"confirm__block\" *ngFor=\"let item of objectCompare.old\">\r\n          <div class=\"confirm__col date\">\r\n            {{item.createdAt}}\r\n          </div>\r\n          <div class=\"confirm__col value\">\r\n            {{item.CurrentWeight}}\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"confirm__col flex-wrap\">\r\n        <div class=\"confirm__col-header\">\r\n          After\r\n        </div>\r\n        <div class=\"confirm__block\" *ngFor=\"let item of objectCompare.new\">\r\n          <div class=\"confirm__col date\">\r\n            {{item.createdAt}}\r\n          </div>\r\n          <div class=\"confirm__col value\">\r\n            {{item.CurrentWeight}}\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div class=\"app-modal-footer\">\r\n    <button type=\"button\" class=\"btn btn-warning ripple\" (click)=\"cancelUpdate()\">Close</button>\r\n    <button type=\"button\" class=\"btn btn-primary btn-outline-primary ripple light\" (click)=\"update()\">Update</button>\r\n  </div>\r\n</app-modal-basic>"
+module.exports = "<app-card>\r\n  <div class=\"table-responsive\">\r\n    <table class=\"table table-xl\">\r\n      <thead>\r\n        <tr>\r\n          <th>#</th>\r\n          <th>Created Date</th>\r\n          <th>Weight</th>\r\n          <th>Action</th>\r\n        </tr>\r\n      </thead>\r\n      <tbody>\r\n        <tr *ngFor=\"let rd of roundDetail;let i = index\">\r\n          <td scope=\"row\">{{i + 1}}</td>\r\n          <td>\r\n            <input type=\"date\" class=\"form-control inline-edit\" [max]='today'\r\n              [ngModel]=\"rd.createdAt |formatTime:'UTCtoLocal':userTimeZone |date:'yyyy-MM-dd'\"\r\n              (ngModelChange)=\"rd.createdAt = $event\" [disabled]='!rd.enable'>\r\n          </td>\r\n          <td><input type=\"number\" class=\"form-control inline-edit\" [(ngModel)]=\"rd.CurrentWeight\"\r\n              [disabled]='!rd.enable'></td>\r\n          <td>\r\n            <button *ngIf=\"!rd.enable\" class=\"btn btn-warning\" (click)=\"showEdit(i)\">Edit</button>\r\n            <button *ngIf=\"rd.enable\" class=\"btn btn-success\" (click)=\"edit(i)\">Save</button>\r\n            <button *ngIf=\"rd.enable\" class=\"btn btn-danger\" (click)=\"closeEdit(i)\">Close</button>\r\n          </td>\r\n        </tr>\r\n      </tbody>\r\n      <tfoot *ngIf=\"roundDetail.length>2\">\r\n        <tr>\r\n          <td></td>\r\n          <td></td>\r\n          <td></td>\r\n          <td>\r\n            <button *ngIf=\"!editAll\" class=\"btn btn-primary\" (click)=\"showEdit()\">Edit All</button>\r\n            <button *ngIf=\"editAll\" class=\"btn btn-success\" (click)=\"closeEdit()\">Save All</button>\r\n            <button *ngIf=\"editAll\" class=\"btn btn-danger\" (click)=\"closeEdit()\">Close All</button>\r\n          </td>\r\n        </tr>\r\n      </tfoot>\r\n    </table>\r\n  </div>\r\n</app-card>\r\n\r\n<app-modal-basic #modalConfirmUpdate class=\"modal--confirm-update\">\r\n  <div class=\"app-modal-header modal--header\">\r\n    <button type=\"button\" class=\"close basic-close\" (click)=\"cancelUpdate()\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"app-modal-body modal--body\">\r\n    <p>Please confirm the changes that you want to make</p>\r\n    <div class=\"confirm__row\">\r\n      <div class=\"confirm__col flex-wrap\">\r\n        <div class=\"confirm__col-header\">\r\n          Before\r\n        </div>\r\n        <div class=\"confirm__block\" *ngFor=\"let item of objectCompare.old\">\r\n          <div class=\"confirm__col date\">\r\n            {{item.createdAt}}\r\n          </div>\r\n          <div class=\"confirm__col value\">\r\n            {{item.CurrentWeight}}\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"confirm__col flex-wrap\">\r\n        <div class=\"confirm__col-header\">\r\n          After\r\n        </div>\r\n        <div class=\"confirm__block\" *ngFor=\"let item of objectCompare.new\">\r\n          <div class=\"confirm__col date\">\r\n            {{item.createdAt}}\r\n          </div>\r\n          <div class=\"confirm__col value\">\r\n            {{item.CurrentWeight}}\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div class=\"app-modal-footer\">\r\n    <button type=\"button\" class=\"btn btn-warning ripple\" (click)=\"cancelUpdate()\">Close</button>\r\n    <button type=\"button\" class=\"btn btn-primary btn-outline-primary ripple light\" (click)=\"update()\">Update</button>\r\n  </div>\r\n</app-modal-basic>"
 
 /***/ }),
 
@@ -2628,6 +2628,8 @@ module.exports = ".inline-edit:disabled {\n  opacity: 1;\n  border: none;\n  bac
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_lodash__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_helper_service_helper_service__ = __webpack_require__("./src/app/services/helper-service/helper.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_api_service_api_service__ = __webpack_require__("./src/app/services/api-service/api.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_moment__ = __webpack_require__("./node_modules/moment/moment.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_moment__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2637,6 +2639,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -2653,6 +2656,7 @@ var RoudDetailTableComponent = /** @class */ (function () {
             old: [],
             new: []
         };
+        this.today = __WEBPACK_IMPORTED_MODULE_4_moment__().format('YYYY-MM-DD');
     }
     RoudDetailTableComponent.prototype.ngOnChanges = function () {
         var _this = this;
@@ -2689,7 +2693,14 @@ var RoudDetailTableComponent = /** @class */ (function () {
     };
     RoudDetailTableComponent.prototype.edit = function () {
         this.objectCompare = this.checkDiffArr(this.oldData, this.roundDetail);
-        this.modalConfirmUpdate.show();
+        var createdAt = this.objectCompare.new[0].createdAt;
+        var diff = __WEBPACK_IMPORTED_MODULE_4_moment__().diff(__WEBPACK_IMPORTED_MODULE_4_moment__(createdAt, 'YYYY-MM-DD'), 'days');
+        if (diff < 0) {
+            alert('Start date cannot later than today');
+        }
+        else {
+            this.modalConfirmUpdate.show();
+        }
     };
     RoudDetailTableComponent.prototype.checkDiffArr = function (arrOld, arr) {
         var arrNew = arr.map(function (obj) {

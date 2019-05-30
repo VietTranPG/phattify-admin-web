@@ -3,6 +3,8 @@ import { NgbCalendar, NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstra
 import * as _ from "lodash";
 import { HelperService } from '../../../services/helper-service/helper.service';
 import { ApiService } from '../../../services/api-service/api.service';
+import * as moment from 'moment';
+import { debug } from 'util';
 @Component({
   selector: 'roud-detail-table',
   templateUrl: './roud-detail-table.component.html',
@@ -16,11 +18,13 @@ export class RoudDetailTableComponent implements OnInit {
   oldData: any;
   editAll: boolean = false;
   test: any = new Date();
+  today: any;
   objectCompare:any={
     old:[],
     new:[]
   };
   constructor(private _helperService: HelperService,private _api:ApiService) {
+    this.today = moment().format('YYYY-MM-DD');
   }
   ngOnChanges() {
     this.roundDetail.forEach(e => {
@@ -54,7 +58,13 @@ export class RoudDetailTableComponent implements OnInit {
   }
   edit() {
     this.objectCompare=this.checkDiffArr(this.oldData, this.roundDetail);
-    this.modalConfirmUpdate.show();
+    const { createdAt } = this.objectCompare.new[0];
+    const diff = moment().diff(moment(createdAt, 'YYYY-MM-DD'), 'days');
+    if(diff < 0) {
+      alert('Start date cannot later than today');
+    } else {
+      this.modalConfirmUpdate.show();
+    }
   }
   checkDiffArr(arrOld, arr) {
     let arrNew = arr.map(function (obj) {
