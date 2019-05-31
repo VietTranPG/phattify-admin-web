@@ -348,7 +348,7 @@ module.exports = "<div class=\"loading\" [hidden]='!showloading'>\r\n  <div clas
 /***/ "./src/app/app.component.scss":
 /***/ (function(module, exports) {
 
-module.exports = ".loading {\n  /* -webkit-animation:fadein 2s;\r\n       -moz-animation:fadein 2s;\r\n         -o-animation:fadein 2s;\r\n            animation:fadein 2s; */ }\n\n@-webkit-keyframes fadein {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes fadein {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.spinner-wrapper {\n  min-width: 100%;\n  min-height: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  background: rgba(255, 255, 255, 0.93);\n  position: fixed;\n  z-index: 9999; }\n\n.spinner-text {\n  position: absolute;\n  top: 41.5%;\n  left: 47%;\n  margin: 16px 0 0 35px;\n  font-size: 9px;\n  font-family: Arial;\n  color: #BBB;\n  letter-spacing: 1px;\n  font-weight: 700; }\n\n.spinner {\n  margin: 0;\n  display: block;\n  position: absolute;\n  left: 45%;\n  top: 40%;\n  border: 25px solid rgba(100, 100, 100, 0.2);\n  width: 1px;\n  height: 1px;\n  border-left-color: transparent;\n  border-right-color: transparent;\n  border-radius: 50px;\n  -webkit-animation: spin 1.5s infinite;\n  animation: spin 1.5s infinite; }\n\n@-webkit-keyframes spin {\n  0%, 100% {\n    -webkit-transform: rotate(0deg) scale(1); }\n  50% {\n    -webkit-transform: rotate(720deg) scale(0.6); } }\n\n@keyframes spin {\n  0%, 100% {\n    -webkit-transform: rotate(0deg) scale(1);\n            transform: rotate(0deg) scale(1); }\n  50% {\n    -webkit-transform: rotate(720deg) scale(0.6);\n            transform: rotate(720deg) scale(0.6); } }\n\ninput[type=date]::-webkit-inner-spin-button,\ninput[type=date]::-webkit-outer-spin-button {\n  -webkit-appearance: none; }\n"
+module.exports = ".loading {\n  /* -webkit-animation:fadein 2s;\r\n       -moz-animation:fadein 2s;\r\n         -o-animation:fadein 2s;\r\n            animation:fadein 2s; */ }\n\n@-webkit-keyframes fadein {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n@keyframes fadein {\n  from {\n    opacity: 0; }\n  to {\n    opacity: 1; } }\n\n.spinner-wrapper {\n  min-width: 100%;\n  min-height: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  background: rgba(255, 255, 255, 0.93);\n  position: fixed;\n  z-index: 9999; }\n\n.spinner-text {\n  position: absolute;\n  top: 41.5%;\n  left: 47%;\n  margin: 16px 0 0 35px;\n  font-size: 9px;\n  font-family: Arial;\n  color: #BBB;\n  letter-spacing: 1px;\n  font-weight: 700; }\n\n.spinner {\n  margin: 0;\n  display: block;\n  position: absolute;\n  left: 45%;\n  top: 40%;\n  border: 25px solid rgba(100, 100, 100, 0.2);\n  width: 1px;\n  height: 1px;\n  border-left-color: transparent;\n  border-right-color: transparent;\n  border-radius: 50px;\n  -webkit-animation: spin 1.5s infinite;\n  animation: spin 1.5s infinite; }\n\n@-webkit-keyframes spin {\n  0%, 100% {\n    -webkit-transform: rotate(0deg) scale(1); }\n  50% {\n    -webkit-transform: rotate(720deg) scale(0.6); } }\n\n@keyframes spin {\n  0%, 100% {\n    -webkit-transform: rotate(0deg) scale(1);\n            transform: rotate(0deg) scale(1); }\n  50% {\n    -webkit-transform: rotate(720deg) scale(0.6);\n            transform: rotate(720deg) scale(0.6); } }\n"
 
 /***/ }),
 
@@ -2984,9 +2984,12 @@ var RoundInfoComponent = /** @class */ (function () {
             round: Object.assign(this.roundInfoForm.value),
             stages: this.stages
         };
+        var start = __WEBPACK_IMPORTED_MODULE_4_moment__(request.round.StartDate, 'YYYY-MM-DD');
+        var end = __WEBPACK_IMPORTED_MODULE_4_moment__(request.round.EndDate, 'YYYY-MM-DD');
         request.round.StartDate = this.userTimeZone ? this._helper.convertTimeToUTCByTimeZone(request.round.StartDate, this.userTimeZone) : this._helper.convertTimeToUTC(request.round.StartDate);
         request.round.EndDate = this.userTimeZone ? this._helper.convertTimeToUTCByTimeZone(request.round.EndDate, this.userTimeZone) : this._helper.convertTimeToUTC(request.round.EndDate);
         request.round.Id = this.currentRound.RoundId;
+        request.round.NumberOfProgramDays = end.diff(start, 'days') + 1;
         console.log(request, this.stages);
         var caculateDayOfRound = this._helper.subDate(request.round.EndDate, request.round.StartDate);
         if (caculateDayOfRound > 150) {

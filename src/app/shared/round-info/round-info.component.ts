@@ -184,9 +184,12 @@ export class RoundInfoComponent implements OnInit {
       round: Object.assign(this.roundInfoForm.value),
       stages: this.stages
     }
+    const start = moment(request.round.StartDate, 'YYYY-MM-DD');
+    const end = moment(request.round.EndDate, 'YYYY-MM-DD');
     request.round.StartDate = this.userTimeZone ? this._helper.convertTimeToUTCByTimeZone(request.round.StartDate, this.userTimeZone) : this._helper.convertTimeToUTC(request.round.StartDate);
     request.round.EndDate = this.userTimeZone ? this._helper.convertTimeToUTCByTimeZone(request.round.EndDate, this.userTimeZone) : this._helper.convertTimeToUTC(request.round.EndDate)
     request.round.Id = this.currentRound.RoundId;
+    request.round.NumberOfProgramDays = end.diff(start, 'days') + 1;
     console.log(request, this.stages);
     let caculateDayOfRound = this._helper.subDate(request.round.EndDate, request.round.StartDate);
     if (caculateDayOfRound > 150) {
