@@ -180,10 +180,17 @@ export class RoundInfoComponent implements OnInit {
       this._helper.markFormGroupTouched(this.roundInfoForm);
       return;
     }
+    for(let i = 0; i< this.stages.length; i++) {
+      const start = moment(this.stages[i].StartDate, 'YYYY-MM-DD');
+      const end = moment(this.stages[i].EndDate, 'YYYY-MM-DD');
+      const diff = end.diff(start, 'days');
+      this.stages[i].DayOfStages = diff + 1;
+    }
     let request = {
       round: Object.assign(this.roundInfoForm.value),
       stages: this.stages
     }
+    
     const start = moment(request.round.StartDate, 'YYYY-MM-DD');
     const end = moment(request.round.EndDate, 'YYYY-MM-DD');
     request.round.StartDate = this.userTimeZone ? this._helper.convertTimeToUTCByTimeZone(request.round.StartDate, this.userTimeZone) : this._helper.convertTimeToUTC(request.round.StartDate);

@@ -2980,6 +2980,12 @@ var RoundInfoComponent = /** @class */ (function () {
             this._helper.markFormGroupTouched(this.roundInfoForm);
             return;
         }
+        for (var i = 0; i < this.stages.length; i++) {
+            var start_1 = __WEBPACK_IMPORTED_MODULE_4_moment__(this.stages[i].StartDate, 'YYYY-MM-DD');
+            var end_1 = __WEBPACK_IMPORTED_MODULE_4_moment__(this.stages[i].EndDate, 'YYYY-MM-DD');
+            var diff = end_1.diff(start_1, 'days');
+            this.stages[i].DayOfStages = diff + 1;
+        }
         var request = {
             round: Object.assign(this.roundInfoForm.value),
             stages: this.stages
