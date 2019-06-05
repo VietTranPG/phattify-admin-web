@@ -265,4 +265,8 @@ export class ApiService {
     const url = SERVER_URL + 'error-mentor';
     return this.http.put(url,body);
   }
+  deleteRoundDetail(id){
+    const url = SERVER_URL + 'rounddetails?Id=' + id;
+    return this.http.delete(url);
+  }
 }

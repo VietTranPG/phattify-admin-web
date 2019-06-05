@@ -21,6 +21,7 @@
               [disabled]='!rd.enable'></td>
           <td>
             <button *ngIf="!rd.enable" class="btn btn-warning" (click)="showEdit(i)">Edit</button>
+            <button *ngIf="!rd.enable" class="btn btn-danger" (click)="remove(i)">Delete</button>
             <button *ngIf="rd.enable" class="btn btn-success" (click)="edit(i)">Save</button>
             <button *ngIf="rd.enable" class="btn btn-danger" (click)="closeEdit(i)">Close</button>
           </td>

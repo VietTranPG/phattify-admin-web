@@ -5,6 +5,7 @@ import { HelperService } from '../../../services/helper-service/helper.service';
 import { ApiService } from '../../../services/api-service/api.service';
 import * as moment from 'moment';
 import { debug } from 'util';
+import { STATUS } from '../../../constants/config';
 @Component({
   selector: 'roud-detail-table',
   templateUrl: './roud-detail-table.component.html',
@@ -43,6 +44,20 @@ export class RoudDetailTableComponent implements OnInit {
         e.enable = true;
       });
     }
+  }
+  remove(index) {
+    debugger;
+    const Id = this.roundDetail[index].RoundDetailId;
+
+    this._api.deleteRoundDetail(Id).subscribe((res: any) => {
+      this._helperService.toggleLoading(false);
+      if (res.status == STATUS.error) {
+        alert(res.message)
+      } else {
+        alert(res.status)
+      }
+    }, err => {
+      this._helperService.toggleLoading(false)})
   }
   closeEdit(index) {
     if (typeof (index) == 'number') {
