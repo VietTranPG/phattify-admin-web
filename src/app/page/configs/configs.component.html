@@ -61,7 +61,7 @@
     </button>
   </div>
   <div class="app-modal-body">
-    <div class="container">
+    <div class="container" id="scrolling-container">
       <quill-editor [(ngModel)]="quill" [options]="editorConfig" (ready)="onEditorCreated($event)"
         (change)="onContentChanged($event)">
       </quill-editor>

@@ -34,12 +34,12 @@ export class ConfigsComponent implements OnInit {
     this.getConfig();
   }
   getConfig() {
-    this._helper.toggleLoadng(true);
+    this._helper.toggleLoading(true);
     this._api.getAppConfig().subscribe(res => {
       this.configs = res['data'] as configModel;
-      this._helper.toggleLoadng(false);
+      this._helper.toggleLoading(false);
     }, err => {
-      this._helper.toggleLoadng(false)
+      this._helper.toggleLoading(false)
     })
   }
 
@@ -57,10 +57,13 @@ export class ConfigsComponent implements OnInit {
     this.quill = this.configs[type];
   }
   edit() {
-    this._helper.toggleLoadng(true);
-    let req = { type: this.typeEdit, content: this.quill };
+    this._helper.toggleLoading(true);
+    let req = { 
+      type: this.typeEdit, 
+      content: this.quill.replace('<a href=', '<a style="color: blue; text-decoration: underline" href=')
+    };
     this._api.updateAppConfig(req).subscribe(res => {
-      this._helper.toggleLoadng(false);
+      this._helper.toggleLoading(false);
       this.modalEditor.hide();
       if (res['status'] == 'error') {
         alert(res['message'])
@@ -68,7 +71,7 @@ export class ConfigsComponent implements OnInit {
         this.getConfig();
       }
     }, err => {
-      this._helper.toggleLoadng(false);
+      this._helper.toggleLoading(false);
     })
   }
 }

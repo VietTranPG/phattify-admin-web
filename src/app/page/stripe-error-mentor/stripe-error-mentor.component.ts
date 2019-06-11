@@ -19,16 +19,16 @@ export class StripeErrorMentorComponent implements OnInit {
     this.getListErrorMentor();
   }
   getListErrorMentor() {
-    this._helper.toggleLoadng(true);
+    this._helper.toggleLoading(true);
     this._api.getErrorMentor().subscribe((res: any) => {
-      this._helper.toggleLoadng(false);
+      this._helper.toggleLoading(false);
       if (res.status == STATUS.error) {
         alert(res.message)
         return;
       }
       this.listMentor = res.data
     }, err => {
-      this._helper.toggleLoadng(true);
+      this._helper.toggleLoading(true);
     })
   }
   showModalConfirm(id) {
@@ -36,9 +36,9 @@ export class StripeErrorMentorComponent implements OnInit {
     this.modalConfirm.show();
   }
   upgrade() {
-    this._helper.toggleLoadng(true);
+    this._helper.toggleLoading(true);
     this._api.updateErrorMentor({ Id: this.userId }).subscribe((res: any) => {
-      this._helper.toggleLoadng(false);
+      this._helper.toggleLoading(false);
       this.modalConfirm.hide();
       if (res.status == STATUS.error) {
         alert(res.message)
@@ -47,7 +47,7 @@ export class StripeErrorMentorComponent implements OnInit {
         alert(res.status)
       }
     }, err => {
-      this._helper.toggleLoadng(false)})
+      this._helper.toggleLoading(false)})
   }
 
 }

@@ -34,6 +34,7 @@ export class ClientInfoComponent implements OnInit {
   mentorEmail: any;
   countries: any;
   checkDeleteFromMentor: any;
+  showClientDetail:boolean = false;
   constructor(
     private router: ActivatedRoute,
     private _api: ApiService,
@@ -50,12 +51,12 @@ export class ClientInfoComponent implements OnInit {
     });
   }
   getAllData() {
-    this._helper.toggleLoadng(true);
+    this._helper.toggleLoading(true);
     const getClientInfoPromise = this._api.getClientInfo(this.idClient);
     const getListMentorPromise = this._api.getListMentor();
     const getListCountry = this._api.getListCountry();
     Promise.all([getClientInfoPromise, getListMentorPromise, getListCountry]).then((values: any) => {
-      this._helper.toggleLoadng(false);
+      this._helper.toggleLoading(false);
       //  process getClientInfo
       this.clientInfo = values[0].data;
       this.healthList = values[0].data.Health;
@@ -68,7 +69,7 @@ export class ClientInfoComponent implements OnInit {
       // process get List Country
       this.countries = values[2].data;
     }).catch(err => {
-      this._helper.toggleLoadng(false);
+      this._helper.toggleLoading(false);
     });
   }
   getClientInfo() {
@@ -175,9 +176,9 @@ export class ClientInfoComponent implements OnInit {
     const data = {
       'password': this.changePasswordForm.value.password
     };
-    this._helper.toggleLoadng(true);
+    this._helper.toggleLoading(true);
     this._api.changePassword(data, this.idClient).then(res => {
-      this._helper.toggleLoadng(false);
+      this._helper.toggleLoading(false);
       if (res['status'] === STATUS.error) {
         this.changePasswordForm.reset();
         this.toast.addToast({
@@ -237,10 +238,10 @@ export class ClientInfoComponent implements OnInit {
   }
   delete() {
     this.modalDelete.hide();
-    this._helper.toggleLoadng(true);
+    this._helper.toggleLoading(true);
     this._api.deleteMentee(this.clientInfo.Id).then((res: any) => {
       this.checkShowDelete = false;
-      this._helper.toggleLoadng(false);
+      this._helper.toggleLoading(false);
       if (res.status === STATUS.error) {
         this.toast.addToast({
           title: 'Message',
@@ -264,15 +265,15 @@ export class ClientInfoComponent implements OnInit {
         }, 2000);
       }
     }).catch(err => {
-      this._helper.toggleLoadng(true);
+      this._helper.toggleLoading(true);
     });
   }
   deleteFromMentor() {
     this.modalDelete.hide();
-    this._helper.toggleLoadng(true);
+    this._helper.toggleLoading(true);
     this._api.deleteMenteeFromMentor(this.clientInfo.MentorId, this.clientInfo.Id).subscribe((res: any) => {
       this.checkShowDelete = false;
-      this._helper.toggleLoadng(false);
+      this._helper.toggleLoading(false);
       if (res.status === STATUS.error) {
         this.toast.addToast({
           title: 'Message',
@@ -295,16 +296,16 @@ export class ClientInfoComponent implements OnInit {
         this.getAllData();
       }
     }, err => {
-      this._helper.toggleLoadng(true);
+      this._helper.toggleLoading(true);
     })
   }
   deleteRound() {
     this.modalDelete.hide();
-    this._helper.toggleLoadng(true);
+    this._helper.toggleLoading(true);
     if (this.clientInfo.RoundId) {
       this._api.deleteRound(this.clientInfo.RoundId).then((res: any) => {
         this.checkShowWipeData = false;
-        this._helper.toggleLoadng(false);
+        this._helper.toggleLoading(false);
         if (res.status === STATUS.error) {
           this.toast.addToast({
             title: 'Message',
@@ -327,7 +328,7 @@ export class ClientInfoComponent implements OnInit {
         }
       }, err => {
         console.log(err);
-        this._helper.toggleLoadng(false);
+        this._helper.toggleLoading(false);
       });
     }
   }
@@ -336,9 +337,9 @@ export class ClientInfoComponent implements OnInit {
       'MentorId': this.clientInfoForm.value.mentor,
       'MenteeId': this.idClient
     };
-    this._helper.toggleLoadng(true);
+    this._helper.toggleLoading(true);
     this._api.assignMentor(data).then((res: any) => {
-      this._helper.toggleLoadng(false);
+      this._helper.toggleLoading(false);
       if (res.status === STATUS.error || res.data === 'not ok') {
         this.modalAssign.hide();
         this.toast.addToast({
@@ -366,7 +367,7 @@ export class ClientInfoComponent implements OnInit {
     }, err => {
       console.log(err);
       this.modalAssign.hide();
-      this._helper.toggleLoadng(false);
+      this._helper.toggleLoading(false);
     });
   }
   showModalAssign() {
@@ -410,9 +411,9 @@ export class ClientInfoComponent implements OnInit {
       data.RoundId = this.clientInfo.RoundId;
     }
     // call api save info
-    this._helper.toggleLoadng(true);
+    this._helper.toggleLoading(true);
     this._api.adminUpdateClient(data).then((res: any) => {
-    this._helper.toggleLoadng(false);
+    this._helper.toggleLoading(false);
       if (res.status === 'error') {
        
       } else {
@@ -422,7 +423,7 @@ export class ClientInfoComponent implements OnInit {
         });
       }
     }).catch(err => {
-      this._helper.toggleLoadng(false);
+      this._helper.toggleLoading(false);
       this.toast.addToast({
         title: 'Message', msg: err.message,
         timeout: 5000, theme: 'material', position: 'top-right', type: 'error'

@@ -23,7 +23,7 @@
   }
   &.modal-custom {
     .modal-dialog {
-      @media screen and (min-width: 600px) {
+      @media screen and (min-width: 768px) {
         max-width: 60vw;
       }
     }
@@ -68,5 +68,11 @@
     text-transform: uppercase;
     display: inline-block;
     margin-right: 10px;
+  }
+}
+
+.modal--confirm-update {
+  .modal-header, .modal-content, .modal-footer {
+      border: 0;
   }
 }

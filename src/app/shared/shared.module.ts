@@ -23,6 +23,13 @@ import {QuillEditorModule} from 'ngx-quill-editor';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 
 import { ChipsComponent } from './chips/chips.component';
+import { RoundInfoComponent } from './round-info/round-info.component';
+import { RoudDetailTableComponent } from './round-info/roud-detail-table/roud-detail-table.component';
+import { FormatTimeUtcPipe } from '../pipes/format-time-utc.pipe';
+import { TextMaskModule } from 'angular2-text-mask';
+import { FormatTimePipe } from '../pipes/format-time.pipe';
+import { MeasurementTableComponent } from './round-info/measurement-table/measurement-table.component';
+import { OrderByPipe } from '../pipes/order-by.pipe';
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
 };
@@ -38,7 +45,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     QuillEditorModule,
     FormsModule,
     ReactiveFormsModule,
-
+    TextMaskModule
   ],
   exports: [
     NgbModule,
@@ -58,7 +65,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     DataFilterPipe,
     FormatNumberPipe,
     ToastComponent,
-    EmailComposeComponent
+    EmailComposeComponent,
+    RoundInfoComponent,FormatTimePipe,OrderByPipe
   ],
   declarations: [
     ToggleFullScreenDirective,
@@ -73,9 +81,15 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     SpinnerComponent,
     DataFilterPipe,
     FormatNumberPipe,
+    OrderByPipe,
     ToastComponent,
     EmailComposeComponent,
-    ChipsComponent
+    ChipsComponent,
+    RoundInfoComponent,
+    RoudDetailTableComponent,
+    FormatTimeUtcPipe,
+    FormatTimePipe,
+    MeasurementTableComponent
   ],
   providers: [
     {

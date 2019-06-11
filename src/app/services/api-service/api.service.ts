@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SERVER_URL, CACHE_SERVICE } from '../../constants/config';
 import { CacheService, CacheStoragesEnum } from 'ng2-cache';
+import * as moment from 'moment';
 @Injectable()
 export class ApiService {
   url = SERVER_URL;
@@ -235,6 +236,26 @@ export class ApiService {
   updateAppConfig(body){
     const url = SERVER_URL + 'config';
     return this.http.put(url,body);
+  }
+  getRoundAndMeansurementByUserId(userId){
+    const url = SERVER_URL + 'admin-round?UserId='+userId;
+    return this.http.get(url);
+  }
+  getStagesByRoundId(RoundId){
+    const url = SERVER_URL + 'admin-round?RoundId='+RoundId;
+    return this.http.get(url);
+  }
+  updateRoundDetails(rds){
+    const url = SERVER_URL + 'admin-round';
+    return this.http.put(url,rds);
+  }
+  updateRoundInfo(round){
+    const url = SERVER_URL + 'admin-round';
+    return this.http.post(url,round);
+  }
+  updateMeasurements(measurements){
+    const url = SERVER_URL + 'admin-round';
+    return this.http.patch(url,measurements);
   }
   getErrorMentor(){
     const url = SERVER_URL + 'error-mentor';

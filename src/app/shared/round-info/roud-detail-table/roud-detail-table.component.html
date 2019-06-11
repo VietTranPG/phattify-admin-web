@@ -1,0 +1,86 @@
+<app-card>
+  <div class="table-responsive">
+    <table class="table table-xl">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Created Date</th>
+          <th>Weight</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let rd of roundDetail;let i = index">
+          <td scope="row">{{i + 1}}</td>
+          <td>
+            <input type="date" class="form-control inline-edit" [max]='today'
+              [ngModel]="rd.createdAt |formatTime:'UTCtoLocal':userTimeZone |date:'yyyy-MM-dd'"
+              (ngModelChange)="rd.createdAt = $event" [disabled]='!rd.enable'>
+          </td>
+          <td><input type="number" class="form-control inline-edit" [(ngModel)]="rd.CurrentWeight"
+              [disabled]='!rd.enable'></td>
+          <td>
+            <button *ngIf="!rd.enable" class="btn btn-warning" (click)="showEdit(i)">Edit</button>
+            <button *ngIf="rd.enable" class="btn btn-success" (click)="edit(i)">Save</button>
+            <button *ngIf="rd.enable" class="btn btn-danger" (click)="closeEdit(i)">Close</button>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot *ngIf="roundDetail.length>2">
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>
+            <button *ngIf="!editAll" class="btn btn-primary" (click)="showEdit()">Edit All</button>
+            <button *ngIf="editAll" class="btn btn-success" (click)="closeEdit()">Save All</button>
+            <button *ngIf="editAll" class="btn btn-danger" (click)="closeEdit()">Close All</button>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</app-card>
+
+<app-modal-basic #modalConfirmUpdate class="modal--confirm-update">
+  <div class="app-modal-header modal--header">
+    <button type="button" class="close basic-close" (click)="cancelUpdate()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="app-modal-body modal--body">
+    <p>Please confirm the changes that you want to make</p>
+    <div class="confirm__row">
+      <div class="confirm__col flex-wrap">
+        <div class="confirm__col-header">
+          Before
+        </div>
+        <div class="confirm__block" *ngFor="let item of objectCompare.old">
+          <div class="confirm__col date">
+            {{item.createdAt}}
+          </div>
+          <div class="confirm__col value">
+            {{item.CurrentWeight}}
+          </div>
+        </div>
+      </div>
+      <div class="confirm__col flex-wrap">
+        <div class="confirm__col-header">
+          After
+        </div>
+        <div class="confirm__block" *ngFor="let item of objectCompare.new">
+          <div class="confirm__col date">
+            {{item.createdAt}}
+          </div>
+          <div class="confirm__col value">
+            {{item.CurrentWeight}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="app-modal-footer">
+    <button type="button" class="btn btn-warning ripple" (click)="cancelUpdate()">Close</button>
+    <button type="button" class="btn btn-primary btn-outline-primary ripple light" (click)="update()">Update</button>
+  </div>
+</app-modal-basic>
