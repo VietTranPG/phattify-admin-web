@@ -12,6 +12,7 @@ export class MeasurementTableComponent implements OnInit {
   @Input() measurements:any;
   @Input() userTimeZone:any;
   @ViewChild('modalConfirmUpdate') modalConfirmUpdate:any;
+  @ViewChild('ModalConfirmDelete') modalConfirmDelete:any;
   @Output() onUpdateSuccess = new EventEmitter;
   objectCompare:any;
   oldData:any;
@@ -44,6 +45,9 @@ export class MeasurementTableComponent implements OnInit {
 
     });
     this.oldData = this._helperService.cloneArray(this.measurements);
+  }
+  confirmDelete() {
+
   }
   showEdit(index) {
     if (typeof (index) == 'number') {

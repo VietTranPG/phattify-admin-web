@@ -12,7 +12,7 @@
           <th>LeftThigh</th>
           <th>RightThigh</th>
           <th>createdAt</th>
-          <th></th>
+          <th><button class="btn btn-success" (click)="showEdit(i)">Add</button></th>
         </tr>
       </thead>
       <tbody>
@@ -39,6 +39,7 @@
           </td>
           <td>
             <button *ngIf="!m.enable" class="btn btn-warning" (click)="showEdit(i)">Edit</button>
+            <button *ngIf="!m.enable" class="btn btn-danger" (click)="confirmDelete(i)">Remove</button>
             <button *ngIf="m.enable" class="btn btn-success" (click)="edit(i)">Save</button>
             <button *ngIf="m.enable" class="btn btn-danger" (click)="closeEdit(i)">Close</button>
           </td>

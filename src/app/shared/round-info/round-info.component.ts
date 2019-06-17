@@ -12,13 +12,17 @@ import * as _ from "lodash";
 export class RoundInfoComponent implements OnInit {
   @Input() UserId: any;
   @ViewChild('modalChangeRoundInfo') modalChangeRoundInfo: any;
+  @ViewChild('modalAddNewRound') modalAddNewRound: any;
+  @ViewChild('modalConfirmDelete') modalConfirmDelete: any;
   rounds: any = [];
   currentRound: any;
   measurements: any = [];
   userTimeZone: any;
   roundInfoForm: FormGroup;
+  roundAddForm: FormGroup;
   roundInfo: any;
   stages: any = [];
+  roundId: any;
   constructor(private _api: ApiService, private fb: FormBuilder, private _helper: HelperService) { }
   ngOnInit() {
     this.roundInfo = {
@@ -55,6 +59,11 @@ export class RoundInfoComponent implements OnInit {
     this.getRoundData(this.UserId);
   }
   initForm(roundInfo, stages?) {
+    this.roundAddForm = this.fb.group({
+      StartDate: [roundInfo.StartDate, Validators.required],
+      StartWeight: [roundInfo.StartWeight, [Validators.required,Validators.min(0)]],
+      TargetWeight: [roundInfo.TargetWeight, [Validators.required,Validators.min(0)]],
+    })
     this.roundInfoForm = this.fb.group({
       StartDate: [roundInfo.StartDate, Validators.required],
       EndDate: [roundInfo.EndDate, Validators.required],
@@ -103,6 +112,45 @@ export class RoundInfoComponent implements OnInit {
     this.currentRound = r;
     this.initForm(r);
     this.getStages(r);
+  }
+  openModalAddRound() {
+    this.modalAddNewRound.show();
+  }
+  openModalDelete(r) {
+    this.roundId = r.RoundId
+    this.modalConfirmDelete.show();
+  }
+  addRound() {
+    const request = {
+      userId: this.UserId,
+      formType: "RoundNormal",
+      startDate: this.roundAddForm.value['StartDate'],
+      startWeight: this.roundAddForm.value['StartWeight'],
+      targetWeight: this.roundAddForm.value['TargetWeight'],
+      unitOfHeight: 'Centimetres',
+      unitOfWeight: 'Kilograms'
+    }
+    this._api.addNewRound(request).subscribe(res => {
+      this._helper.toggleLoading(false);
+      this.modalAddNewRound.hide();
+      this.getRoundData(this.UserId);
+    }, err => {
+      this._helper.toggleLoading(false);
+    })
+  }
+  removeRound(){
+    this._helper.toggleLoading(true);
+    this._api.deleteRound(this.roundId).then((res: any) => {
+      this.getRoundData(this.UserId);
+      this._helper.toggleLoading(false);
+      this.modalConfirmDelete.hide();
+    }, err => {
+      console.log(err);
+      this._helper.toggleLoading(false);
+    });
+  }
+  hideDelete() {
+    this.modalConfirmDelete.hide();
   }
   getStages(r) {
     this._api.getStagesByRoundId(r.RoundId).subscribe((res: any) => {

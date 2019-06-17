@@ -16,16 +16,21 @@ export class RoudDetailTableComponent implements OnInit {
   @Input() userTimeZone: any;
   @Output() onUpdateSuccess = new EventEmitter();
   @ViewChild('modalConfirmUpdate') modalConfirmUpdate:any;
+  @ViewChild('modalAdd') modalAdd:any;
   oldData: any;
   editAll: boolean = false;
   test: any = new Date();
   today: any;
+  createdDate: any;
+  weight: any;
   objectCompare:any={
     old:[],
     new:[]
   };
   constructor(private _helperService: HelperService,private _api:ApiService) {
     this.today = moment().format('YYYY-MM-DD');
+    this.createdDate = moment().format('YYYY-MM-DD');
+    this.weight = 0;
   }
   ngOnChanges() {
     this.roundDetail.forEach(e => {
@@ -46,7 +51,6 @@ export class RoudDetailTableComponent implements OnInit {
     }
   }
   remove(index) {
-    debugger;
     const Id = this.roundDetail[index].RoundDetailId;
 
     this._api.deleteRoundDetail(Id).subscribe((res: any) => {
@@ -81,6 +85,30 @@ export class RoudDetailTableComponent implements OnInit {
       this.modalConfirmUpdate.show();
     }
   }
+
+  showAddModal() {
+    this.modalAdd.show();
+  }
+
+  addRoundDetail() {
+    this._api.addRoundDetail({
+      
+    }).subscribe((res: any) => {
+      this._helperService.toggleLoading(false);
+      if (res.status == STATUS.error) {
+        alert(res.message)
+      } else {
+        alert(res.status)
+      }
+    }, err => {
+      this._helperService.toggleLoading(false)})
+    this.modalAdd.show();
+  }
+
+  hideAdd() {
+    this.modalAdd.hide();
+  }
+
   checkDiffArr(arrOld, arr) {
     let arrNew = arr.map(function (obj) {
       delete obj.enable;

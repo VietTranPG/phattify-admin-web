@@ -269,4 +269,20 @@ export class ApiService {
     const url = SERVER_URL + 'rounddetails?Id=' + id;
     return this.http.delete(url);
   }
+  addRoundDetail(body){
+    const url = SERVER_URL + 'rounddetails';
+    return this.http.post(url, body);
+  }
+  updateRoundDetail(body){
+    const url = SERVER_URL + 'rounddetails';
+    return this.http.patch(url, body);
+  }
+  addNewRound(body){
+    const url = SERVER_URL + 'round';
+    return this.http.post(url, body);
+  }
+  deleteMeasurements(id){
+    const url = SERVER_URL + 'measurement?Id=' + id;
+    return this.http.delete(url);
+  }
 }

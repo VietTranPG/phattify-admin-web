@@ -1,6 +1,7 @@
 <div class="col-md-12 card">
   <div class="card-round">
     <div class="card-header round-header">
+        <div><button class="btn btn-primary btn-outline-primary ripple light" (click)="openModalAddRound()">Add new round</button> </div>
       <h5>Round Information</h5>
       <div>User Time Zone: {{userTimeZone>=0?'+':'-'}}{{userTimeZone}}</div>
     </div>
@@ -13,6 +14,7 @@
         <div><button class="btn btn-primary btn-outline-primary ripple light" (click)="editRoundInfo(r)">Edit Round
             Detail</button> </div>
         <div><button class="btn btn-primary btn-outline-primary ripple light" (click)="r.showDetail=!r.showDetail">Show Round Detail</button> </div>
+        <div><button class="btn btn-primary btn-outline-primary ripple light" (click)="openModalDelete(r)">Remove</button> </div>
       </div>
       <roud-detail-table [roundDetail]='r.RoundDetail' [userTimeZone]='userTimeZone'
         (onUpdateSuccess)="updateSuccess($event)" *ngIf="r.showDetail"></roud-detail-table>
@@ -102,3 +104,67 @@
     <button type="button" class="btn btn-danger ripple light" (click)="changeRoundInfo()">Confirm</button>
   </div>
 </app-modal-basic>
+
+<app-modal-basic #modalAddNewRound>
+    <div class="app-modal-header">
+      <h4 class="modal-title">Round Info</h4>
+      <button type="button" class="close basic-close" (click)="modalAddNewRound.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="app-modal-body">
+      <div class="container">
+        <form class="form" [formGroup]="roundAddForm">
+          <div class="row">
+            <label class="col-md-4 col-form-label">StartDate </label>
+            <div class="col-md-8">
+              <div class="input-group">
+                <input type="date" formControlName="StartDate" class="form-control">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <label class="col-md-4 col-form-label">Start-Weight </label>
+            <div class="col-md-8">
+              <div class="input-group">
+                <input type="number" formControlName="StartWeight" class="form-control">
+              </div>
+              <p class="error-text" *ngIf="roundAddForm.controls.StartWeight.touched && !roundAddForm.controls.StartWeight.valid">
+                Start Weight must be > 0
+              </p>
+            </div>
+          </div>
+          <div class="row">
+            <label class="col-md-4 col-form-label">Target-Weight </label>
+            <div class="col-md-8">
+              <div class="input-group">
+                <input type="number" formControlName="TargetWeight" class="form-control">
+              </div>
+              <p class="error-text" *ngIf="roundAddForm.controls.TargetWeight.touched && !roundAddForm.controls.TargetWeight.valid">Target Weight must be > 0</p>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="app-modal-footer">
+      <button type="button" class="btn btn-default ripple" (click)="modalAddNewRound.hide()">Close</button>
+      <button type="button" class="btn btn-danger ripple light" [disabled]="roundAddForm.invalid" (click)="addRound()">Confirm</button>
+    </div>
+  </app-modal-basic>
+
+  <app-modal-basic #modalConfirmDelete>
+      <div class="app-modal-header">
+        <h4 class="modal-title">Confirm</h4>
+        <button type="button" class="close basic-close" (click)="hideDelete()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="app-modal-body">
+        <p>Are you sure you want to delete this round?</p>
+      </div>
+
+      <div class="app-modal-footer">
+        <button type="button" class="btn btn-default ripple" (click)="hideDelete()">Close</button>
+        <button type="button" class="btn btn-danger ripple light" (click)="removeRound()">Delete</button>
+      </div>
+    </app-modal-basic>
