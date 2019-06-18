@@ -12,7 +12,7 @@
           <th>LeftThigh</th>
           <th>RightThigh</th>
           <th>createdAt</th>
-          <th><button class="btn btn-success" (click)="showEdit(i)">Add</button></th>
+          <th><button class="btn btn-success" (click)="showAdd()">Add</button></th>
         </tr>
       </thead>
       <tbody>
@@ -61,5 +61,116 @@
   <div class="app-modal-footer">
     <button type="button" class="btn btn-warning ripple" (click)="cancelUpdate()">Close</button>
     <button type="button" class="btn btn-primary btn-outline-primary ripple light" (click)="update()">Update</button>
+  </div>
+</app-modal-basic>
+
+<app-modal-basic #modalConfirmDelete class="modal--confirm-update">
+  <div class="app-modal-header modal--header">
+    <button type="button" class="close basic-close" (click)="cancelRemove()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="app-modal-body modal--body">
+    <p>Are you sure remove that?</p>
+  </div>
+  <div class="app-modal-footer">
+    <button type="button" class="btn btn-warning ripple" (click)="cancelRemove()">Close</button>
+    <button type="button" class="btn btn-primary btn-outline-primary ripple light" (click)="delete()">Remove</button>
+  </div>
+</app-modal-basic>
+
+<app-modal-basic #modalAddNew>
+  <div class="app-modal-header">
+    <h4 class="modal-title">Round Info</h4>
+    <button type="button" class="close basic-close" (click)="modalAddNew.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="app-modal-body">
+    <div class="container">
+      <form class="form" [formGroup]="addForm">
+        <div class="row">
+          <label class="col-md-4 col-form-label">Chest</label>
+          <div class="col-md-8">
+            <div class="input-group">
+              <input type="number" formControlName="Chest" class="form-control">
+            </div>
+            <p class="error-text" *ngIf="addForm.controls.Chest.touched && !addForm.controls.Chest.valid">
+              Start Weight must be > 0
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <label class="col-md-4 col-form-label">Waist</label>
+          <div class="col-md-8">
+            <div class="input-group">
+              <input type="number" formControlName="Waist" class="form-control">
+            </div>
+            <p class="error-text" *ngIf="addForm.controls.Waist.touched && !addForm.controls.Waist.valid">
+              Start Weight must be > 0
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <label class="col-md-4 col-form-label">Hips</label>
+          <div class="col-md-8">
+            <div class="input-group">
+              <input type="number" formControlName="Hips" class="form-control">
+            </div>
+            <p class="error-text" *ngIf="addForm.controls.Hips.touched && !addForm.controls.Hips.valid">
+              Start Weight must be > 0
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <label class="col-md-4 col-form-label">LeftArm</label>
+          <div class="col-md-8">
+            <div class="input-group">
+              <input type="number" formControlName="LeftArm" class="form-control">
+            </div>
+            <p class="error-text" *ngIf="addForm.controls.LeftArm.touched && !addForm.controls.LeftArm.valid">
+              Start Weight must be > 0
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <label class="col-md-4 col-form-label">RightArm</label>
+          <div class="col-md-8">
+            <div class="input-group">
+              <input type="number" formControlName="RightArm" class="form-control">
+            </div>
+            <p class="error-text" *ngIf="addForm.controls.RightArm.touched && !addForm.controls.RightArm.valid">
+              Start Weight must be > 0
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <label class="col-md-4 col-form-label">LeftThigh</label>
+          <div class="col-md-8">
+            <div class="input-group">
+              <input type="number" formControlName="LeftThigh" class="form-control">
+            </div>
+            <p class="error-text" *ngIf="addForm.controls.LeftThigh.touched && !addForm.controls.LeftThigh.valid">
+              Start Weight must be > 0
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <label class="col-md-4 col-form-label">RightThigh</label>
+          <div class="col-md-8">
+            <div class="input-group">
+              <input type="number" formControlName="RightThigh" class="form-control">
+            </div>
+            <p class="error-text" *ngIf="addForm.controls.RightThigh.touched && !addForm.controls.RightThigh.valid">
+              Start Weight must be > 0
+            </p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="app-modal-footer">
+    <button type="button" class="btn btn-default ripple" (click)="modalAddNew.hide()">Close</button>
+    <button type="button" class="btn btn-danger ripple light" [disabled]="addForm.invalid" (click)="addMeasurement()">Confirm</button>
   </div>
 </app-modal-basic>

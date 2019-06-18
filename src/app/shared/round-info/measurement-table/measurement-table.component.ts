@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormArray, FormGroupName } from '@angular/forms';
 import { HelperService } from '../../../services/helper-service/helper.service';
 import * as _ from 'lodash';
 import { ApiService } from '../../../services/api-service/api.service';
@@ -12,11 +13,14 @@ export class MeasurementTableComponent implements OnInit {
   @Input() measurements:any;
   @Input() userTimeZone:any;
   @ViewChild('modalConfirmUpdate') modalConfirmUpdate:any;
-  @ViewChild('ModalConfirmDelete') modalConfirmDelete:any;
+  @ViewChild('modalConfirmDelete') modalConfirmDelete:any;
+  @ViewChild('modalAddNew') modalAddNew: any;
   @Output() onUpdateSuccess = new EventEmitter;
   objectCompare:any;
   oldData:any;
-  constructor(private _helperService:HelperService,private _api:ApiService) { }
+  measureId: any;
+  addForm: FormGroup;
+  constructor(private _helperService:HelperService, private fb: FormBuilder, private _api:ApiService) { }
   private maskNumber = createNumberMask({
     prefix: '',
     suffix: '',
@@ -31,6 +35,7 @@ export class MeasurementTableComponent implements OnInit {
     allowLeadingZeroes: false
   });
   ngOnInit() {
+    this.initForm();
   }
   ngOnChanges() {
     this.measurements.forEach(e => {
@@ -46,8 +51,41 @@ export class MeasurementTableComponent implements OnInit {
     });
     this.oldData = this._helperService.cloneArray(this.measurements);
   }
-  confirmDelete() {
-
+  initForm() {
+    this.addForm = this.fb.group({
+      Chest: [0, [Validators.required,Validators.min(0)]],
+      Waist: [0, [Validators.required,Validators.min(0)]],
+      Hips: [0, [Validators.required,Validators.min(0)]],
+      LeftArm: [0, [Validators.required,Validators.min(0)]],
+      RightArm: [0, [Validators.required,Validators.min(0)]],
+      LeftThigh: [0, [Validators.required,Validators.min(0)]],
+      RightThigh: [0, [Validators.required,Validators.min(0)]]
+    })
+  }
+  confirmDelete(index) {
+    this.modalConfirmDelete.show();
+    this.measureId = this.measurements[index].Id;
+  }
+  cancelRemove() {
+    this.modalConfirmDelete.hide();
+  }
+  delete() {
+    this._helperService.toggleLoading(true);
+    this._api.deleteMeasurements(this.measureId).subscribe((res:any)=>{
+      this._helperService.toggleLoading(false);
+      if(res.status == 'success'){
+        this.modalConfirmDelete.hide();
+        window.location.reload();
+      }else{  
+        alert(res.message)
+      }
+    });
+  }
+  showAdd() {
+    this.modalAddNew.show();
+  }
+  addMeasurement() {
+    
   }
   showEdit(index) {
     if (typeof (index) == 'number') {
