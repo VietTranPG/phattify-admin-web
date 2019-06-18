@@ -723,10 +723,10 @@ var HomeService = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return GENDER; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CACHE_SERVICE; });
 // UAT
-var SERVER_URL = 'https://ilosemobileapp.azurewebsites.net/api/';
+// export const SERVER_URL = 'https://ilosemobileapp.azurewebsites.net/api/';
 // DEV
-// export const SERVER_URL = 'http://phattifymobileservice.azurewebsites.net/api/';
-// export const SERVER_URL = 'http://localhost:3000/api/';
+var SERVER_URL = 'https://phattifymobileservice.azurewebsites.net/api/';
+// export const SERVER_URL = 'http://localhost:3002/api/';
 //LIVE
 // export const SERVER_URL = 'https://ilose.azurewebsites.net/api/';
 var STATUS = {
@@ -1275,6 +1275,26 @@ var ApiService = /** @class */ (function () {
     ApiService.prototype.updateErrorMentor = function (body) {
         var url = __WEBPACK_IMPORTED_MODULE_2__constants_config__["c" /* SERVER_URL */] + 'error-mentor';
         return this.http.put(url, body);
+    };
+    ApiService.prototype.deleteRoundDetail = function (id) {
+        var url = __WEBPACK_IMPORTED_MODULE_2__constants_config__["c" /* SERVER_URL */] + 'rounddetails?Id=' + id;
+        return this.http.delete(url);
+    };
+    ApiService.prototype.addRoundDetail = function (body) {
+        var url = __WEBPACK_IMPORTED_MODULE_2__constants_config__["c" /* SERVER_URL */] + 'rounddetails';
+        return this.http.post(url, body);
+    };
+    ApiService.prototype.updateRoundDetail = function (body) {
+        var url = __WEBPACK_IMPORTED_MODULE_2__constants_config__["c" /* SERVER_URL */] + 'rounddetails';
+        return this.http.patch(url, body);
+    };
+    ApiService.prototype.addNewRound = function (body) {
+        var url = __WEBPACK_IMPORTED_MODULE_2__constants_config__["c" /* SERVER_URL */] + 'round';
+        return this.http.post(url, body);
+    };
+    ApiService.prototype.deleteMeasurements = function (id) {
+        var url = __WEBPACK_IMPORTED_MODULE_2__constants_config__["c" /* SERVER_URL */] + 'measurement?Id=' + id;
+        return this.http.delete(url);
     };
     ApiService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
@@ -2452,7 +2472,7 @@ var ModalBasicComponent = /** @class */ (function () {
 /***/ "./src/app/shared/round-info/measurement-table/measurement-table.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-card>\r\n  <div class=\"table-responsive\">\r\n    <table class=\"table table-xl\">\r\n      <thead>\r\n        <tr>\r\n          <th>#</th>\r\n          <th>Chest</th>\r\n          <th>Waist</th>\r\n          <th>Hips   </th>\r\n          <th>LeftArm</th>\r\n          <th>RightArm</th>\r\n          <th>LeftThigh</th>\r\n          <th>RightThigh</th>\r\n          <th>createdAt</th>\r\n          <th></th>\r\n        </tr>\r\n      </thead>\r\n      <tbody>\r\n        <tr *ngFor=\"let m of measurements;let i = index;\">\r\n          <td scope=\"row\">{{i + 1}}</td>\r\n          <td><input type=\"text\" class=\"form-control inline-edit\" [(ngModel)]=\"m.Chest\" [textMask]=\"{mask: maskNumber,guide:false}\" [disabled]='!m.enable'>\r\n          </td>\r\n          <td><input type=\"text\" class=\"form-control inline-edit\" [(ngModel)]=\"m.Waist\" [textMask]=\"{mask: maskNumber,guide:false}\" [disabled]='!m.enable'>\r\n          </td>\r\n          <td><input type=\"text\" class=\"form-control inline-edit\" [(ngModel)]=\"m.Hips\" [textMask]=\"{mask: maskNumber,guide:false}\" [disabled]='!m.enable'>\r\n          </td>\r\n          <td><input type=\"text\" class=\"form-control inline-edit\" [(ngModel)]=\"m.LeftArm\" [textMask]=\"{mask: maskNumber,guide:false}\" [disabled]='!m.enable'>\r\n          </td>\r\n          <td><input type=\"text\" class=\"form-control inline-edit\" [(ngModel)]=\"m.RightArm\" [textMask]=\"{mask: maskNumber,guide:false}\" [disabled]='!m.enable'>\r\n          </td>\r\n          <td><input type=\"text\" class=\"form-control inline-edit\" [(ngModel)]=\"m.LeftThigh\" [textMask]=\"{mask: maskNumber,guide:false}\" [disabled]='!m.enable'>\r\n          </td>\r\n          <td><input type=\"text\" class=\"form-control inline-edit\" [(ngModel)]=\"m.RightThigh\" [textMask]=\"{mask: maskNumber,guide:false}\" [disabled]='!m.enable'>\r\n          </td>\r\n          <td>\r\n            <input type=\"date\" class=\"form-control inline-edit\"\r\n              [ngModel]=\"m.createdAt |formatTime:'UTCtoLocal':userTimeZone |date:'yyyy-MM-dd'\"\r\n              (ngModelChange)=\"m.createdAt = $event\" [disabled]='!m.enable'>\r\n          </td>\r\n          <td>\r\n            <button *ngIf=\"!m.enable\" class=\"btn btn-warning\" (click)=\"showEdit(i)\">Edit</button>\r\n            <button *ngIf=\"m.enable\" class=\"btn btn-success\" (click)=\"edit(i)\">Save</button>\r\n            <button *ngIf=\"m.enable\" class=\"btn btn-danger\" (click)=\"closeEdit(i)\">Close</button>\r\n          </td>\r\n        </tr>\r\n      </tbody>\r\n    </table>\r\n  </div>\r\n</app-card>\r\n\r\n<app-modal-basic #modalConfirmUpdate class=\"modal--confirm-update\">\r\n  <div class=\"app-modal-header modal--header\">\r\n    <button type=\"button\" class=\"close basic-close\" (click)=\"cancelUpdate()\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"app-modal-body modal--body\">\r\n    <p>Are you sure change that?</p>\r\n  </div>\r\n  <div class=\"app-modal-footer\">\r\n    <button type=\"button\" class=\"btn btn-warning ripple\" (click)=\"cancelUpdate()\">Close</button>\r\n    <button type=\"button\" class=\"btn btn-primary btn-outline-primary ripple light\" (click)=\"update()\">Update</button>\r\n  </div>\r\n</app-modal-basic>"
+module.exports = "<app-card>\r\n  <div class=\"table-responsive\">\r\n    <table class=\"table table-xl\">\r\n      <thead>\r\n        <tr>\r\n          <th>#</th>\r\n          <th>Chest</th>\r\n          <th>Waist</th>\r\n          <th>Hips   </th>\r\n          <th>LeftArm</th>\r\n          <th>RightArm</th>\r\n          <th>LeftThigh</th>\r\n          <th>RightThigh</th>\r\n          <th>createdAt</th>\r\n          <th><button class=\"btn btn-success\" (click)=\"showAdd()\">Add</button></th>\r\n        </tr>\r\n      </thead>\r\n      <tbody>\r\n        <tr *ngFor=\"let m of measurements;let i = index;\">\r\n          <td scope=\"row\">{{i + 1}}</td>\r\n          <td><input type=\"text\" class=\"form-control inline-edit\" [(ngModel)]=\"m.Chest\" [textMask]=\"{mask: maskNumber,guide:false}\" [disabled]='!m.enable'>\r\n          </td>\r\n          <td><input type=\"text\" class=\"form-control inline-edit\" [(ngModel)]=\"m.Waist\" [textMask]=\"{mask: maskNumber,guide:false}\" [disabled]='!m.enable'>\r\n          </td>\r\n          <td><input type=\"text\" class=\"form-control inline-edit\" [(ngModel)]=\"m.Hips\" [textMask]=\"{mask: maskNumber,guide:false}\" [disabled]='!m.enable'>\r\n          </td>\r\n          <td><input type=\"text\" class=\"form-control inline-edit\" [(ngModel)]=\"m.LeftArm\" [textMask]=\"{mask: maskNumber,guide:false}\" [disabled]='!m.enable'>\r\n          </td>\r\n          <td><input type=\"text\" class=\"form-control inline-edit\" [(ngModel)]=\"m.RightArm\" [textMask]=\"{mask: maskNumber,guide:false}\" [disabled]='!m.enable'>\r\n          </td>\r\n          <td><input type=\"text\" class=\"form-control inline-edit\" [(ngModel)]=\"m.LeftThigh\" [textMask]=\"{mask: maskNumber,guide:false}\" [disabled]='!m.enable'>\r\n          </td>\r\n          <td><input type=\"text\" class=\"form-control inline-edit\" [(ngModel)]=\"m.RightThigh\" [textMask]=\"{mask: maskNumber,guide:false}\" [disabled]='!m.enable'>\r\n          </td>\r\n          <td>\r\n            <input type=\"date\" class=\"form-control inline-edit\"\r\n              [ngModel]=\"m.createdAt |formatTime:'UTCtoLocal':userTimeZone |date:'yyyy-MM-dd'\"\r\n              (ngModelChange)=\"m.createdAt = $event\" [disabled]='!m.enable'>\r\n          </td>\r\n          <td>\r\n            <button *ngIf=\"!m.enable\" class=\"btn btn-warning\" (click)=\"showEdit(i)\">Edit</button>\r\n            <button *ngIf=\"!m.enable\" class=\"btn btn-danger\" (click)=\"confirmDelete(i)\">Remove</button>\r\n            <button *ngIf=\"m.enable\" class=\"btn btn-success\" (click)=\"edit(i)\">Save</button>\r\n            <button *ngIf=\"m.enable\" class=\"btn btn-danger\" (click)=\"closeEdit(i)\">Close</button>\r\n          </td>\r\n        </tr>\r\n      </tbody>\r\n    </table>\r\n  </div>\r\n</app-card>\r\n\r\n<app-modal-basic #modalConfirmUpdate class=\"modal--confirm-update\">\r\n  <div class=\"app-modal-header modal--header\">\r\n    <button type=\"button\" class=\"close basic-close\" (click)=\"cancelUpdate()\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"app-modal-body modal--body\">\r\n    <p>Are you sure change that?</p>\r\n  </div>\r\n  <div class=\"app-modal-footer\">\r\n    <button type=\"button\" class=\"btn btn-warning ripple\" (click)=\"cancelUpdate()\">Close</button>\r\n    <button type=\"button\" class=\"btn btn-primary btn-outline-primary ripple light\" (click)=\"update()\">Update</button>\r\n  </div>\r\n</app-modal-basic>\r\n\r\n<app-modal-basic #modalConfirmDelete class=\"modal--confirm-update\">\r\n  <div class=\"app-modal-header modal--header\">\r\n    <button type=\"button\" class=\"close basic-close\" (click)=\"cancelRemove()\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"app-modal-body modal--body\">\r\n    <p>Are you sure remove that?</p>\r\n  </div>\r\n  <div class=\"app-modal-footer\">\r\n    <button type=\"button\" class=\"btn btn-warning ripple\" (click)=\"cancelRemove()\">Close</button>\r\n    <button type=\"button\" class=\"btn btn-primary btn-outline-primary ripple light\" (click)=\"delete()\">Remove</button>\r\n  </div>\r\n</app-modal-basic>\r\n\r\n<app-modal-basic #modalAddNew>\r\n  <div class=\"app-modal-header\">\r\n    <h4 class=\"modal-title\">Round Info</h4>\r\n    <button type=\"button\" class=\"close basic-close\" (click)=\"modalAddNew.hide()\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"app-modal-body\">\r\n    <div class=\"container\">\r\n      <form class=\"form\" [formGroup]=\"addForm\">\r\n        <div class=\"row\">\r\n          <label class=\"col-md-4 col-form-label\">Chest</label>\r\n          <div class=\"col-md-8\">\r\n            <div class=\"input-group\">\r\n              <input type=\"number\" formControlName=\"Chest\" class=\"form-control\">\r\n            </div>\r\n            <p class=\"error-text\" *ngIf=\"addForm.controls.Chest.touched && !addForm.controls.Chest.valid\">\r\n              Start Weight must be > 0\r\n            </p>\r\n          </div>\r\n        </div>\r\n        <div class=\"row\">\r\n          <label class=\"col-md-4 col-form-label\">Waist</label>\r\n          <div class=\"col-md-8\">\r\n            <div class=\"input-group\">\r\n              <input type=\"number\" formControlName=\"Waist\" class=\"form-control\">\r\n            </div>\r\n            <p class=\"error-text\" *ngIf=\"addForm.controls.Waist.touched && !addForm.controls.Waist.valid\">\r\n              Start Weight must be > 0\r\n            </p>\r\n          </div>\r\n        </div>\r\n        <div class=\"row\">\r\n          <label class=\"col-md-4 col-form-label\">Hips</label>\r\n          <div class=\"col-md-8\">\r\n            <div class=\"input-group\">\r\n              <input type=\"number\" formControlName=\"Hips\" class=\"form-control\">\r\n            </div>\r\n            <p class=\"error-text\" *ngIf=\"addForm.controls.Hips.touched && !addForm.controls.Hips.valid\">\r\n              Start Weight must be > 0\r\n            </p>\r\n          </div>\r\n        </div>\r\n        <div class=\"row\">\r\n          <label class=\"col-md-4 col-form-label\">LeftArm</label>\r\n          <div class=\"col-md-8\">\r\n            <div class=\"input-group\">\r\n              <input type=\"number\" formControlName=\"LeftArm\" class=\"form-control\">\r\n            </div>\r\n            <p class=\"error-text\" *ngIf=\"addForm.controls.LeftArm.touched && !addForm.controls.LeftArm.valid\">\r\n              Start Weight must be > 0\r\n            </p>\r\n          </div>\r\n        </div>\r\n        <div class=\"row\">\r\n          <label class=\"col-md-4 col-form-label\">RightArm</label>\r\n          <div class=\"col-md-8\">\r\n            <div class=\"input-group\">\r\n              <input type=\"number\" formControlName=\"RightArm\" class=\"form-control\">\r\n            </div>\r\n            <p class=\"error-text\" *ngIf=\"addForm.controls.RightArm.touched && !addForm.controls.RightArm.valid\">\r\n              Start Weight must be > 0\r\n            </p>\r\n          </div>\r\n        </div>\r\n        <div class=\"row\">\r\n          <label class=\"col-md-4 col-form-label\">LeftThigh</label>\r\n          <div class=\"col-md-8\">\r\n            <div class=\"input-group\">\r\n              <input type=\"number\" formControlName=\"LeftThigh\" class=\"form-control\">\r\n            </div>\r\n            <p class=\"error-text\" *ngIf=\"addForm.controls.LeftThigh.touched && !addForm.controls.LeftThigh.valid\">\r\n              Start Weight must be > 0\r\n            </p>\r\n          </div>\r\n        </div>\r\n        <div class=\"row\">\r\n          <label class=\"col-md-4 col-form-label\">RightThigh</label>\r\n          <div class=\"col-md-8\">\r\n            <div class=\"input-group\">\r\n              <input type=\"number\" formControlName=\"RightThigh\" class=\"form-control\">\r\n            </div>\r\n            <p class=\"error-text\" *ngIf=\"addForm.controls.RightThigh.touched && !addForm.controls.RightThigh.valid\">\r\n              Start Weight must be > 0\r\n            </p>\r\n          </div>\r\n        </div>\r\n      </form>\r\n    </div>\r\n  </div>\r\n  <div class=\"app-modal-footer\">\r\n    <button type=\"button\" class=\"btn btn-default ripple\" (click)=\"modalAddNew.hide()\">Close</button>\r\n    <button type=\"button\" class=\"btn btn-danger ripple light\" [disabled]=\"addForm.invalid\" (click)=\"addMeasurement()\">Confirm</button>\r\n  </div>\r\n</app-modal-basic>"
 
 /***/ }),
 
@@ -2469,12 +2489,13 @@ module.exports = ".inline-edit:disabled {\n  opacity: 1;\n  border: none;\n  bac
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MeasurementTableComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_helper_service_helper_service__ = __webpack_require__("./src/app/services/helper-service/helper.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash__ = __webpack_require__("./node_modules/lodash/lodash.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_lodash__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_api_service_api_service__ = __webpack_require__("./src/app/services/api-service/api.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_text_mask_addons_dist_createNumberMask__ = __webpack_require__("./node_modules/text-mask-addons/dist/createNumberMask.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_text_mask_addons_dist_createNumberMask___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_text_mask_addons_dist_createNumberMask__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_helper_service_helper_service__ = __webpack_require__("./src/app/services/helper-service/helper.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_lodash__ = __webpack_require__("./node_modules/lodash/lodash.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_lodash__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_api_service_api_service__ = __webpack_require__("./src/app/services/api-service/api.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_text_mask_addons_dist_createNumberMask__ = __webpack_require__("./node_modules/text-mask-addons/dist/createNumberMask.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_text_mask_addons_dist_createNumberMask___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_text_mask_addons_dist_createNumberMask__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2489,12 +2510,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var MeasurementTableComponent = /** @class */ (function () {
-    function MeasurementTableComponent(_helperService, _api) {
+    function MeasurementTableComponent(_helperService, fb, _api) {
         this._helperService = _helperService;
+        this.fb = fb;
         this._api = _api;
         this.onUpdateSuccess = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"];
-        this.maskNumber = __WEBPACK_IMPORTED_MODULE_4_text_mask_addons_dist_createNumberMask___default()({
+        this.maskNumber = __WEBPACK_IMPORTED_MODULE_5_text_mask_addons_dist_createNumberMask___default()({
             prefix: '',
             suffix: '',
             includeThousandsSeparator: true,
@@ -2509,6 +2532,7 @@ var MeasurementTableComponent = /** @class */ (function () {
         });
     }
     MeasurementTableComponent.prototype.ngOnInit = function () {
+        this.initForm();
     };
     MeasurementTableComponent.prototype.ngOnChanges = function () {
         var _this = this;
@@ -2523,6 +2547,43 @@ var MeasurementTableComponent = /** @class */ (function () {
             e.Waist = Number(e.Waist);
         });
         this.oldData = this._helperService.cloneArray(this.measurements);
+    };
+    MeasurementTableComponent.prototype.initForm = function () {
+        this.addForm = this.fb.group({
+            Chest: [0, [__WEBPACK_IMPORTED_MODULE_1__angular_forms__["Validators"].required, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["Validators"].min(0)]],
+            Waist: [0, [__WEBPACK_IMPORTED_MODULE_1__angular_forms__["Validators"].required, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["Validators"].min(0)]],
+            Hips: [0, [__WEBPACK_IMPORTED_MODULE_1__angular_forms__["Validators"].required, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["Validators"].min(0)]],
+            LeftArm: [0, [__WEBPACK_IMPORTED_MODULE_1__angular_forms__["Validators"].required, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["Validators"].min(0)]],
+            RightArm: [0, [__WEBPACK_IMPORTED_MODULE_1__angular_forms__["Validators"].required, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["Validators"].min(0)]],
+            LeftThigh: [0, [__WEBPACK_IMPORTED_MODULE_1__angular_forms__["Validators"].required, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["Validators"].min(0)]],
+            RightThigh: [0, [__WEBPACK_IMPORTED_MODULE_1__angular_forms__["Validators"].required, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["Validators"].min(0)]]
+        });
+    };
+    MeasurementTableComponent.prototype.confirmDelete = function (index) {
+        this.modalConfirmDelete.show();
+        this.measureId = this.measurements[index].Id;
+    };
+    MeasurementTableComponent.prototype.cancelRemove = function () {
+        this.modalConfirmDelete.hide();
+    };
+    MeasurementTableComponent.prototype.delete = function () {
+        var _this = this;
+        this._helperService.toggleLoading(true);
+        this._api.deleteMeasurements(this.measureId).subscribe(function (res) {
+            _this._helperService.toggleLoading(false);
+            if (res.status == 'success') {
+                _this.modalConfirmDelete.hide();
+                window.location.reload();
+            }
+            else {
+                alert(res.message);
+            }
+        });
+    };
+    MeasurementTableComponent.prototype.showAdd = function () {
+        this.modalAddNew.show();
+    };
+    MeasurementTableComponent.prototype.addMeasurement = function () {
     };
     MeasurementTableComponent.prototype.showEdit = function (index) {
         if (typeof (index) == 'number') {
@@ -2544,8 +2605,8 @@ var MeasurementTableComponent = /** @class */ (function () {
             delete obj.enable;
             return obj;
         });
-        var diffArr = __WEBPACK_IMPORTED_MODULE_2_lodash__["differenceWith"](arrNew, arrOld, __WEBPACK_IMPORTED_MODULE_2_lodash__["isEqual"]);
-        var oldDiff = arrOld.filter(function (e) { return __WEBPACK_IMPORTED_MODULE_2_lodash__["some"](diffArr, { 'Id': e.Id }); });
+        var diffArr = __WEBPACK_IMPORTED_MODULE_3_lodash__["differenceWith"](arrNew, arrOld, __WEBPACK_IMPORTED_MODULE_3_lodash__["isEqual"]);
+        var oldDiff = arrOld.filter(function (e) { return __WEBPACK_IMPORTED_MODULE_3_lodash__["some"](diffArr, { 'Id': e.Id }); });
         var objectCompare = {
             'old': oldDiff,
             'new': diffArr
@@ -2586,6 +2647,14 @@ var MeasurementTableComponent = /** @class */ (function () {
         __metadata("design:type", Object)
     ], MeasurementTableComponent.prototype, "modalConfirmUpdate", void 0);
     __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('modalConfirmDelete'),
+        __metadata("design:type", Object)
+    ], MeasurementTableComponent.prototype, "modalConfirmDelete", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('modalAddNew'),
+        __metadata("design:type", Object)
+    ], MeasurementTableComponent.prototype, "modalAddNew", void 0);
+    __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
         __metadata("design:type", Object)
     ], MeasurementTableComponent.prototype, "onUpdateSuccess", void 0);
@@ -2595,7 +2664,7 @@ var MeasurementTableComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/shared/round-info/measurement-table/measurement-table.component.html"),
             styles: [__webpack_require__("./src/app/shared/round-info/measurement-table/measurement-table.component.scss")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_helper_service_helper_service__["a" /* HelperService */], __WEBPACK_IMPORTED_MODULE_3__services_api_service_api_service__["a" /* ApiService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__services_helper_service_helper_service__["a" /* HelperService */], __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormBuilder"], __WEBPACK_IMPORTED_MODULE_4__services_api_service_api_service__["a" /* ApiService */]])
     ], MeasurementTableComponent);
     return MeasurementTableComponent;
 }());
@@ -2607,7 +2676,7 @@ var MeasurementTableComponent = /** @class */ (function () {
 /***/ "./src/app/shared/round-info/roud-detail-table/roud-detail-table.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-card>\r\n  <div class=\"table-responsive\">\r\n    <table class=\"table table-xl\">\r\n      <thead>\r\n        <tr>\r\n          <th>#</th>\r\n          <th>Created Date</th>\r\n          <th>Weight</th>\r\n          <th>Action</th>\r\n        </tr>\r\n      </thead>\r\n      <tbody>\r\n        <tr *ngFor=\"let rd of roundDetail;let i = index\">\r\n          <td scope=\"row\">{{i + 1}}</td>\r\n          <td>\r\n            <input type=\"date\" class=\"form-control inline-edit\" [max]='today'\r\n              [ngModel]=\"rd.createdAt |formatTime:'UTCtoLocal':userTimeZone |date:'yyyy-MM-dd'\"\r\n              (ngModelChange)=\"rd.createdAt = $event\" [disabled]='!rd.enable'>\r\n          </td>\r\n          <td><input type=\"number\" class=\"form-control inline-edit\" [(ngModel)]=\"rd.CurrentWeight\"\r\n              [disabled]='!rd.enable'></td>\r\n          <td>\r\n            <button *ngIf=\"!rd.enable\" class=\"btn btn-warning\" (click)=\"showEdit(i)\">Edit</button>\r\n            <button *ngIf=\"rd.enable\" class=\"btn btn-success\" (click)=\"edit(i)\">Save</button>\r\n            <button *ngIf=\"rd.enable\" class=\"btn btn-danger\" (click)=\"closeEdit(i)\">Close</button>\r\n          </td>\r\n        </tr>\r\n      </tbody>\r\n      <tfoot *ngIf=\"roundDetail.length>2\">\r\n        <tr>\r\n          <td></td>\r\n          <td></td>\r\n          <td></td>\r\n          <td>\r\n            <button *ngIf=\"!editAll\" class=\"btn btn-primary\" (click)=\"showEdit()\">Edit All</button>\r\n            <button *ngIf=\"editAll\" class=\"btn btn-success\" (click)=\"closeEdit()\">Save All</button>\r\n            <button *ngIf=\"editAll\" class=\"btn btn-danger\" (click)=\"closeEdit()\">Close All</button>\r\n          </td>\r\n        </tr>\r\n      </tfoot>\r\n    </table>\r\n  </div>\r\n</app-card>\r\n\r\n<app-modal-basic #modalConfirmUpdate class=\"modal--confirm-update\">\r\n  <div class=\"app-modal-header modal--header\">\r\n    <button type=\"button\" class=\"close basic-close\" (click)=\"cancelUpdate()\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"app-modal-body modal--body\">\r\n    <p>Please confirm the changes that you want to make</p>\r\n    <div class=\"confirm__row\">\r\n      <div class=\"confirm__col flex-wrap\">\r\n        <div class=\"confirm__col-header\">\r\n          Before\r\n        </div>\r\n        <div class=\"confirm__block\" *ngFor=\"let item of objectCompare.old\">\r\n          <div class=\"confirm__col date\">\r\n            {{item.createdAt}}\r\n          </div>\r\n          <div class=\"confirm__col value\">\r\n            {{item.CurrentWeight}}\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"confirm__col flex-wrap\">\r\n        <div class=\"confirm__col-header\">\r\n          After\r\n        </div>\r\n        <div class=\"confirm__block\" *ngFor=\"let item of objectCompare.new\">\r\n          <div class=\"confirm__col date\">\r\n            {{item.createdAt}}\r\n          </div>\r\n          <div class=\"confirm__col value\">\r\n            {{item.CurrentWeight}}\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div class=\"app-modal-footer\">\r\n    <button type=\"button\" class=\"btn btn-warning ripple\" (click)=\"cancelUpdate()\">Close</button>\r\n    <button type=\"button\" class=\"btn btn-primary btn-outline-primary ripple light\" (click)=\"update()\">Update</button>\r\n  </div>\r\n</app-modal-basic>"
+module.exports = "<app-card>\r\n  <div class=\"table-responsive\">\r\n    <table class=\"table table-xl\">\r\n      <thead>\r\n        <tr>\r\n          <th>#</th>\r\n          <th>Created Date</th>\r\n          <th>Weight</th>\r\n          <!-- <th>Action</th> -->\r\n          <th>\r\n            <button class=\"btn btn-success\" (click)=\"showAddModal()\">Add</button>\r\n          </th>\r\n        </tr>\r\n      </thead>\r\n      <tbody>\r\n        <tr *ngFor=\"let rd of roundDetail;let i = index\">\r\n          <td scope=\"row\">{{i + 1}}</td>\r\n          <td>\r\n            <input type=\"date\" class=\"form-control inline-edit\" [max]='today'\r\n              [ngModel]=\"rd.createdAt |formatTime:'UTCtoLocal':userTimeZone |date:'yyyy-MM-dd'\"\r\n              (ngModelChange)=\"rd.createdAt = $event\" [disabled]='!rd.enable'>\r\n          </td>\r\n          <td><input type=\"number\" class=\"form-control inline-edit\" [(ngModel)]=\"rd.CurrentWeight\"\r\n              [disabled]='!rd.enable'></td>\r\n          <td>\r\n            <button *ngIf=\"!rd.enable\" class=\"btn btn-warning\" (click)=\"showEdit(i)\">Edit</button>\r\n            <button *ngIf=\"!rd.enable\" class=\"btn btn-danger\" (click)=\"remove(i)\">Delete</button>\r\n            <button *ngIf=\"rd.enable\" class=\"btn btn-success\" (click)=\"edit(i)\">Save</button>\r\n            <button *ngIf=\"rd.enable\" class=\"btn btn-danger\" (click)=\"closeEdit(i)\">Close</button>\r\n          </td>\r\n        </tr>\r\n      </tbody>\r\n      <tfoot *ngIf=\"roundDetail.length>2\">\r\n        <tr>\r\n          <td></td>\r\n          <td></td>\r\n          <td></td>\r\n          <td>\r\n            <button *ngIf=\"!editAll\" class=\"btn btn-primary\" (click)=\"showEdit()\">Edit All</button>\r\n            <button *ngIf=\"editAll\" class=\"btn btn-success\" (click)=\"closeEdit()\">Save All</button>\r\n            <button *ngIf=\"editAll\" class=\"btn btn-danger\" (click)=\"closeEdit()\">Close All</button>\r\n          </td>\r\n        </tr>\r\n      </tfoot>\r\n    </table>\r\n  </div>\r\n</app-card>\r\n\r\n<app-modal-basic #modalConfirmUpdate class=\"modal--confirm-update\">\r\n  <div class=\"app-modal-header modal--header\">\r\n    <button type=\"button\" class=\"close basic-close\" (click)=\"cancelUpdate()\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"app-modal-body modal--body\">\r\n    <p>Please confirm the changes that you want to make</p>\r\n    <div class=\"confirm__row\">\r\n      <div class=\"confirm__col flex-wrap\">\r\n        <div class=\"confirm__col-header\">\r\n          Before\r\n        </div>\r\n        <div class=\"confirm__block\" *ngFor=\"let item of objectCompare.old\">\r\n          <div class=\"confirm__col date\">\r\n            {{item.createdAt}}\r\n          </div>\r\n          <div class=\"confirm__col value\">\r\n            {{item.CurrentWeight}}\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"confirm__col flex-wrap\">\r\n        <div class=\"confirm__col-header\">\r\n          After\r\n        </div>\r\n        <div class=\"confirm__block\" *ngFor=\"let item of objectCompare.new\">\r\n          <div class=\"confirm__col date\">\r\n            {{item.createdAt}}\r\n          </div>\r\n          <div class=\"confirm__col value\">\r\n            {{item.CurrentWeight}}\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div class=\"app-modal-footer\">\r\n    <button type=\"button\" class=\"btn btn-warning ripple\" (click)=\"cancelUpdate()\">Close</button>\r\n    <button type=\"button\" class=\"btn btn-primary btn-outline-primary ripple light\" (click)=\"update()\">Update</button>\r\n  </div>\r\n</app-modal-basic>\r\n\r\n<app-modal-basic #modalDelete>\r\n  <div class=\"app-modal-header\">\r\n    <h4 class=\"modal-title\">Confirm</h4>\r\n    <button type=\"button\" class=\"close basic-close\" (click)=\"hideDelete()\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"app-modal-body\" *ngIf=\"checkShowDelete || checkDeleteFromMentor\">\r\n    <p>{{clientInfo?.Email}}</p>\r\n    <p>All data of this client will be deleted. Are you sure you want to delete this client?</p>\r\n  </div>\r\n  <div class=\"app-modal-body\" *ngIf=\"checkShowWipeData\">\r\n    <p>{{clientInfo?.Email}}</p>\r\n    <p>All data of this round will be deleted. Are you sure you want to delete this round?</p>\r\n  </div>\r\n  <div class=\"app-modal-footer\">\r\n    <button type=\"button\" class=\"btn btn-default ripple\" (click)=\"hideDelete()\">Close</button>\r\n    <button type=\"button\" class=\"btn btn-danger ripple light\" *ngIf=\"checkShowDelete\" (click)=\"delete()\">Delete</button>\r\n    <button type=\"button\" class=\"btn btn-danger ripple light\" *ngIf=\"checkShowWipeData\" (click)=\"deleteRound()\">Delete</button>\r\n    <button type=\"button\" class=\"btn btn-danger ripple light\" *ngIf=\"checkDeleteFromMentor\" (click)=\"deleteFromMentor()\">Delete</button>\r\n  </div>\r\n</app-modal-basic>\r\n\r\n<app-modal-basic #modalAdd>\r\n  <div class=\"app-modal-header\">\r\n    <h4 class=\"modal-title\">Confirm</h4>\r\n    <button type=\"button\" class=\"close basic-close\" (click)=\"hideAdd()\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  \r\n  <div class=\"app-modal-body\">\r\n      <table class=\"table table-xl\">\r\n        <thead>\r\n          <tr>\r\n            <th>Created Date</th>\r\n            <th>Weight</th>\r\n          </tr>\r\n        </thead>\r\n        <tbody>\r\n          <tr>\r\n            <td>\r\n              <input type=\"date\" class=\"form-control inline-edit\" [max]='today'\r\n              [ngModel]=\"createdDate |formatTime:'UTCtoLocal':userTimeZone |date:'yyyy-MM-dd'\">\r\n            </td>\r\n            <td>\r\n              <input type=\"number\" class=\"form-control inline-edit\" [(ngModel)]=\"weight\">\r\n            </td>\r\n          </tr>\r\n        </tbody>\r\n      </table>\r\n  </div>\r\n\r\n  \r\n  <div class=\"app-modal-footer\">\r\n      <button type=\"button\" class=\"btn btn-default ripple\" (click)=\"hideAdd()\">Close</button>\r\n      <button type=\"button\" class=\"btn btn-success\" (click)=\"addRoundDetail()\">Add</button>\r\n    </div>\r\n</app-modal-basic>"
 
 /***/ }),
 
@@ -2630,6 +2699,7 @@ module.exports = ".inline-edit:disabled {\n  opacity: 1;\n  border: none;\n  bac
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_api_service_api_service__ = __webpack_require__("./src/app/services/api-service/api.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_moment__ = __webpack_require__("./node_modules/moment/moment.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__constants_config__ = __webpack_require__("./src/app/constants/config.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2639,6 +2709,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -2657,6 +2728,8 @@ var RoudDetailTableComponent = /** @class */ (function () {
             new: []
         };
         this.today = __WEBPACK_IMPORTED_MODULE_4_moment__().format('YYYY-MM-DD');
+        this.createdDate = __WEBPACK_IMPORTED_MODULE_4_moment__().format('YYYY-MM-DD');
+        this.weight = 0;
     }
     RoudDetailTableComponent.prototype.ngOnChanges = function () {
         var _this = this;
@@ -2677,6 +2750,21 @@ var RoudDetailTableComponent = /** @class */ (function () {
                 e.enable = true;
             });
         }
+    };
+    RoudDetailTableComponent.prototype.remove = function (index) {
+        var _this = this;
+        var Id = this.roundDetail[index].RoundDetailId;
+        this._api.deleteRoundDetail(Id).subscribe(function (res) {
+            _this._helperService.toggleLoading(false);
+            if (res.status == __WEBPACK_IMPORTED_MODULE_5__constants_config__["d" /* STATUS */].error) {
+                alert(res.message);
+            }
+            else {
+                alert(res.status);
+            }
+        }, function (err) {
+            _this._helperService.toggleLoading(false);
+        });
     };
     RoudDetailTableComponent.prototype.closeEdit = function (index) {
         if (typeof (index) == 'number') {
@@ -2701,6 +2789,27 @@ var RoudDetailTableComponent = /** @class */ (function () {
         else {
             this.modalConfirmUpdate.show();
         }
+    };
+    RoudDetailTableComponent.prototype.showAddModal = function () {
+        this.modalAdd.show();
+    };
+    RoudDetailTableComponent.prototype.addRoundDetail = function () {
+        var _this = this;
+        this._api.addRoundDetail({}).subscribe(function (res) {
+            _this._helperService.toggleLoading(false);
+            if (res.status == __WEBPACK_IMPORTED_MODULE_5__constants_config__["d" /* STATUS */].error) {
+                alert(res.message);
+            }
+            else {
+                alert(res.status);
+            }
+        }, function (err) {
+            _this._helperService.toggleLoading(false);
+        });
+        this.modalAdd.show();
+    };
+    RoudDetailTableComponent.prototype.hideAdd = function () {
+        this.modalAdd.hide();
     };
     RoudDetailTableComponent.prototype.checkDiffArr = function (arrOld, arr) {
         var arrNew = arr.map(function (obj) {
@@ -2752,6 +2861,10 @@ var RoudDetailTableComponent = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('modalConfirmUpdate'),
         __metadata("design:type", Object)
     ], RoudDetailTableComponent.prototype, "modalConfirmUpdate", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('modalAdd'),
+        __metadata("design:type", Object)
+    ], RoudDetailTableComponent.prototype, "modalAdd", void 0);
     RoudDetailTableComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'roud-detail-table',
@@ -2770,7 +2883,7 @@ var RoudDetailTableComponent = /** @class */ (function () {
 /***/ "./src/app/shared/round-info/round-info.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"col-md-12 card\">\r\n  <div class=\"card-round\">\r\n    <div class=\"card-header round-header\">\r\n      <h5>Round Information</h5>\r\n      <div>User Time Zone: {{userTimeZone>=0?'+':'-'}}{{userTimeZone}}</div>\r\n    </div>\r\n    <div *ngFor=\"let r of rounds | orderBy:{property:'StartDate',direction:-1}\" >\r\n      <div class=\"card-block round-detail\" *ngIf=\"r.StartDate != null && r.StartWeight != null\">\r\n        <div>{{r.StartDate}} - {{r.EndDate}}</div>\r\n        <div>{{r.Status}}</div>\r\n        <div>Start Weight: {{r.StartWeight}}kg</div>\r\n        <div>Target Weight: {{r.TargetWeight}}kg</div>\r\n        <div><button class=\"btn btn-primary btn-outline-primary ripple light\" (click)=\"editRoundInfo(r)\">Edit Round\r\n            Detail</button> </div>\r\n        <div><button class=\"btn btn-primary btn-outline-primary ripple light\" (click)=\"r.showDetail=!r.showDetail\">Show Round Detail</button> </div>\r\n      </div>\r\n      <roud-detail-table [roundDetail]='r.RoundDetail' [userTimeZone]='userTimeZone'\r\n        (onUpdateSuccess)=\"updateSuccess($event)\" *ngIf=\"r.showDetail\"></roud-detail-table>\r\n    </div>\r\n  </div>\r\n\r\n</div>\r\n\r\n<div class=\"col-md-12 card\">\r\n  <div class=\"card-round\">\r\n    <div class=\"card-header\">\r\n      <h5>Measurement</h5>\r\n    </div>\r\n    <measurement-table [measurements]=\"measurements\" [userTimeZone]='userTimeZone' (onUpdateSuccess)=\"updateSuccess($event)\" >\r\n\r\n    </measurement-table>\r\n  </div>\r\n</div>\r\n\r\n<app-modal-basic #modalChangeRoundInfo>\r\n  <div class=\"app-modal-header\">\r\n    <h4 class=\"modal-title\">Round Info</h4>\r\n    <button type=\"button\" class=\"close basic-close\" (click)=\"modalChangeRoundInfo.hide()\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"app-modal-body\">\r\n    <div class=\"container\">\r\n      <form class=\"form\" [formGroup]=\"roundInfoForm\">\r\n        <div class=\"row\">\r\n          <label class=\"col-md-4 col-form-label\">StartDate </label>\r\n          <div class=\"col-md-8\">\r\n            <div class=\"input-group\">\r\n              <input type=\"date\" formControlName=\"StartDate\" class=\"form-control\">\r\n            </div>\r\n          </div>\r\n        </div>\r\n\r\n        <div class=\"row\">\r\n          <label class=\"col-md-4 col-form-label\">EndDate </label>\r\n          <div class=\"col-md-8\">\r\n            <div class=\"input-group\">\r\n              <input type=\"date\" formControlName=\"EndDate\" class=\"form-control\">\r\n            </div>\r\n          </div>\r\n        </div>\r\n        <div class=\"row\">\r\n          <label class=\"col-md-4 col-form-label\">Start-Weight </label>\r\n          <div class=\"col-md-8\">\r\n            <div class=\"input-group\">\r\n              <input type=\"number\" formControlName=\"StartWeight\" class=\"form-control\">\r\n            </div>\r\n            <p class=\"error-text\" *ngIf=\"roundInfoForm.controls.StartWeight.touched && !roundInfoForm.controls.StartWeight.valid\">\r\n              Start Weight must be > 0\r\n            </p>\r\n          </div>\r\n        </div>\r\n        <div class=\"row\">\r\n          <label class=\"col-md-4 col-form-label\">Target-Weight </label>\r\n          <div class=\"col-md-8\">\r\n            <div class=\"input-group\">\r\n              <input type=\"number\" formControlName=\"TargetWeight\" class=\"form-control\">\r\n            </div>\r\n            <p class=\"error-text\" *ngIf=\"roundInfoForm.controls.TargetWeight.touched && !roundInfoForm.controls.TargetWeight.valid\">Target Weight must be > 0</p>\r\n          </div>\r\n        </div>\r\n        <div formArrayName=\"Stages\">\r\n          <div class=\"row\" *ngFor=\"let stage of roundInfoForm.get('Stages')['controls'];let i = index\" [formGroupName]=\"i\">\r\n            <label class=\"col-md-4 col-form-label\">Stage {{i+1}} </label>\r\n            <div class=\"col-md-4\">\r\n              <div class=\"input-group\">\r\n                <input type=\"date\" formControlName=\"StartDate\" class=\"form-control\">\r\n              </div>\r\n            </div>\r\n            <div class=\"col-md-4\">\r\n              <div class=\"input-group\">\r\n                <input type=\"date\" formControlName=\"EndDate\" class=\"form-control endDate-Stage-{{i}}\">\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </form>\r\n    </div>\r\n  </div>\r\n  <div class=\"app-modal-footer\">\r\n    <button type=\"button\" class=\"btn btn-default ripple\" (click)=\"modalChangeRoundInfo.hide()\">Close</button>\r\n    <button type=\"button\" class=\"btn btn-danger ripple light\" (click)=\"changeRoundInfo()\">Confirm</button>\r\n  </div>\r\n</app-modal-basic>"
+module.exports = "<div class=\"col-md-12 card\">\r\n  <div class=\"card-round\">\r\n    <div class=\"card-header round-header\">\r\n        <div><button class=\"btn btn-primary btn-outline-primary ripple light\" (click)=\"openModalAddRound()\">Add new round</button> </div>\r\n      <h5>Round Information</h5>\r\n      <div>User Time Zone: {{userTimeZone>=0?'+':'-'}}{{userTimeZone}}</div>\r\n    </div>\r\n    <div *ngFor=\"let r of rounds | orderBy:{property:'StartDate',direction:-1}\" >\r\n      <div class=\"card-block round-detail\" *ngIf=\"r.StartDate != null && r.StartWeight != null\">\r\n        <div>{{r.StartDate}} - {{r.EndDate}}</div>\r\n        <div>{{r.Status}}</div>\r\n        <div>Start Weight: {{r.StartWeight}}kg</div>\r\n        <div>Target Weight: {{r.TargetWeight}}kg</div>\r\n        <div><button class=\"btn btn-primary btn-outline-primary ripple light\" (click)=\"editRoundInfo(r)\">Edit Round\r\n            Detail</button> </div>\r\n        <div><button class=\"btn btn-primary btn-outline-primary ripple light\" (click)=\"r.showDetail=!r.showDetail\">Show Round Detail</button> </div>\r\n        <div><button class=\"btn btn-primary btn-outline-primary ripple light\" (click)=\"openModalDelete(r)\">Remove</button> </div>\r\n      </div>\r\n      <roud-detail-table [roundDetail]='r.RoundDetail' [userTimeZone]='userTimeZone'\r\n        (onUpdateSuccess)=\"updateSuccess($event)\" *ngIf=\"r.showDetail\"></roud-detail-table>\r\n    </div>\r\n  </div>\r\n\r\n</div>\r\n\r\n<div class=\"col-md-12 card\">\r\n  <div class=\"card-round\">\r\n    <div class=\"card-header\">\r\n      <h5>Measurement</h5>\r\n    </div>\r\n    <measurement-table [measurements]=\"measurements\" [userTimeZone]='userTimeZone' (onUpdateSuccess)=\"updateSuccess($event)\" >\r\n\r\n    </measurement-table>\r\n  </div>\r\n</div>\r\n\r\n<app-modal-basic #modalChangeRoundInfo>\r\n  <div class=\"app-modal-header\">\r\n    <h4 class=\"modal-title\">Round Info</h4>\r\n    <button type=\"button\" class=\"close basic-close\" (click)=\"modalChangeRoundInfo.hide()\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"app-modal-body\">\r\n    <div class=\"container\">\r\n      <form class=\"form\" [formGroup]=\"roundInfoForm\">\r\n        <div class=\"row\">\r\n          <label class=\"col-md-4 col-form-label\">StartDate </label>\r\n          <div class=\"col-md-8\">\r\n            <div class=\"input-group\">\r\n              <input type=\"date\" formControlName=\"StartDate\" class=\"form-control\">\r\n            </div>\r\n          </div>\r\n        </div>\r\n\r\n        <div class=\"row\">\r\n          <label class=\"col-md-4 col-form-label\">EndDate </label>\r\n          <div class=\"col-md-8\">\r\n            <div class=\"input-group\">\r\n              <input type=\"date\" formControlName=\"EndDate\" class=\"form-control\">\r\n            </div>\r\n          </div>\r\n        </div>\r\n        <div class=\"row\">\r\n          <label class=\"col-md-4 col-form-label\">Start-Weight </label>\r\n          <div class=\"col-md-8\">\r\n            <div class=\"input-group\">\r\n              <input type=\"number\" formControlName=\"StartWeight\" class=\"form-control\">\r\n            </div>\r\n            <p class=\"error-text\" *ngIf=\"roundInfoForm.controls.StartWeight.touched && !roundInfoForm.controls.StartWeight.valid\">\r\n              Start Weight must be > 0\r\n            </p>\r\n          </div>\r\n        </div>\r\n        <div class=\"row\">\r\n          <label class=\"col-md-4 col-form-label\">Target-Weight </label>\r\n          <div class=\"col-md-8\">\r\n            <div class=\"input-group\">\r\n              <input type=\"number\" formControlName=\"TargetWeight\" class=\"form-control\">\r\n            </div>\r\n            <p class=\"error-text\" *ngIf=\"roundInfoForm.controls.TargetWeight.touched && !roundInfoForm.controls.TargetWeight.valid\">Target Weight must be > 0</p>\r\n          </div>\r\n        </div>\r\n        <div formArrayName=\"Stages\">\r\n          <div class=\"row\" *ngFor=\"let stage of roundInfoForm.get('Stages')['controls'];let i = index\" [formGroupName]=\"i\">\r\n            <label class=\"col-md-4 col-form-label\">Stage {{i+1}} </label>\r\n            <div class=\"col-md-4\">\r\n              <div class=\"input-group\">\r\n                <input type=\"date\" formControlName=\"StartDate\" class=\"form-control\">\r\n              </div>\r\n            </div>\r\n            <div class=\"col-md-4\">\r\n              <div class=\"input-group\">\r\n                <input type=\"date\" formControlName=\"EndDate\" class=\"form-control endDate-Stage-{{i}}\">\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </form>\r\n    </div>\r\n  </div>\r\n  <div class=\"app-modal-footer\">\r\n    <button type=\"button\" class=\"btn btn-default ripple\" (click)=\"modalChangeRoundInfo.hide()\">Close</button>\r\n    <button type=\"button\" class=\"btn btn-danger ripple light\" (click)=\"changeRoundInfo()\">Confirm</button>\r\n  </div>\r\n</app-modal-basic>\r\n\r\n<app-modal-basic #modalAddNewRound>\r\n    <div class=\"app-modal-header\">\r\n      <h4 class=\"modal-title\">Round Info</h4>\r\n      <button type=\"button\" class=\"close basic-close\" (click)=\"modalAddNewRound.hide()\">\r\n        <span aria-hidden=\"true\">&times;</span>\r\n      </button>\r\n    </div>\r\n    <div class=\"app-modal-body\">\r\n      <div class=\"container\">\r\n        <form class=\"form\" [formGroup]=\"roundAddForm\">\r\n          <div class=\"row\">\r\n            <label class=\"col-md-4 col-form-label\">StartDate </label>\r\n            <div class=\"col-md-8\">\r\n              <div class=\"input-group\">\r\n                <input type=\"date\" formControlName=\"StartDate\" class=\"form-control\">\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <div class=\"row\">\r\n            <label class=\"col-md-4 col-form-label\">Start-Weight </label>\r\n            <div class=\"col-md-8\">\r\n              <div class=\"input-group\">\r\n                <input type=\"number\" formControlName=\"StartWeight\" class=\"form-control\">\r\n              </div>\r\n              <p class=\"error-text\" *ngIf=\"roundAddForm.controls.StartWeight.touched && !roundAddForm.controls.StartWeight.valid\">\r\n                Start Weight must be > 0\r\n              </p>\r\n            </div>\r\n          </div>\r\n          <div class=\"row\">\r\n            <label class=\"col-md-4 col-form-label\">Target-Weight </label>\r\n            <div class=\"col-md-8\">\r\n              <div class=\"input-group\">\r\n                <input type=\"number\" formControlName=\"TargetWeight\" class=\"form-control\">\r\n              </div>\r\n              <p class=\"error-text\" *ngIf=\"roundAddForm.controls.TargetWeight.touched && !roundAddForm.controls.TargetWeight.valid\">Target Weight must be > 0</p>\r\n            </div>\r\n          </div>\r\n        </form>\r\n      </div>\r\n    </div>\r\n    <div class=\"app-modal-footer\">\r\n      <button type=\"button\" class=\"btn btn-default ripple\" (click)=\"modalAddNewRound.hide()\">Close</button>\r\n      <button type=\"button\" class=\"btn btn-danger ripple light\" [disabled]=\"roundAddForm.invalid\" (click)=\"addRound()\">Confirm</button>\r\n    </div>\r\n  </app-modal-basic>\r\n\r\n  <app-modal-basic #modalConfirmDelete>\r\n      <div class=\"app-modal-header\">\r\n        <h4 class=\"modal-title\">Confirm</h4>\r\n        <button type=\"button\" class=\"close basic-close\" (click)=\"hideDelete()\">\r\n          <span aria-hidden=\"true\">&times;</span>\r\n        </button>\r\n      </div>\r\n      <div class=\"app-modal-body\">\r\n        <p>Are you sure you want to delete this round?</p>\r\n      </div>\r\n\r\n      <div class=\"app-modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-default ripple\" (click)=\"hideDelete()\">Close</button>\r\n        <button type=\"button\" class=\"btn btn-danger ripple light\" (click)=\"removeRound()\">Delete</button>\r\n      </div>\r\n    </app-modal-basic>"
 
 /***/ }),
 
@@ -2855,6 +2968,11 @@ var RoundInfoComponent = /** @class */ (function () {
     };
     RoundInfoComponent.prototype.initForm = function (roundInfo, stages) {
         var _this = this;
+        this.roundAddForm = this.fb.group({
+            StartDate: [roundInfo.StartDate, __WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].required],
+            StartWeight: [roundInfo.StartWeight, [__WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].required, __WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].min(0)]],
+            TargetWeight: [roundInfo.TargetWeight, [__WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].required, __WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].min(0)]],
+        });
         this.roundInfoForm = this.fb.group({
             StartDate: [roundInfo.StartDate, __WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].required],
             EndDate: [roundInfo.EndDate, __WEBPACK_IMPORTED_MODULE_2__angular_forms__["Validators"].required],
@@ -2898,11 +3016,53 @@ var RoundInfoComponent = /** @class */ (function () {
         stagesArr.push(stage);
     };
     RoundInfoComponent.prototype.editRoundInfo = function (r) {
+        debugger;
         this.getRoundData(this.UserId);
         this.modalChangeRoundInfo.show();
         this.currentRound = r;
         this.initForm(r);
         this.getStages(r);
+    };
+    RoundInfoComponent.prototype.openModalAddRound = function () {
+        this.modalAddNewRound.show();
+    };
+    RoundInfoComponent.prototype.openModalDelete = function (r) {
+        this.roundId = r.RoundId;
+        this.modalConfirmDelete.show();
+    };
+    RoundInfoComponent.prototype.addRound = function () {
+        var _this = this;
+        var request = {
+            userId: this.UserId,
+            formType: "RoundNormal",
+            startDate: this.roundAddForm.value['StartDate'],
+            startWeight: this.roundAddForm.value['StartWeight'],
+            targetWeight: this.roundAddForm.value['TargetWeight'],
+            unitOfHeight: 'Centimetres',
+            unitOfWeight: 'Kilograms'
+        };
+        this._api.addNewRound(request).subscribe(function (res) {
+            _this._helper.toggleLoading(false);
+            _this.modalAddNewRound.hide();
+            _this.getRoundData(_this.UserId);
+        }, function (err) {
+            _this._helper.toggleLoading(false);
+        });
+    };
+    RoundInfoComponent.prototype.removeRound = function () {
+        var _this = this;
+        this._helper.toggleLoading(true);
+        this._api.deleteRound(this.roundId).then(function (res) {
+            _this.getRoundData(_this.UserId);
+            _this._helper.toggleLoading(false);
+            _this.modalConfirmDelete.hide();
+        }, function (err) {
+            console.log(err);
+            _this._helper.toggleLoading(false);
+        });
+    };
+    RoundInfoComponent.prototype.hideDelete = function () {
+        this.modalConfirmDelete.hide();
     };
     RoundInfoComponent.prototype.getStages = function (r) {
         var _this = this;
@@ -3020,6 +3180,14 @@ var RoundInfoComponent = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('modalChangeRoundInfo'),
         __metadata("design:type", Object)
     ], RoundInfoComponent.prototype, "modalChangeRoundInfo", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('modalAddNewRound'),
+        __metadata("design:type", Object)
+    ], RoundInfoComponent.prototype, "modalAddNewRound", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('modalConfirmDelete'),
+        __metadata("design:type", Object)
+    ], RoundInfoComponent.prototype, "modalConfirmDelete", void 0);
     RoundInfoComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'round-info',
