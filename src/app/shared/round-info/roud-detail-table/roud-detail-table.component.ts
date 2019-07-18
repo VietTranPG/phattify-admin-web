@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, Output,EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { NgbCalendar, NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import * as _ from "lodash";
 import { HelperService } from '../../../services/helper-service/helper.service';
@@ -15,19 +15,23 @@ export class RoudDetailTableComponent implements OnInit {
   @Input() roundDetail: any = [];
   @Input() userTimeZone: any;
   @Output() onUpdateSuccess = new EventEmitter();
-  @ViewChild('modalConfirmUpdate') modalConfirmUpdate:any;
-  @ViewChild('modalAdd') modalAdd:any;
+  @ViewChild('modalConfirmUpdate') modalConfirmUpdate: any;
+  @ViewChild('modalAdd') modalAdd: any;
+
+  checkShowDelete: any;
+  checkDeleteFromMentor: any;
+  checkShowWipeData: any;
   oldData: any;
   editAll: boolean = false;
   test: any = new Date();
   today: any;
   createdDate: any;
   weight: any;
-  objectCompare:any={
-    old:[],
-    new:[]
+  objectCompare: any = {
+    old: [],
+    new: []
   };
-  constructor(private _helperService: HelperService,private _api:ApiService) {
+  constructor(private _helperService: HelperService, private _api: ApiService) {
     this.today = moment().format('YYYY-MM-DD');
     this.createdDate = moment().format('YYYY-MM-DD');
     this.weight = 0;
@@ -61,7 +65,8 @@ export class RoudDetailTableComponent implements OnInit {
         alert(res.status)
       }
     }, err => {
-      this._helperService.toggleLoading(false)})
+      this._helperService.toggleLoading(false)
+    })
   }
   closeEdit(index) {
     if (typeof (index) == 'number') {
@@ -76,10 +81,10 @@ export class RoudDetailTableComponent implements OnInit {
     this.roundDetail = this._helperService.cloneArray(this.oldData);
   }
   edit() {
-    this.objectCompare=this.checkDiffArr(this.oldData, this.roundDetail);
+    this.objectCompare = this.checkDiffArr(this.oldData, this.roundDetail);
     const { createdAt } = this.objectCompare.new[0];
     const diff = moment().diff(moment(createdAt, 'YYYY-MM-DD'), 'days');
-    if(diff < 0) {
+    if (diff < 0) {
       alert('Start date cannot later than today');
     } else {
       this.modalConfirmUpdate.show();
@@ -92,7 +97,7 @@ export class RoudDetailTableComponent implements OnInit {
 
   addRoundDetail() {
     this._api.addRoundDetail({
-      
+
     }).subscribe((res: any) => {
       this._helperService.toggleLoading(false);
       if (res.status == STATUS.error) {
@@ -101,7 +106,8 @@ export class RoudDetailTableComponent implements OnInit {
         alert(res.status)
       }
     }, err => {
-      this._helperService.toggleLoading(false)})
+      this._helperService.toggleLoading(false)
+    })
     this.modalAdd.show();
   }
 
@@ -122,23 +128,27 @@ export class RoudDetailTableComponent implements OnInit {
     }
     return objectCompare;
   }
-  cancelUpdate(){
+  cancelUpdate() {
     this.modalConfirmUpdate.hide()
   }
-  update(){
+  update() {
     let req = this._helperService.cloneArray(this.objectCompare.new);
-    req.forEach(e=>{
-      e.createdAt =this.userTimeZone?this._helperService.convertTimeToUTCByTimeZone(e.createdAt,this.userTimeZone):this._helperService.convertTimeToUTC(e.createdAt)
+    req.forEach(e => {
+      e.createdAt = this.userTimeZone ? this._helperService.convertTimeToUTCByTimeZone(e.createdAt, this.userTimeZone) : this._helperService.convertTimeToUTC(e.createdAt)
     })
     this._helperService.toggleLoading(true);
-    this._api.updateRoundDetails(req).subscribe((res:any)=>{
+    this._api.updateRoundDetails(req).subscribe((res: any) => {
       this._helperService.toggleLoading(false);
-      if(res.status == 'success'){
+      if (res.status == 'success') {
         this.onUpdateSuccess.emit('');
-      }else{  
+      } else {
         alert(res.message)
       }
     });
     console.log(this.objectCompare)
   }
+  hideDelete(){
+
+  }
 }
+

@@ -4,23 +4,26 @@ import { HelperService } from '../../../services/helper-service/helper.service';
 import * as _ from 'lodash';
 import { ApiService } from '../../../services/api-service/api.service';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
+import * as moment from 'moment';
+
 @Component({
   selector: 'measurement-table',
   templateUrl: './measurement-table.component.html',
   styleUrls: ['./measurement-table.component.scss']
 })
 export class MeasurementTableComponent implements OnInit {
-  @Input() measurements:any;
-  @Input() userTimeZone:any;
-  @ViewChild('modalConfirmUpdate') modalConfirmUpdate:any;
-  @ViewChild('modalConfirmDelete') modalConfirmDelete:any;
+  @Input() measurements: any;
+  @Input() userTimeZone: any;
+  @Input() userId: any;
+  @ViewChild('modalConfirmUpdate') modalConfirmUpdate: any;
+  @ViewChild('modalConfirmDelete') modalConfirmDelete: any;
   @ViewChild('modalAddNew') modalAddNew: any;
   @Output() onUpdateSuccess = new EventEmitter;
-  objectCompare:any;
-  oldData:any;
+  objectCompare: any;
+  oldData: any;
   measureId: any;
   addForm: FormGroup;
-  constructor(private _helperService:HelperService, private fb: FormBuilder, private _api:ApiService) { }
+  constructor(private _helperService: HelperService, private fb: FormBuilder, private _api: ApiService) { }
   private maskNumber = createNumberMask({
     prefix: '',
     suffix: '',
@@ -53,13 +56,13 @@ export class MeasurementTableComponent implements OnInit {
   }
   initForm() {
     this.addForm = this.fb.group({
-      Chest: [0, [Validators.required,Validators.min(0)]],
-      Waist: [0, [Validators.required,Validators.min(0)]],
-      Hips: [0, [Validators.required,Validators.min(0)]],
-      LeftArm: [0, [Validators.required,Validators.min(0)]],
-      RightArm: [0, [Validators.required,Validators.min(0)]],
-      LeftThigh: [0, [Validators.required,Validators.min(0)]],
-      RightThigh: [0, [Validators.required,Validators.min(0)]]
+      Chest: [0, [Validators.required, Validators.min(0)]],
+      Waist: [0, [Validators.required, Validators.min(0)]],
+      Hips: [0, [Validators.required, Validators.min(0)]],
+      LeftArm: [0, [Validators.required, Validators.min(0)]],
+      RightArm: [0, [Validators.required, Validators.min(0)]],
+      LeftThigh: [0, [Validators.required, Validators.min(0)]],
+      RightThigh: [0, [Validators.required, Validators.min(0)]]
     })
   }
   confirmDelete(index) {
@@ -71,12 +74,12 @@ export class MeasurementTableComponent implements OnInit {
   }
   delete() {
     this._helperService.toggleLoading(true);
-    this._api.deleteMeasurements(this.measureId).subscribe((res:any)=>{
+    this._api.deleteMeasurements(this.measureId).subscribe((res: any) => {
       this._helperService.toggleLoading(false);
-      if(res.status == 'success'){
+      if (res.status == 'success') {
         this.modalConfirmDelete.hide();
         window.location.reload();
-      }else{  
+      } else {
         alert(res.message)
       }
     });
@@ -85,12 +88,24 @@ export class MeasurementTableComponent implements OnInit {
     this.modalAddNew.show();
   }
   addMeasurement() {
-    
+    let obj: any = {};
+    obj.measurement = this.addForm.value;
+    obj.userId = this.userId;
+    obj.date = moment.utc();
+    this._helperService.toggleLoading(true);
+    this._api.addMeasurement(obj).subscribe(res => {
+      this.onUpdateSuccess.emit('');
+      this.modalAddNew.hide();
+      this._helperService.toggleLoading(false);
+    }, err => {
+      this._helperService.toggleLoading(false);
+    })
+    console.log(this.addForm);
   }
   showEdit(index) {
     if (typeof (index) == 'number') {
       this.measurements[index].enable = true;
-    } 
+    }
   }
   closeEdit(index) {
     if (typeof (index) == 'number') {
@@ -100,7 +115,7 @@ export class MeasurementTableComponent implements OnInit {
   }
 
   edit() {
-    this.objectCompare=this.checkDiffArr(this.oldData, this.measurements);
+    this.objectCompare = this.checkDiffArr(this.oldData, this.measurements);
     this.modalConfirmUpdate.show();
   }
   checkDiffArr(arrOld, arr) {
@@ -116,21 +131,21 @@ export class MeasurementTableComponent implements OnInit {
     }
     return objectCompare;
   }
-  cancelUpdate(){
+  cancelUpdate() {
     this.modalConfirmUpdate.hide()
   }
-  update(){
+  update() {
     let req = this._helperService.cloneArray(this.objectCompare.new);
-    req.forEach(e=>{
-      e.createdAt =this.userTimeZone?this._helperService.convertTimeToUTCByTimeZone(e.createdAt,this.userTimeZone):this._helperService.convertTimeToUTC(e.createdAt)
+    req.forEach(e => {
+      e.createdAt = this.userTimeZone ? this._helperService.convertTimeToUTCByTimeZone(e.createdAt, this.userTimeZone) : this._helperService.convertTimeToUTC(e.createdAt)
     })
     this._helperService.toggleLoading(true);
-    this._api.updateMeasurements(req).subscribe((res:any)=>{
+    this._api.updateMeasurements(req).subscribe((res: any) => {
       this._helperService.toggleLoading(false);
-      if(res.status == 'success'){
+      if (res.status == 'success') {
         this.modalConfirmUpdate.hide();
         this.onUpdateSuccess.emit('');
-      }else{  
+      } else {
         alert(res.message)
       }
     });

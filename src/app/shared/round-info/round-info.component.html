@@ -28,7 +28,7 @@
     <div class="card-header">
       <h5>Measurement</h5>
     </div>
-    <measurement-table [measurements]="measurements" [userTimeZone]='userTimeZone' (onUpdateSuccess)="updateSuccess($event)" >
+    <measurement-table [measurements]="measurements" [userTimeZone]='userTimeZone' [userId]='UserId' (onUpdateSuccess)="updateSuccess($event)" >
 
     </measurement-table>
   </div>

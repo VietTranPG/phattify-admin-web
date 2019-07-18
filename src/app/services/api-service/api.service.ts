@@ -144,7 +144,7 @@ export class ApiService {
   }
   updateMentor(body) {
     const url = SERVER_URL + 'managementmentor'
-    return this.http.put(url,body);
+    return this.http.put(url, body);
   }
   getMentorInfo(id) {
     const url = this.url + 'mentor-info?Id=' + id;
@@ -229,59 +229,63 @@ export class ApiService {
     }
     return this.http.put(url, req);
   }
-  getAppConfig(){
+  getAppConfig() {
     const url = SERVER_URL + 'config';
     return this.http.get(url);
   }
-  updateAppConfig(body){
+  updateAppConfig(body) {
     const url = SERVER_URL + 'config';
-    return this.http.put(url,body);
+    return this.http.put(url, body);
   }
-  getRoundAndMeansurementByUserId(userId){
-    const url = SERVER_URL + 'admin-round?UserId='+userId;
+  getRoundAndMeansurementByUserId(userId) {
+    const url = SERVER_URL + 'admin-round?UserId=' + userId;
     return this.http.get(url);
   }
-  getStagesByRoundId(RoundId){
-    const url = SERVER_URL + 'admin-round?RoundId='+RoundId;
+  getStagesByRoundId(RoundId) {
+    const url = SERVER_URL + 'admin-round?RoundId=' + RoundId;
     return this.http.get(url);
   }
-  updateRoundDetails(rds){
+  updateRoundDetails(rds) {
     const url = SERVER_URL + 'admin-round';
-    return this.http.put(url,rds);
+    return this.http.put(url, rds);
   }
-  updateRoundInfo(round){
+  updateRoundInfo(round) {
     const url = SERVER_URL + 'admin-round';
-    return this.http.post(url,round);
+    return this.http.post(url, round);
   }
-  updateMeasurements(measurements){
+  updateMeasurements(measurements) {
     const url = SERVER_URL + 'admin-round';
-    return this.http.patch(url,measurements);
+    return this.http.patch(url, measurements);
   }
-  getErrorMentor(){
+  addMeasurement(request) {
+    const url = SERVER_URL + 'measurement';
+    return this.http.post(url, request);
+  }
+  getErrorMentor() {
     const url = SERVER_URL + 'error-mentor';
     return this.http.get(url);
   }
-  updateErrorMentor(body){
+  updateErrorMentor(body) {
     const url = SERVER_URL + 'error-mentor';
-    return this.http.put(url,body);
+    return this.http.put(url, body);
   }
-  deleteRoundDetail(id){
+  deleteRoundDetail(id) {
     const url = SERVER_URL + 'rounddetails?Id=' + id;
     return this.http.delete(url);
   }
-  addRoundDetail(body){
+  addRoundDetail(body) {
     const url = SERVER_URL + 'rounddetails';
     return this.http.post(url, body);
   }
-  updateRoundDetail(body){
+  updateRoundDetail(body) {
     const url = SERVER_URL + 'rounddetails';
     return this.http.patch(url, body);
   }
-  addNewRound(body){
+  addNewRound(body) {
     const url = SERVER_URL + 'round';
     return this.http.post(url, body);
   }
-  deleteMeasurements(id){
+  deleteMeasurements(id) {
     const url = SERVER_URL + 'measurement?Id=' + id;
     return this.http.delete(url);
   }
